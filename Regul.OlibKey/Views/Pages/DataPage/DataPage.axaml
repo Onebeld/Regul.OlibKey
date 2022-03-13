@@ -1,0 +1,643 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vw="using:Regul.OlibKey.Views.Pages"
+             xmlns:c="using:Regul.OlibKey.Converters"
+             xmlns:s="using:Regul.OlibKey.Structures"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Background="{StaticResource BackgroundControlBrush}"
+             x:Class="Regul.OlibKey.Views.Pages.DataPage"
+             x:DataType="vw:DataPageViewModel">
+    <Design.DataContext>
+        <vw:DataPageViewModel />
+    </Design.DataContext>
+    <UserControl.Resources>
+        <UIntToBrushConverter x:Key="UIntToBrushConverter" />
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="*,37">
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="10" Spacing="5">
+                <StackPanel.Styles>
+                    <Style Selector="Border.Section">
+                        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                    
+                    <Style Selector="TextBlock.Title">
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </Style>
+                    
+                    <Style Selector="TextBox">
+                        <Setter Property="IsReadOnly" Value="{CompiledBinding IsView}" />
+                    </Style>
+                    
+                    <Style Selector="Button.Copy">
+                        <Setter Property="DockPanel.Dock" Value="Right" />
+                        <Setter Property="Padding" Value="2 2" />
+                        <Setter Property="Width" Value="20" />
+                        <Setter Property="Height" Value="18" />
+                        <Setter Property="ToolTip.Tip" Value="{DynamicResource Copy}" />
+                        <Setter Property="Margin" Value="5 0 0 0" />
+                        <Setter Property="Command" Value="{Binding CopyString}" />
+                    </Style>
+                    <Style Selector="Button.Copy > Path">
+                        <Setter Property="Data" Value="{StaticResource CopyIcon}" />
+                        <Setter Property="Stretch" Value="Uniform" />
+                    </Style>
+                </StackPanel.Styles>
+
+                <TextBlock Text="{DynamicResource AddElement}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           IsVisible="{CompiledBinding IsCreate}" />
+                <TextBlock Text="{DynamicResource ItemInformation}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           IsVisible="{CompiledBinding IsView}" />
+                <TextBlock Text="{DynamicResource ChangeElement}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           IsVisible="{CompiledBinding IsEdit}" />
+
+                <Border Classes="Section" IsVisible="{CompiledBinding !IsView}">
+                    <StackPanel Spacing="5">
+                        <TextBlock Classes="Title" Text="{DynamicResource Type}" />
+                        <ComboBox SelectedIndex="{CompiledBinding SelectedTypeIndex}">
+                            <ComboBoxItem Content="{DynamicResource Login}" />
+                            <ComboBoxItem Content="{DynamicResource BankCard}" />
+                            <ComboBoxItem Content="{DynamicResource PersonalData}" />
+                            <ComboBoxItem Content="{DynamicResource Notes}" />
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="Section">
+                    <StackPanel Spacing="5">
+                        <TextBlock Classes="Title" Text="{DynamicResource Name}" />
+                        <TextBox Text="{CompiledBinding Data.Name}" />
+
+                        <!--Login Section-->
+                        <StackPanel Spacing="5">
+                            <StackPanel.IsVisible>
+                                <CompiledBinding Path="Data.TypeId"
+                                                 Converter="{x:Static c:EqualsConverter.Instance}"
+                                                 ConverterParameter="DT_Login" />
+                            </StackPanel.IsVisible>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Username}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.Login.Username}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.Login.Username}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Email}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.Login.Email}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.Login.Email}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Password}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.Login.Password}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Classes="revealPasswordButton"
+                                         Text="{CompiledBinding Data.Login.Password}"
+                                         PasswordChar="•" />
+                            </DockPanel>
+                            <Button Content="{DynamicResource Generate}"
+                                    Padding="5 2"
+                                    HorizontalAlignment="Left"
+                                    IsVisible="{CompiledBinding !IsView}" />
+                            <DockPanel>
+                                <TextBlock Text="{DynamicResource ComplexityC}"
+                                           VerticalAlignment="Center"
+                                           Margin="0 0 5 0" />
+                                <ProgressBar Maximum="300"
+                                             VerticalAlignment="Center"
+                                             Value="{CompiledBinding Data.Login.Password, Converter={x:Static c:OlibKeyConverters.CheckComplexityPassword}, Mode=OneWay}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource WebSite}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.Login.WebSite}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.Login.WebSite}" />
+                            </DockPanel>
+                        </StackPanel>
+
+                        <!--Bank Card Section-->
+                        <StackPanel Spacing="5">
+                            <StackPanel.IsVisible>
+                                <CompiledBinding Path="Data.TypeId"
+                                         Converter="{x:Static c:EqualsConverter.Instance}"
+                                         ConverterParameter="DT_BankCard" />
+                            </StackPanel.IsVisible>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource CardType}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.BankCard.TypeBankCard}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.BankCard.TypeBankCard}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource CardNumber}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.BankCard.CardNumber}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.BankCard.CardNumber}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource YearOfService}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.BankCard.DateCard}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.BankCard.DateCard}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource SecurityCodeCard}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.BankCard.SecurityCode}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Classes="revealPasswordButton"
+                                         Text="{CompiledBinding Data.BankCard.SecurityCode}"
+                                         PasswordChar="•" />
+                            </DockPanel>
+                        </StackPanel>
+
+                        <!--Personal Data Section-->
+                        <StackPanel Spacing="5">
+                            <StackPanel.IsVisible>
+                                <CompiledBinding Path="Data.TypeId"
+                                         Converter="{x:Static c:EqualsConverter.Instance}"
+                                         ConverterParameter="DT_PersonalData" />
+                            </StackPanel.IsVisible>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource FullName}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Fullname}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Fullname}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource SeriesAndNumber}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Number}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Number}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource PlaceOfIssue}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.PlaceOfIssue}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.PlaceOfIssue}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource SocialSecurityNumber}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.SocialSecurityNumber}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.SocialSecurityNumber}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Tin}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Tin}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Tin}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Email}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Email}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Email}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Telephone}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Telephone}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Telephone}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Company}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Company}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Company}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Postcode}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Postcode}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Postcode}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Country}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Country}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Country}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Region}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Region}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Region}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource City}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.City}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.City}" />
+                            </DockPanel>
+
+                            <Separator />
+
+                            <TextBlock Classes="Title" Text="{DynamicResource Address}" />
+                            <DockPanel>
+                                <Button Classes="Copy"
+                                        CommandParameter="{CompiledBinding Data.PersonalData.Address}">
+                                    <Path />
+                                </Button>
+
+                                <TextBox Text="{CompiledBinding Data.PersonalData.Address}" />
+                            </DockPanel>
+                        </StackPanel>
+
+                        <Separator />
+
+                        <TextBlock Classes="Title" Text="{DynamicResource Color}" />
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <Border CornerRadius="5"
+                                    Width="30"
+                                    Height="20"
+                                    Background="{CompiledBinding Data.Color, Converter={StaticResource UIntToBrushConverter}}"
+                                    IsVisible="{CompiledBinding Data.Color, Converter={x:Static c:NotEqualsConverter.Instance}, ConverterParameter=0}" />
+                            <Button Content="{DynamicResource ChooseColor}"
+                                    Command="{Binding ChangeColor}"
+                                    Padding="5 2"
+                                    IsVisible="{CompiledBinding !IsView}" />
+                            <CheckBox Content="{DynamicResource UseColor}"
+                                      IsChecked="{CompiledBinding Data.UseColor}"
+                                      IsVisible="{CompiledBinding !IsView}" />
+                        </StackPanel>
+
+                        <Separator />
+
+                        <TextBlock Classes="Title" Text="{DynamicResource Folder}" />
+                        <ComboBox Items="{CompiledBinding Database.Folders}"
+                                  SelectedItem="{CompiledBinding SelectedFolder}">
+                            <ComboBox.IsEnabled>
+                                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                    <CompiledBinding Path="!IsView" />
+                                    <CompiledBinding Path="!!Database.Folders.Count" />
+                                </MultiBinding>
+                            </ComboBox.IsEnabled>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type s:Folder}">
+                                    <TextBlock Margin="5 0 0 0" Text="{CompiledBinding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="Section">
+                    <StackPanel Spacing="5">
+                        <TextBlock Classes="Title" Text="{DynamicResource Notes}" />
+                        <TextBox AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 Height="150"
+                                 Text="{CompiledBinding Data.Note}" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="{DynamicResource CustomFields}"
+                           FontSize="18"
+                           FontWeight="Bold">
+                    <TextBlock.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                            <CompiledBinding Path="!IsView" />
+                            <CompiledBinding Path="!!Data.CustomFields.Count" />
+                        </MultiBinding>
+                    </TextBlock.IsVisible>
+                </TextBlock>
+
+                <Border Classes="Section">
+                    <Border.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                            <CompiledBinding Path="!IsView" />
+                            <CompiledBinding Path="!!Data.CustomFields.Count" />
+                        </MultiBinding>
+                    </Border.IsVisible>
+
+                    <StackPanel Spacing="5">
+                        <ItemsRepeater Items="{CompiledBinding Data.CustomFields}"
+                                       IsVisible="{CompiledBinding !!Data.CustomFields.Count}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="5" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate DataType="{x:Type s:CustomField}">
+                                    <Border Background="{StaticResource BackgroundLevel1Brush}"
+                                            BorderThickness="1"
+                                            CornerRadius="5"
+                                            BorderBrush="{StaticResource BorderBrush}">
+                                        <Grid ColumnDefinitions="*,Auto" Margin="5">
+                                            <StackPanel Grid.Column="0" Spacing="5">
+                                                <TextBox Classes="Title"
+                                                         Text="{CompiledBinding Name}"
+                                                         FontWeight="Bold"
+                                                         Watermark="{DynamicResource Name}"
+                                                         IsReadOnly="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}" />
+
+                                                <TextBox Text="{CompiledBinding TextElement}"
+                                                         IsReadOnly="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}">
+                                                    <TextBox.IsVisible>
+                                                        <CompiledBinding Path="TypeId"
+                                                                         Converter="{x:Static c:EqualsConverter.Instance}"
+                                                                         ConverterParameter="CF_Text" />
+                                                    </TextBox.IsVisible>
+                                                </TextBox>
+                                                <TextBox Classes="revealPasswordButton"
+                                                         Text="{CompiledBinding TextElement}"
+                                                         PasswordChar="•"
+                                                         IsReadOnly="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}">
+                                                    <TextBox.IsVisible>
+                                                        <CompiledBinding Path="TypeId"
+                                                                         Converter="{x:Static c:EqualsConverter.Instance}"
+                                                                         ConverterParameter="CF_Password" />
+                                                    </TextBox.IsVisible>
+                                                </TextBox>
+                                                <CheckBox IsChecked="{CompiledBinding CheckedElement}"
+                                                          IsEnabled="{Binding !DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}">
+                                                    <CheckBox.IsVisible>
+                                                        <CompiledBinding Path="TypeId"
+                                                                         Converter="{x:Static c:EqualsConverter.Instance}"
+                                                                         ConverterParameter="CF_Check" />
+                                                    </CheckBox.IsVisible>
+                                                </CheckBox>
+                                            </StackPanel>
+
+                                            <Button Grid.Column="1"
+                                                    Classes="CloseButton"
+                                                    VerticalAlignment="Center"
+                                                    Margin="5 0 0 0"
+                                                    Padding="5"
+                                                    ToolTip.Tip="{DynamicResource Delete}"
+                                                    Command="{Binding DataContext.DeleteCustomField, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                    CommandParameter="{CompiledBinding}"
+                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}">
+                                                <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <StackPanel Spacing="5" IsVisible="{CompiledBinding !IsView}">
+                            <TextBlock Classes="Title" Text="{DynamicResource AddField}" />
+                            <DockPanel>
+                                <TextBlock Text="{DynamicResource TypeC}" VerticalAlignment="Center" />
+                                <ComboBox Margin="5 0 0 0"
+                                          SelectedIndex="{CompiledBinding SelectedCustomFieldTypeIndex}">
+                                    <ComboBoxItem Content="{DynamicResource Text}" />
+                                    <ComboBoxItem Content="{DynamicResource Hidden}" />
+                                    <ComboBoxItem Content="{DynamicResource Logical}" />
+                                </ComboBox>
+                            </DockPanel>
+                            <Button Content="{DynamicResource Add}" Command="{Binding AddCustomField}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="{DynamicResource ImportedFiles}" FontSize="18" FontWeight="Bold">
+                    <TextBlock.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                            <CompiledBinding Path="!IsView" />
+
+                            <CompiledBinding Path="!!Data.ImportedFiles.Count" />
+                        </MultiBinding>
+                    </TextBlock.IsVisible>
+                </TextBlock>
+
+                <Border Classes="Section">
+                    <Border.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                            <CompiledBinding Path="!IsView" />
+
+                            <CompiledBinding Path="!!Data.ImportedFiles.Count" />
+                        </MultiBinding>
+                    </Border.IsVisible>
+
+                    <StackPanel Spacing="5">
+                        <ItemsRepeater Items="{CompiledBinding Data.ImportedFiles}"
+                                       IsVisible="{CompiledBinding !!Data.ImportedFiles.Count}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="5" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate DataType="{x:Type s:ImportedFile}">
+                                    <Border Background="{StaticResource BackgroundLevel1Brush}"
+                                            BorderThickness="1"
+                                            CornerRadius="5"
+                                            BorderBrush="{StaticResource BorderBrush}">
+                                        <Grid ColumnDefinitions="*,Auto" Margin="5">
+                                            <StackPanel Grid.Column="0" Spacing="5">
+                                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                                    <TextBlock Text="{DynamicResource NameC}" />
+                                                    <TextBlock Text="{CompiledBinding Name}" />
+                                                </StackPanel>
+                                                <Button Content="{DynamicResource Export}"
+                                                        HorizontalAlignment="Left"
+                                                        Padding="5 2"
+                                                        Command="{Binding DataContext.ExportFile, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                        CommandParameter="{CompiledBinding}" />
+                                            </StackPanel>
+
+                                            <Button Grid.Column="1"
+                                                    Classes="CloseButton"
+                                                    VerticalAlignment="Center"
+                                                    Margin="5 0 0 0"
+                                                    Padding="5"
+                                                    ToolTip.Tip="{DynamicResource Delete}"
+                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                    Command="{Binding DataContext.DeleteFile, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                    CommandParameter="{CompiledBinding}">
+                                                <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+
+                        <Button Content="{DynamicResource Import}"
+                                Command="{Binding ImportFile}"
+                                IsVisible="{CompiledBinding !IsView}" />
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal"
+                            Spacing="5"
+                            IsVisible="{CompiledBinding Data.TimeCreate, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock Text="{DynamicResource CreatedC}" Foreground="{StaticResource ForegroundOpacityBrush}" />
+                    <TextBlock Text="{CompiledBinding Data.TimeCreate}"
+                               Foreground="{StaticResource ForegroundOpacityBrush}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Spacing="5"
+                            IsVisible="{CompiledBinding Data.TimeChanged, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock Text="{DynamicResource UpdatedC}" Foreground="{StaticResource ForegroundOpacityBrush}" />
+                    <TextBlock Text="{CompiledBinding Data.TimeChanged}"
+                               Foreground="{StaticResource ForegroundOpacityBrush}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Panel Grid.Row="1" Background="{StaticResource BackgroundLevel1Brush}">
+            <StackPanel Orientation="Horizontal" Margin="5" Spacing="5" HorizontalAlignment="Left">
+                <Button Content="{DynamicResource Change}"
+                        Command="{Binding ChangeData}"
+                        Padding="10 0"
+                        IsVisible="{CompiledBinding IsView}" />
+                <Button Classes="mbdefault"
+                        Content="{DynamicResource Save}"
+                        Command="{Binding SaveData}"
+                        Padding="10 0"
+                        IsVisible="{CompiledBinding !IsView}" />
+                <Button Content="{DynamicResource Back}"
+                        Command="{Binding Back}"
+                        Padding="10 0"
+                        IsVisible="{CompiledBinding !IsEdit}" />
+                <Button Content="{DynamicResource Cancel}"
+                        Command="{Binding Cancel}"
+                        Padding="10 0"
+                        IsVisible="{CompiledBinding IsEdit}" />
+            </StackPanel>
+
+            <Button Classes="CloseButton"
+                    Margin="5"
+                    Padding="6 5"
+                    HorizontalAlignment="Right"
+                    ToolTip.Tip="{DynamicResource Delete}"
+                    Command="{Binding DeleteData}"
+                    IsVisible="{CompiledBinding IsEdit}">
+                <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
+            </Button>
+        </Panel>
+    </Grid>
+</UserControl>

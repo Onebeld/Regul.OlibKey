@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.OlibKey.Views.Pages.StartPage">
+    <UserControl.Styles>
+        <Style Selector="Grid">
+            <Style.Animations>
+                <Animation IterationCount="Infinite" PlaybackDirection="Normal" Duration="0:0:10">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Background">
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                <GradientStop Color="#400042" Offset="0" />
+                                <GradientStop Color="#931d60" Offset="0.5" />
+                                <GradientStop Color="#5a0f26" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="25%">
+                        <Setter Property="Background">
+                            <LinearGradientBrush StartPoint="100%,0%" EndPoint="0%,100%">
+                                <GradientStop Color="#400042" Offset="0" />
+                                <GradientStop Color="#931d60" Offset="0.5" />
+                                <GradientStop Color="#5a0f26" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="50%">
+                        <Setter Property="Background">
+                            <LinearGradientBrush StartPoint="100%,100%" EndPoint="0%,0%">
+                                <GradientStop Color="#400042" Offset="0" />
+                                <GradientStop Color="#931d60" Offset="0.5" />
+                                <GradientStop Color="#5a0f26" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="75%">
+                        <Setter Property="Background">
+                            <LinearGradientBrush StartPoint="0%,100%" EndPoint="100%,0%">
+                                <GradientStop Color="#400042" Offset="0" />
+                                <GradientStop Color="#931d60" Offset="0.5" />
+                                <GradientStop Color="#5a0f26" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Background">
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                <GradientStop Color="#400042" Offset="0" />
+                                <GradientStop Color="#931d60" Offset="0.5" />
+                                <GradientStop Color="#5a0f26" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        
+        
+    </UserControl.Styles>
+
+    <Grid>
+        <Image Source="{StaticResource OlibKeyBone}" Margin="60" />
+        
+        <Path Data="{StaticResource OlibKey}"
+              Stretch="Uniform"
+              Fill="#FFFFFFFF"
+              Margin="50 10"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Center"
+              MaxHeight="30" />
+    </Grid>
+</UserControl>

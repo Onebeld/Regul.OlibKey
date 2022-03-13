@@ -1,0 +1,92 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:v="using:System">
+    <Style.Resources>
+        <!-- English -->
+
+        <v:String x:Key="Add">Add</v:String>
+        <v:String x:Key="Storage">Storage</v:String>
+        <v:String x:Key="Folder">Folder</v:String>
+        
+        <v:String x:Key="NoData">No data</v:String>
+        
+        <v:String x:Key="Block">Block</v:String>
+        
+        <v:String x:Key="ElementsC">Elements:</v:String>
+        <v:String x:Key="ComplexityC">Complexity:</v:String>
+        <v:String x:Key="IterationsC">Iterations:</v:String>
+        <v:String x:Key="NumberOfEncryptionProceduresC">Encryption procedures:</v:String>
+        <v:String x:Key="Generate">Generate</v:String>
+        <v:String x:Key="MasterPassword">Master password</v:String>
+        <v:String x:Key="CreateStorage">Create storage</v:String>
+        
+        <v:String x:Key="UseCompress">Use compress</v:String>
+        <v:String x:Key="UseTrash">Use trash</v:String>
+        
+        <v:String x:Key="CreateStorageMessage">Create a new storage!</v:String>
+        <v:String x:Key="MasterPasswordMessage">Enter the master password</v:String>
+        
+        <v:String x:Key="IncorrectMasterPasswordMessage">Incorrect master password!</v:String>
+        
+        <!--DataPage-->
+        <v:String x:Key="AddElement">Add element</v:String>
+        <v:String x:Key="ItemInformation">Item Information</v:String>
+        <v:String x:Key="ChangeElement">Change element</v:String>
+        
+        <v:String x:Key="Type">Type</v:String>
+        <v:String x:Key="Login">Login</v:String>
+        <v:String x:Key="BankCard">Bank card</v:String>
+        <v:String x:Key="PersonalData">Personal data</v:String>
+        <v:String x:Key="Notes">Notes</v:String>
+        
+        <v:String x:Key="Color">Color</v:String>
+        <v:String x:Key="UseColor">Use color</v:String>
+        
+        <v:String x:Key="Name">Name</v:String>
+        <v:String x:Key="NameC">Name:</v:String>
+        <v:String x:Key="Username">Username</v:String>
+        <v:String x:Key="Email">Email</v:String>
+        <v:String x:Key="Password">Password</v:String>
+        <v:String x:Key="WebSite">Web-site</v:String>
+        
+        <v:String x:Key="CardName">Cardholder Name</v:String>
+        <v:String x:Key="CardType">Card type</v:String>
+        <v:String x:Key="CardNumber">Number</v:String>
+        <v:String x:Key="YearOfService">Year of service</v:String>
+        <v:String x:Key="SecurityCodeCard">Security code</v:String>
+        <v:String x:Key="VerificationCode">Verification code (TOTP)</v:String>
+        <v:String x:Key="Activate">Activate</v:String>
+        <v:String x:Key="SecretKey">Secret key</v:String>
+        
+        <v:String x:Key="FullName">Full name</v:String>
+        <v:String x:Key="SeriesAndNumber">Series and Number</v:String>
+        <v:String x:Key="PlaceOfIssue">Place of issue</v:String>
+        <v:String x:Key="SocialSecurityNumber">Social Security number</v:String>
+        <v:String x:Key="Tin">Taxpayer identification number</v:String>
+        <v:String x:Key="Telephone">Telephone</v:String>
+        <v:String x:Key="Company">Company</v:String>
+        <v:String x:Key="Postcode">Postcode</v:String>
+        <v:String x:Key="Country">Country</v:String>
+        <v:String x:Key="Region">Region</v:String>
+        <v:String x:Key="City">City</v:String>
+        <v:String x:Key="Address">Address</v:String>
+        
+        <v:String x:Key="CustomFields">Custom fields</v:String>
+        <v:String x:Key="AddField">Add field</v:String>
+        <v:String x:Key="Text">Text</v:String>
+        <v:String x:Key="Hidden">Hidden</v:String>
+        <v:String x:Key="Logical">Logical</v:String>
+        <v:String x:Key="Data">Data</v:String>
+        <v:String x:Key="TypeColon">Type:</v:String>
+        <v:String x:Key="ImportedFiles">Attached files</v:String>
+        <v:String x:Key="NameColon">Name:</v:String>
+        <v:String x:Key="Import">Import</v:String>
+        <v:String x:Key="Export">Export</v:String>
+        <v:String x:Key="CreatedC">Created:</v:String>
+        <v:String x:Key="UpdatedC">Updated:</v:String>
+        
+        <v:String x:Key="Change">Change</v:String>
+        <v:String x:Key="Back">Back</v:String>
+        <!--DataPage-->
+    </Style.Resources>
+</Style>

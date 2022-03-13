@@ -1,0 +1,6 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StyleInclude Source="avares://Regul.OlibKey/Assets/Icons.axaml" />
+    <StyleInclude Source="avares://Regul.OlibKey/Assets/DataTemplates.axaml" />
+    <StyleInclude Source="avares://Regul.OlibKey/Assets/PasswordTextBox.axaml" />
+</Styles>

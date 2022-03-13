@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32113.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regul.OlibKey", "Regul.OlibKey\Regul.OlibKey.csproj", "{C0B398C3-7330-451E-8672-75EAC57F7E91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regul.OlibKey.UnitTests", "tests\Regul.OlibKey.UnitTests\Regul.OlibKey.UnitTests.csproj", "{3BCA92DE-CE72-47FE-94B7-D8147C9E4634}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0B398C3-7330-451E-8672-75EAC57F7E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0B398C3-7330-451E-8672-75EAC57F7E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0B398C3-7330-451E-8672-75EAC57F7E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0B398C3-7330-451E-8672-75EAC57F7E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCA92DE-CE72-47FE-94B7-D8147C9E4634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCA92DE-CE72-47FE-94B7-D8147C9E4634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCA92DE-CE72-47FE-94B7-D8147C9E4634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCA92DE-CE72-47FE-94B7-D8147C9E4634}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C612B660-4FA3-453F-8DD2-F1DDFB9CE52F}
+	EndGlobalSection
+EndGlobal

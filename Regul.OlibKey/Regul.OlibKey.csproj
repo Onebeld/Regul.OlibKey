@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.12" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.12" />
+
+        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaResource Include="Localization\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Avalonia.Xaml.Interactivity">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Avalonia.Xaml.Interactivity.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="Onebeld.Extensions">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Onebeld.Extensions.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="Onebeld.Logging">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Onebeld.Logging.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="Onebeld.Plugins">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Onebeld.Plugins.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="PleasantUI">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\PleasantUI.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="Regul.Base">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Regul.Base.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+        <Reference Include="Regul.ModuleSystem">
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net461\Regul.ModuleSystem.dll</HintPath>
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Windows\CreateDatabase\CreateDatabase.axaml.cs">
+        <DependentUpon>Start.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\PasswordManagerContent\MainContent\MainContent.axaml.cs">
+        <DependentUpon>Start.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\PasswordManager\Content" />
+    </ItemGroup>
+</Project>

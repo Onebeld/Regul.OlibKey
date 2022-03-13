@@ -1,0 +1,102 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:i="using:Avalonia.Xaml.Interactivity"
+       xmlns:iac="using:Avalonia.Xaml.Interactions.Custom"
+       xmlns:data="using:Regul.OlibKey.Structures"
+       xmlns:c="using:Regul.OlibKey.Converters">
+    <Style.Resources>
+        <UIntToBrushConverter x:Key="UIntToBrushConverter" />
+        
+        <DataTemplate x:Key="DataItemTemplate" DataType="{x:Type data:Data}">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Border Grid.Column="0"
+                        Background="White"
+                        CornerRadius="999"
+                        Height="25"
+                        Width="25"
+                        Margin="5 0">
+                    <Image Source="{CompiledBinding Icon^, FallbackValue={StaticResource OlibKeyUpdateIcon}, TargetNullValue={StaticResource OlibKeyUpdateIcon}}"
+                           Margin="5" />
+                </Border>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{CompiledBinding Name, Converter={x:Static c:OlibKeyConverters.EmptyToNotDataConverter}}"
+                               FontWeight="Bold"
+                               FontSize="16" />
+                    
+                    <TextBlock Foreground="{StaticResource ForegroundOpacityBrush}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{x:Static c:DataTypeIdToStringConverter.Instance}">
+                                <CompiledBinding Path="Login.Username" />
+                                <CompiledBinding Path="Login.Email" />
+                                <CompiledBinding Path="BankCard.CardNumber" />
+                                <CompiledBinding Path="PersonalData.Fullname" />
+                                <CompiledBinding Path="TypeId" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Text="{CompiledBinding DeleteDate}"
+                               IsVisible="{CompiledBinding DeleteDate, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10 0 10 0" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="5">
+                    <Border CornerRadius="99" 
+                            Width="10" 
+                            Height="10"
+                            Background="{CompiledBinding Color, Converter={StaticResource UIntToBrushConverter}}">
+                        <Border.IsVisible>
+                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                <CompiledBinding Path="UseColor" />
+                                <CompiledBinding Path="Color" Converter="{x:Static c:NotEqualsConverter.Instance}" ConverterParameter="0" />
+                            </MultiBinding>
+                        </Border.IsVisible>
+                    </Border>
+                    
+                    <ToggleButton BorderThickness="0" IsChecked="{CompiledBinding Favorite}">
+                        <Path Data="{StaticResource FavoriteIcon}" Stretch="Uniform" />
+                    </ToggleButton>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="FolderTemplate" DataType="{x:Type data:Folder}">
+            <Grid ColumnDefinitions="Auto,*">
+                <i:Interaction.Behaviors>
+                    <iac:ShowOnDoubleTappedBehavior TargetControl="{Binding #TextBoxEdit}" />
+                    <iac:ShowOnKeyDownTappedBehavior TargetControl="{Binding #TextBoxEdit}" />
+                </i:Interaction.Behaviors>
+                
+                <Border Grid.Column="0" Background="White" CornerRadius="999" Height="25" Width="25" Margin="5 0">
+                    <Path Data="{StaticResource FolderIcon}" Stretch="Uniform" Fill="#FF000000" Margin="5" />
+                </Border>
+                
+                <TextBlock Grid.Column="1" 
+                           Text="{CompiledBinding Name}" 
+                           VerticalAlignment="Center" 
+                           Margin="0 0 20 0" />
+                <TextBox x:Name="TextBoxEdit" 
+                         Grid.Column="1" 
+                         Text="{CompiledBinding Name}" 
+                         VerticalAlignment="Center" 
+                         Margin="0 0 20 0">
+                    <i:Interaction.Behaviors>
+                        <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Escape" />
+                        <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Enter" />
+                        <iac:HideOnLostFocusBehavior TargetControl="{Binding #TextBoxEdit}" />
+                        <iac:SelectAllOnGotFocusBehavior />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                
+                <Border Grid.Column="1"
+                        Padding="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0 0 5 0"
+                        CornerRadius="99"
+                        Width="10" 
+                        Height="10"
+                        Background="{CompiledBinding Color, Converter={StaticResource UIntToBrushConverter}}" />
+            </Grid>
+        </DataTemplate>
+    </Style.Resources>
+</Style>

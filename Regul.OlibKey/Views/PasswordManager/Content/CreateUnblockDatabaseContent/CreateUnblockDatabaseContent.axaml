@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Regul.OlibKey.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.OlibKey.Views.PasswordManager.Content.CreateUnblockDatabaseContent"
+             x:DataType="vm:PasswordManagerViewModel">
+    <Design.DataContext>
+        <vm:PasswordManagerViewModel />
+    </Design.DataContext>
+    
+    <Panel>
+        <StackPanel Spacing="5"
+                    Width="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    IsVisible="{CompiledBinding IsNotCreatedDatabase}">
+            <TextBlock Text="{DynamicResource CreateStorageMessage}" TextAlignment="Center" />
+            <Button Classes="mbdefault" 
+                    Content="{DynamicResource CreateStorage}" 
+                    HorizontalAlignment="Center"
+                    Command="{Binding CreateDatabase}" />
+        </StackPanel>
+        <StackPanel Spacing="5" IsVisible="{CompiledBinding !IsNotCreatedDatabase}">
+            <TextBlock Text="{DynamicResource MasterPasswordMessage}" TextAlignment="Center" />
+            <TextBox Text="{CompiledBinding MasterPassword}" />
+            <Button Classes="mbdefault" 
+                    Content="{DynamicResource Open}" 
+                    HorizontalAlignment="Center"
+                    Command="{Binding OpenDatabase}" />
+        </StackPanel>
+    </Panel>
+</UserControl>

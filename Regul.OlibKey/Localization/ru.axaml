@@ -1,0 +1,90 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:v="using:System">
+    <Style.Resources>
+        <!-- Russian -->
+
+        <v:String x:Key="Add">Добавить</v:String>
+        <v:String x:Key="Storage">Хранилище</v:String>
+        <v:String x:Key="Folder">Папка</v:String>
+        
+        <v:String x:Key="NoData">Нет данных</v:String>
+        
+        <v:String x:Key="ElementsC">Элементов:</v:String>
+        <v:String x:Key="ComplexityC">Сложность:</v:String>
+        <v:String x:Key="IterationsC">Итерации:</v:String>
+        <v:String x:Key="NumberOfEncryptionProceduresC">Процедур шифрования:</v:String>
+        <v:String x:Key="Generate">Генерировать</v:String>
+        <v:String x:Key="MasterPassword">Мастер-пароль</v:String>
+        <v:String x:Key="CreateStorage">Создать хранилище</v:String>
+        
+        <v:String x:Key="UseCompress">Использовать сжатие</v:String>
+        <v:String x:Key="UseTrash">Использовать корзину</v:String>
+        
+        <v:String x:Key="CreateStorageMessage">Создайте новое хранилище!</v:String>
+        <v:String x:Key="MasterPasswordMessage">Введите мастер-пароль</v:String>
+        
+        <v:String x:Key="IncorrectMasterPasswordMessage">Неверный мастер-пароль!</v:String>
+        
+        <!--DataPage-->
+        <v:String x:Key="AddElement">Добавить элемент</v:String>
+        <v:String x:Key="ItemInformation">Информация об элементе</v:String>
+        <v:String x:Key="ChangeElement">Изменить элемент</v:String>
+        
+        <v:String x:Key="Type">Тип</v:String>
+        <v:String x:Key="Login">Логин</v:String>
+        <v:String x:Key="BankCard">Банковская карта</v:String>
+        <v:String x:Key="PersonalData">Личные данные</v:String>
+        <v:String x:Key="Notes">Заметки</v:String>
+        
+        <v:String x:Key="Color">Цвет</v:String>
+        <v:String x:Key="UseColor">Использовать цвет</v:String>
+        
+        <v:String x:Key="Name">Имя</v:String>
+        <v:String x:Key="NameC">Имя:</v:String>
+        <v:String x:Key="Username">Имя пользователя</v:String>
+        <v:String x:Key="Email">Электронная почта</v:String>
+        <v:String x:Key="Password">Пароль</v:String>
+        <v:String x:Key="WebSite">Веб-сайт</v:String>
+        
+        <v:String x:Key="CardName">Имя владельца карты</v:String>
+        <v:String x:Key="CardType">Тип карты</v:String>
+        <v:String x:Key="CardNumber">Номер</v:String>
+        <v:String x:Key="YearOfService">Год обслуживания</v:String>
+        <v:String x:Key="SecurityCodeCard">Код безопасности</v:String>
+        <v:String x:Key="VerificationCode">Код верификации (TOTP)</v:String>
+        <v:String x:Key="Activate">Активировать</v:String>
+        <v:String x:Key="SecretKey">Секретный ключ</v:String>
+        
+        <v:String x:Key="FullName">ФИО</v:String>
+        <v:String x:Key="SeriesAndNumber">Серия и номер</v:String>
+        <v:String x:Key="PlaceOfIssue">Место выдачи</v:String>
+        <v:String x:Key="SocialSecurityNumber">Номер социального страхования</v:String>
+        <v:String x:Key="Tin">ИНН</v:String>
+        <v:String x:Key="Telephone">Телефон</v:String>
+        <v:String x:Key="Company">Компания</v:String>
+        <v:String x:Key="Postcode">Почтовый индекс</v:String>
+        <v:String x:Key="Country">Страна</v:String>
+        <v:String x:Key="Region">Регион</v:String>
+        <v:String x:Key="City">Город</v:String>
+        <v:String x:Key="Address">Адрес</v:String>
+        
+        <v:String x:Key="CustomFields">Пользовательские поля</v:String>
+        <v:String x:Key="AddField">Добавить поле</v:String>
+        <v:String x:Key="Text">Текстовое</v:String>
+        <v:String x:Key="Hidden">Скрытое</v:String>
+        <v:String x:Key="Logical">Логическое</v:String>
+        <v:String x:Key="Data">Данные</v:String>
+        <v:String x:Key="TypeColon">Тип:</v:String>
+        <v:String x:Key="ImportedFiles">Прикреплённые файлы</v:String>
+        <v:String x:Key="NameColon">Название:</v:String>
+        <v:String x:Key="Import">Импортировать</v:String>
+        <v:String x:Key="Export">Экспортировать</v:String>
+        <v:String x:Key="CreatedC">Создан:</v:String>
+        <v:String x:Key="UpdatedC">Обновлен:</v:String>
+        
+        <v:String x:Key="Change">Изменить</v:String>
+        <v:String x:Key="Back">Назад</v:String>
+        <!--DataPage-->
+    </Style.Resources>
+</Style>
