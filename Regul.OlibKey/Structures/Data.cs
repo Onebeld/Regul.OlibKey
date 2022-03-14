@@ -156,7 +156,12 @@ namespace Regul.OlibKey.Structures
         {
             if (TypeId == "DT_Login")
             {
-                if (string.IsNullOrEmpty(Login.WebSite)) return App.GetResource<DrawingImage>("GlobeIcon");
+                if (string.IsNullOrEmpty(Login.WebSite))
+                {
+                    Login.Image = null;
+                    
+                    return App.GetResource<DrawingImage>("GlobeIcon");
+                }
                 
                 try
                 {
@@ -168,8 +173,9 @@ namespace Regul.OlibKey.Structures
                     MemoryStream ms = new MemoryStream(Convert.FromBase64String(Login.Image));
                     return new Bitmap(ms);
                 }
-                catch (Exception e)
+                catch
                 {
+                    Login.Image = null;
                     return App.GetResource<DrawingImage>("GlobeIcon");
                 }
             }

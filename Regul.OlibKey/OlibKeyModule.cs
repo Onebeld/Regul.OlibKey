@@ -16,7 +16,7 @@ namespace Regul.OlibKey
     {
         public void Execute()
         {
-            Application.Current.Styles.Add(new StyleInclude(new Uri("resm:Style?assembly=Regul"))
+            Application.Current?.Styles.Add(new StyleInclude(new Uri("resm:Style?assembly=Regul"))
             {
                 Source = new Uri("avares://Regul.OlibKey/Styles.axaml")
             });

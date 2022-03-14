@@ -13,10 +13,8 @@ namespace Regul.OlibKey.General
             string file = database.Settings.Iterations + ":" + database.Settings.NumberOfEncryptionProcedures + ":";
 
             string databaseXml = database.ToXml(true);
-            
-            string encryptString = Encryptor.EncryptString(
-                database.Settings.UseCompress ? Compressing.Compress(databaseXml) : databaseXml, masterPassword,
-                database.Settings.NumberOfEncryptionProcedures, database.Settings.Iterations);
+            string compressedXml = database.Settings.UseCompress ? Compressing.Compress(databaseXml) : databaseXml;
+            string encryptString = Encryptor.EncryptString(compressedXml, masterPassword, database.Settings.Iterations, database.Settings.NumberOfEncryptionProcedures);
 
             file += encryptString + ":" + database.Settings.UseCompress + ":" + database.Settings.UseTrash;
 

@@ -10,7 +10,7 @@ namespace Regul.OlibKey.Converters
             new FuncValueConverter<string, string>(str => 
                 string.IsNullOrEmpty(str) ? App.GetResource<string>("NoName") : str);
 
-        public static readonly IValueConverter CheckComplexityPassword =
+        public static readonly IValueConverter ComplexityPasswordConverter =
             new FuncValueConverter<string, double>(PasswordUtils.GetPasswordComplexity);
     }
 }

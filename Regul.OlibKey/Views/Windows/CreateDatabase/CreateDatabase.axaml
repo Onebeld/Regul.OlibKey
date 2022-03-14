@@ -35,7 +35,7 @@
                     <ProgressBar Maximum="300"
                                  Background="{StaticResource BackgroundControlBrush}"
                                  VerticalAlignment="Center"
-                                 Value="{CompiledBinding MasterPassword, Converter={x:Static c:OlibKeyConverters.CheckComplexityPassword}, Mode=OneWay}" />
+                                 Value="{CompiledBinding MasterPassword, Converter={x:Static c:OlibKeyConverters.ComplexityPasswordConverter}, Mode=OneWay}" />
                 </DockPanel>
             </StackPanel>
 

@@ -44,8 +44,8 @@ namespace Regul.OlibKey.General
                     using (RijndaelManaged aes = new RijndaelManaged
                                { KeySize = 256, BlockSize = 128, Mode = CipherMode.CBC })
                     {
-                        aes.Key = key.GetBytes(aes.KeySize / 8);
-                        aes.IV = key.GetBytes(aes.BlockSize / 8);
+                        aes.Key = key.GetBytes((int)(aes.KeySize * 0.125));
+                        aes.IV = key.GetBytes((int)(aes.BlockSize * 0.125));
 
                         using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
                         {
@@ -87,8 +87,8 @@ namespace Regul.OlibKey.General
             }
         }
 
-        public static string EncryptString(string text, string masterPassword, int numberOfEncryptionProcedures,
-            int iterations)
+        public static string EncryptString(string text, string masterPassword,
+            int iterations, int numberOfEncryptionProcedures)
         {
             string encryptString = text;
             byte[] baPwd = Encoding.UTF8.GetBytes(masterPassword);

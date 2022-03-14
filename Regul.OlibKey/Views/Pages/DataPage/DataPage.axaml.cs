@@ -1,20 +1,18 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Regul.OlibKey.Enums;
+using Regul.OlibKey.General;
 using Regul.OlibKey.Structures;
 
 namespace Regul.OlibKey.Views.Pages
 {
 	public class DataPage : UserControl, IPage
 	{
-		public DataPage()
-		{
-			AvaloniaXamlLoader.Load(this);
-		}
+		public DataPage() => AvaloniaXamlLoader.Load(this);
 
-		public DataPage(DataInformation dataInformation, Database database, PasswordManagerViewModel viewModel, Data data = null) : this()
+		public DataPage(DataInformation dataInformation, PasswordManagerViewModel viewModel) : this()
 		{
-			DataContext = new DataPageViewModel(dataInformation, database, viewModel, data);
+			DataContext = new DataPageViewModel(dataInformation, viewModel);
 		}
 	}
 }

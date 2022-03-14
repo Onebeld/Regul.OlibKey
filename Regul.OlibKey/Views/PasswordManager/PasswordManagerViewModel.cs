@@ -8,6 +8,7 @@ using Regul.Base;
 using Regul.Base.Views.Windows;
 using Regul.ModuleSystem;
 using Regul.OlibKey.Enums;
+using Regul.OlibKey.General;
 using Regul.OlibKey.Structures;
 using Regul.OlibKey.Views.Pages;
 using Regul.OlibKey.Views.PasswordManager.Content;
@@ -59,7 +60,7 @@ namespace Regul.OlibKey.Views
 					Page = new StartPage();
 				else
 				{
-					Page = new DataPage(DataInformation.View, Database, this, SelectedData);
+					Page = new DataPage(DataInformation.View, this);
 				}
 			}
 		}
@@ -97,9 +98,9 @@ namespace Regul.OlibKey.Views
 		public string PathToFile;
 
 		#endregion
-		
-		public PleasantTabItem PleasantTabItem { get; }
-		public PasswordManagerView PasswordManagerView { get; }
+
+		private PleasantTabItem PleasantTabItem { get; }
+		private PasswordManagerView PasswordManagerView { get; }
 
 		public PasswordManagerViewModel()
 		{
@@ -126,21 +127,11 @@ namespace Regul.OlibKey.Views
 			IsEdited = false;
 		}
 
-		public PasswordManagerViewModel(
-			PleasantTabItem pleasantTabItem,
-			Editor editor,
-			PasswordManagerView passwordManagerView,
-			string path,
-			Project project) : this(pleasantTabItem, editor, passwordManagerView, path)
-		{
-			
-		}
-
 		private void AddData()
 		{
 			SelectedData = null;
 			
-			Page = new DataPage(DataInformation.Create, Database, this);
+			Page = new DataPage(DataInformation.Create, this);
 		}
 
 		private async void CreateDatabase()
@@ -151,6 +142,8 @@ namespace Regul.OlibKey.Views
 			
 			CreateDatabaseViewModel viewModel =
 				createDatabase.GetDataContext<CreateDatabaseViewModel>();
+
+			MasterPassword = viewModel.MasterPassword;
 			
 			Database = new Database
 			{
@@ -193,6 +186,8 @@ namespace Regul.OlibKey.Views
 			try
 			{
 				PathToFile = path;
+				
+				Database.Save(PathToFile, MasterPassword);
 
 				IsEdited = false;
 
@@ -202,11 +197,6 @@ namespace Regul.OlibKey.Views
 			{
 				return false;
 			}
-		}
-
-		private bool SaveFile(string path)
-		{
-			return true;
 		}
 
 		public void Release()

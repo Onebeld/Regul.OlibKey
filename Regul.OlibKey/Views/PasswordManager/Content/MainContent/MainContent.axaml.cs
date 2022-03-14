@@ -5,9 +5,6 @@ namespace Regul.OlibKey.Views.PasswordManager.Content
 {
 	public class MainContent : UserControl
 	{
-		public MainContent()
-		{
-			AvaloniaXamlLoader.Load(this);
-		}
+		public MainContent() => AvaloniaXamlLoader.Load(this);
 	}
 }

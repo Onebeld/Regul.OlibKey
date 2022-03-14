@@ -21,10 +21,7 @@ namespace Regul.OlibKey.Views
 
 		public void Load(string path, Project project, PleasantTabItem pleasantTabItem, Editor editor)
 		{
-			PasswordManagerViewModel viewModel = path != null
-				? new PasswordManagerViewModel(pleasantTabItem, editor, this, path, project)
-				: new PasswordManagerViewModel(pleasantTabItem, editor, this);
-
+			PasswordManagerViewModel viewModel = new PasswordManagerViewModel(pleasantTabItem, editor, this, path);
 			Id = editor.Id;
 
 			DataContext = _viewModel = viewModel;

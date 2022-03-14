@@ -7,7 +7,7 @@ namespace Regul.OlibKey.Views.Windows
     {
         private string _masterPassword;
         private int _numberOfEncryptionProcedures = 1;
-        private int _iteration = 100000;
+        private int _iteration = 10000;
         private bool _useCompress = true;
         private bool _useTrash = true;
 
@@ -45,15 +45,14 @@ namespace Regul.OlibKey.Views.Windows
 
         #endregion
 
-        private void CloseWindow(PleasantDialogWindow window)
+        private void CloseWindow(PleasantModalWindow window)
         {
             if (Iteration == 0)
-                Iteration = 100000;
+                Iteration = 10000;
             if (NumberOfEncryptionProcedures == 0)
                 NumberOfEncryptionProcedures = 1;
             
-            if (string.IsNullOrEmpty(MasterPassword))
-                return;
+            if (string.IsNullOrEmpty(MasterPassword)) return;
             
             window.Close(true);
         }

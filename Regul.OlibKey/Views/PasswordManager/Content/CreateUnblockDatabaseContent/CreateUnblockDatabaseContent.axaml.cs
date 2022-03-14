@@ -5,9 +5,6 @@ namespace Regul.OlibKey.Views.PasswordManager.Content
 {
 	public class CreateUnblockDatabaseContent : UserControl
 	{
-		public CreateUnblockDatabaseContent()
-		{
-			AvaloniaXamlLoader.Load(this);
-		}
+		public CreateUnblockDatabaseContent() => AvaloniaXamlLoader.Load(this);
 	}
 }

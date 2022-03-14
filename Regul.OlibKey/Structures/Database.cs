@@ -43,13 +43,7 @@ namespace Regul.OlibKey.Structures
             get => _settings;
             set => RaiseAndSetIfChanged(ref _settings, value);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="masterPassword"></param>
-        /// <returns>database, iterations, numberOfEncryptionProcedures, useCompress, useTrash</returns>
+        
         public static Database Load(string path, string masterPassword)
         {
             string file = File.ReadAllText(path);
@@ -79,7 +73,7 @@ namespace Regul.OlibKey.Structures
             if (split.Length > 4)
                 useTrash = bool.Parse(split[4]);
 
-            Database database = XmlToDatabase(file);
+            Database database = FromXml(file);
             DatabaseSettings settings = new DatabaseSettings
             {
                 Iterations = iterations,
@@ -92,7 +86,7 @@ namespace Regul.OlibKey.Structures
             return database;
         }
 
-        public static Database XmlToDatabase(string xml)
+        public static Database FromXml(string xml)
         {
             return (Database)new XmlSerializer(typeof(Database)).Deserialize(new StringReader(xml));
         }

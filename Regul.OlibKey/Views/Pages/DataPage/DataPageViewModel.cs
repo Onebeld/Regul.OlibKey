@@ -21,7 +21,7 @@ namespace Regul.OlibKey.Views.Pages
         
         private Database _database;
         private Data _data;
-        private PasswordManagerViewModel _viewModel;
+        private readonly PasswordManagerViewModel _viewModel;
 
         private int _selectedCustomFieldTypeIndex = 0;
 
@@ -39,7 +39,7 @@ namespace Regul.OlibKey.Views.Pages
             set => RaiseAndSetIfChanged(ref _data, value);
         }
 
-        public int DataIndex => _viewModel.Database.DataList.IndexOf(_viewModel.SelectedData);
+        private int DataIndex => _viewModel.Database.DataList.IndexOf(_viewModel.SelectedData);
 
         public bool IsView => _dataInformation == DataInformation.View;
         public bool IsEdit => _dataInformation == DataInformation.Edit;
@@ -98,12 +98,12 @@ namespace Regul.OlibKey.Views.Pages
 
         #endregion
 
-        public DataPageViewModel(DataInformation dataInformation, Database database, PasswordManagerViewModel viewModel, Data data = null)
+        public DataPageViewModel(DataInformation dataInformation, PasswordManagerViewModel viewModel)
         {
-            Database = database;
-            _dataInformation = dataInformation;
             _viewModel = viewModel;
-
+            Database = _viewModel.Database;
+            _dataInformation = dataInformation;
+            
             switch (dataInformation)
             {
                 case DataInformation.Create:
@@ -111,7 +111,7 @@ namespace Regul.OlibKey.Views.Pages
                     SelectedTypeIndex = 0;
                     break;
                 case DataInformation.View:
-                    Data = (Data)data.Clone();
+                    Data = (Data)_viewModel.SelectedData.Clone();
 
                     if (Data.Login == null)
                         Data.Login = new Login();
@@ -120,6 +120,8 @@ namespace Regul.OlibKey.Views.Pages
                     if (Data.PersonalData == null)
                         Data.PersonalData = new PersonalData();
                     break;
+                
+                case DataInformation.Edit:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dataInformation), dataInformation, null);
             }
@@ -166,7 +168,7 @@ namespace Regul.OlibKey.Views.Pages
                     
                     if (Data.TypeId == "DT_Login" && Database.DataList[index].TypeId == "DT_Login")
                     {
-                        if (Database.DataList[index].Login.WebSite != Data.Login.WebSite)
+                        if (Database.DataList[index].Login.WebSite != Data.Login?.WebSite)
                             Data.IsIconChange = true;
                     }
                     
@@ -179,6 +181,10 @@ namespace Regul.OlibKey.Views.Pages
                     
                     _viewModel.SelectedData = _viewModel.Database.DataList[index];
                     break;
+                
+                case DataInformation.View:
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -191,10 +197,7 @@ namespace Regul.OlibKey.Views.Pages
             RaisePropertyChanged(nameof(IsCreate));
         }
 
-        private void DeleteData()
-        {
-            Database.DataList.RemoveAt(DataIndex);
-        }
+        private void DeleteData() => Database.DataList.RemoveAt(DataIndex);
 
         private void Cancel()
         {
@@ -207,15 +210,9 @@ namespace Regul.OlibKey.Views.Pages
             RaisePropertyChanged(nameof(IsCreate));
         }
 
-        private void Back()
-        {
-            _viewModel.SelectedData = null;
-        }
+        private void Back() => _viewModel.SelectedData = null;
 
-        private void CopyString(string s)
-        {
-            Application.Current.Clipboard.SetTextAsync(s);
-        }
+        private void CopyString(string s) => Application.Current?.Clipboard?.SetTextAsync(s);
 
         private async void ChangeColor()
         {
@@ -271,10 +268,7 @@ namespace Regul.OlibKey.Views.Pages
             }
         }
 
-        private void DeleteFile(ImportedFile importedFile)
-        {
-            Data.ImportedFiles.Remove(importedFile);
-        }
+        private void DeleteFile(ImportedFile importedFile) => Data.ImportedFiles.Remove(importedFile);
 
         #endregion
 
@@ -307,10 +301,7 @@ namespace Regul.OlibKey.Views.Pages
             });
         }
 
-        private void DeleteCustomField(CustomField customField)
-        {
-            Data.CustomFields.Remove(customField);
-        }
+        private void DeleteCustomField(CustomField customField) => Data.CustomFields.Remove(customField);
 
         #endregion
     }
