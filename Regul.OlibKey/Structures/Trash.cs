@@ -7,14 +7,14 @@ namespace Regul.OlibKey.Structures
     [DataContract]
     public class Trash : ViewModelBase
     {
-        private AvaloniaList<Data> _datas = new AvaloniaList<Data>();
+        private AvaloniaList<Data> _dataList = new AvaloniaList<Data>();
         private AvaloniaList<Folder> _folders = new AvaloniaList<Folder>();
 
         [DataMember]
-        public AvaloniaList<Data> Datas
+        public AvaloniaList<Data> DataList
         {
-            get => _datas;
-            set => RaiseAndSetIfChanged(ref _datas, value);
+            get => _dataList;
+            set => RaiseAndSetIfChanged(ref _dataList, value);
         }
 
         [DataMember]

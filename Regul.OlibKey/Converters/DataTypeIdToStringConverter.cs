@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using Regul.Base;
+using Regul.OlibKey.Enums;
 
 namespace Regul.OlibKey.Converters
 {
@@ -12,19 +13,19 @@ namespace Regul.OlibKey.Converters
         
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
-            string typeId = values[4] as string;
+            DataType typeId = values[4] as DataType? ?? DataType.Login;
 
             switch (typeId)
             {
-                case "DT_Login":
+                case DataType.Login:
                     if (!string.IsNullOrEmpty(values[0] as string))
                         return values[0];
                     if (!string.IsNullOrEmpty(values[1] as string))
                         return values[1];
                     return App.GetResource<string>("NoData");
-                case "DT_BankCard":
+                case DataType.BankCard:
                     return !string.IsNullOrEmpty(values[2] as string) ? values[2] : App.GetResource<string>("NoData");
-                case "DT_PersonalData":
+                case DataType.PersonalData:
                     return !string.IsNullOrEmpty(values[3] as string) ? values[3] : App.GetResource<string>("NoData");
                 default:
                     return string.Empty;

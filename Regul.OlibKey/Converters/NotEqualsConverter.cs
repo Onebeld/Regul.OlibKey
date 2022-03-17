@@ -10,7 +10,7 @@ namespace Regul.OlibKey.Converters
         
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return parameter as string != value.ToString();
+            return parameter.ToString() != value.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

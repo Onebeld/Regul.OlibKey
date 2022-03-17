@@ -51,13 +51,14 @@ namespace Regul.OlibKey.Views.Pages
             {
                 switch (Data.TypeId)
                 {
-                    case "DT_BankCard":
+                    case DataType.BankCard:
                         return 1;
-                    case "DT_PersonalData":
+                    case DataType.PersonalData:
                         return 2;
-                    case "DT_Notes":
+                    case DataType.Notes:
                         return 3;
-                    
+
+                    case DataType.Login:
                     default:
                         return 0;
                 }
@@ -68,17 +69,17 @@ namespace Regul.OlibKey.Views.Pages
                 {
                     
                     case 1:
-                        Data.TypeId = "DT_BankCard";
+                        Data.TypeId = DataType.BankCard;
                         break;
                     case 2:
-                        Data.TypeId = "DT_PersonalData";
+                        Data.TypeId = DataType.PersonalData;
                         break;
                     case 3:
-                        Data.TypeId = "DT_Notes";
+                        Data.TypeId = DataType.Notes;
                         break;
 
                     default:
-                        Data.TypeId = "DT_Login";
+                        Data.TypeId = DataType.Login;
                         break;
                 }
             }
@@ -108,7 +109,6 @@ namespace Regul.OlibKey.Views.Pages
             {
                 case DataInformation.Create:
                     Data = new Data();
-                    SelectedTypeIndex = 0;
                     break;
                 case DataInformation.View:
                     Data = (Data)_viewModel.SelectedData.Clone();
@@ -166,7 +166,7 @@ namespace Regul.OlibKey.Views.Pages
                 case DataInformation.Edit:
                     int index = DataIndex;
                     
-                    if (Data.TypeId == "DT_Login" && Database.DataList[index].TypeId == "DT_Login")
+                    if (Data.TypeId == DataType.Login && Database.DataList[index].TypeId == DataType.Login)
                     {
                         if (Database.DataList[index].Login.WebSite != Data.Login?.WebSite)
                             Data.IsIconChange = true;
@@ -178,7 +178,7 @@ namespace Regul.OlibKey.Views.Pages
                     Data.TimeChanged = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
                     Database.DataList[index] = Data;
-                    
+
                     _viewModel.SelectedData = _viewModel.Database.DataList[index];
                     break;
                 
@@ -186,6 +186,8 @@ namespace Regul.OlibKey.Views.Pages
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            _viewModel.IsEdited = true;
         }
 
         private void ChangeData()
@@ -279,19 +281,19 @@ namespace Regul.OlibKey.Views.Pages
             if (Data.CustomFields == null)
                 Data.CustomFields = new AvaloniaList<CustomField>();
             
-            string typeId;
+            CustomFieldType typeId;
 
             switch (SelectedCustomFieldTypeIndex)
             {
                 case 1:
-                    typeId = "CF_Password";
+                    typeId = CustomFieldType.Password;
                     break;
                 case 2:
-                    typeId = "CF_Check";
+                    typeId = CustomFieldType.Check;
                     break;
                 
                 default:
-                    typeId = "CF_Text";
+                    typeId = CustomFieldType.Text;
                     break;
             }
             

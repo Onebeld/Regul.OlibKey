@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Onebeld.Extensions;
+using Regul.OlibKey.Enums;
 
 namespace Regul.OlibKey.Structures
 {
@@ -9,7 +10,7 @@ namespace Regul.OlibKey.Structures
     public class CustomField : ViewModelBase, ICloneable
     {
         private string _name;
-        private string _typeId;
+        private CustomFieldType _typeId;
         private string _textElement;
         private bool _checkedElement;
 
@@ -23,7 +24,7 @@ namespace Regul.OlibKey.Structures
 
         [XmlAttribute]
         [DataMember]
-        public string TypeId
+        public CustomFieldType TypeId
         {
             get => _typeId;
             set => RaiseAndSetIfChanged(ref _typeId, value);

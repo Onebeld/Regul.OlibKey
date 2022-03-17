@@ -56,13 +56,18 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        
-        
+
+
     </UserControl.Styles>
 
     <Grid>
-        <Image Source="{StaticResource OlibKeyBone}" Margin="60" />
-        
+        <Path Data="{StaticResource OlibKeyBone}"
+              Fill="#FFFFFFFF"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              Stretch="Uniform"
+              Margin="60" />
+
         <Path Data="{StaticResource OlibKey}"
               Stretch="Uniform"
               Fill="#FFFFFFFF"

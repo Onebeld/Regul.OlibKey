@@ -27,15 +27,19 @@
                         <Setter Property="BorderThickness" Value="1" />
                         <Setter Property="CornerRadius" Value="5" />
                     </Style>
-                    
+
                     <Style Selector="TextBlock.Title">
                         <Setter Property="FontWeight" Value="Bold" />
                     </Style>
-                    
+                    <Style Selector="TextBlock.H1">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="18" />
+                    </Style>
+
                     <Style Selector="TextBox">
                         <Setter Property="IsReadOnly" Value="{CompiledBinding IsView}" />
                     </Style>
-                    
+
                     <Style Selector="Button.Copy">
                         <Setter Property="DockPanel.Dock" Value="Right" />
                         <Setter Property="Padding" Value="2 2" />
@@ -51,17 +55,14 @@
                     </Style>
                 </StackPanel.Styles>
 
-                <TextBlock Text="{DynamicResource AddElement}"
-                           FontSize="18"
-                           FontWeight="Bold"
+                <TextBlock Classes="H1"
+                           Text="{DynamicResource AddElement}"
                            IsVisible="{CompiledBinding IsCreate}" />
-                <TextBlock Text="{DynamicResource ItemInformation}"
-                           FontSize="18"
-                           FontWeight="Bold"
+                <TextBlock Classes="H1"
+                           Text="{DynamicResource ItemInformation}"
                            IsVisible="{CompiledBinding IsView}" />
-                <TextBlock Text="{DynamicResource ChangeElement}"
-                           FontSize="18"
-                           FontWeight="Bold"
+                <TextBlock Classes="H1"
+                           Text="{DynamicResource ChangeElement}"
                            IsVisible="{CompiledBinding IsEdit}" />
 
                 <Border Classes="Section" IsVisible="{CompiledBinding !IsView}">
@@ -86,7 +87,7 @@
                             <StackPanel.IsVisible>
                                 <CompiledBinding Path="Data.TypeId"
                                                  Converter="{x:Static c:EqualsConverter.Instance}"
-                                                 ConverterParameter="DT_Login" />
+                                                 ConverterParameter="Login" />
                             </StackPanel.IsVisible>
 
                             <Separator />
@@ -156,8 +157,8 @@
                         <StackPanel Spacing="5">
                             <StackPanel.IsVisible>
                                 <CompiledBinding Path="Data.TypeId"
-                                         Converter="{x:Static c:EqualsConverter.Instance}"
-                                         ConverterParameter="DT_BankCard" />
+                                                 Converter="{x:Static c:EqualsConverter.Instance}"
+                                                 ConverterParameter="BankCard" />
                             </StackPanel.IsVisible>
 
                             <Separator />
@@ -215,8 +216,8 @@
                         <StackPanel Spacing="5">
                             <StackPanel.IsVisible>
                                 <CompiledBinding Path="Data.TypeId"
-                                         Converter="{x:Static c:EqualsConverter.Instance}"
-                                         ConverterParameter="DT_PersonalData" />
+                                                 Converter="{x:Static c:EqualsConverter.Instance}"
+                                                 ConverterParameter="PersonalData" />
                             </StackPanel.IsVisible>
 
                             <Separator />
@@ -424,9 +425,7 @@
                     </StackPanel>
                 </Border>
 
-                <TextBlock Text="{DynamicResource CustomFields}"
-                           FontSize="18"
-                           FontWeight="Bold">
+                <TextBlock Classes="H1" Text="{DynamicResource CustomFields}">
                     <TextBlock.IsVisible>
                         <MultiBinding Converter="{x:Static BoolConverters.Or}">
                             <CompiledBinding Path="!IsView" />
@@ -468,7 +467,7 @@
                                                     <TextBox.IsVisible>
                                                         <CompiledBinding Path="TypeId"
                                                                          Converter="{x:Static c:EqualsConverter.Instance}"
-                                                                         ConverterParameter="CF_Text" />
+                                                                         ConverterParameter="Text" />
                                                     </TextBox.IsVisible>
                                                 </TextBox>
                                                 <TextBox Classes="revealPasswordButton"
@@ -478,7 +477,7 @@
                                                     <TextBox.IsVisible>
                                                         <CompiledBinding Path="TypeId"
                                                                          Converter="{x:Static c:EqualsConverter.Instance}"
-                                                                         ConverterParameter="CF_Password" />
+                                                                         ConverterParameter="Password" />
                                                     </TextBox.IsVisible>
                                                 </TextBox>
                                                 <CheckBox IsChecked="{CompiledBinding CheckedElement}"
@@ -486,7 +485,7 @@
                                                     <CheckBox.IsVisible>
                                                         <CompiledBinding Path="TypeId"
                                                                          Converter="{x:Static c:EqualsConverter.Instance}"
-                                                                         ConverterParameter="CF_Check" />
+                                                                         ConverterParameter="Check" />
                                                     </CheckBox.IsVisible>
                                                 </CheckBox>
                                             </StackPanel>
@@ -497,9 +496,9 @@
                                                     Margin="5 0 0 0"
                                                     Padding="5"
                                                     ToolTip.Tip="{DynamicResource Delete}"
-                                                    Command="{Binding DataContext.DeleteCustomField, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                    Command="{Binding DataContext.DeleteCustomField, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}"
                                                     CommandParameter="{CompiledBinding}"
-                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}">
+                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}">
                                                 <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
                                             </Button>
                                         </Grid>
@@ -524,7 +523,7 @@
                     </StackPanel>
                 </Border>
 
-                <TextBlock Text="{DynamicResource ImportedFiles}" FontSize="18" FontWeight="Bold">
+                <TextBlock Classes="H1" Text="{DynamicResource ImportedFiles}">
                     <TextBlock.IsVisible>
                         <MultiBinding Converter="{x:Static BoolConverters.Or}">
                             <CompiledBinding Path="!IsView" />
@@ -564,7 +563,7 @@
                                                 <Button Content="{DynamicResource Export}"
                                                         HorizontalAlignment="Left"
                                                         Padding="5 2"
-                                                        Command="{Binding DataContext.ExportFile, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                        Command="{Binding DataContext.ExportFile, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}"
                                                         CommandParameter="{CompiledBinding}" />
                                             </StackPanel>
 
@@ -574,8 +573,8 @@
                                                     Margin="5 0 0 0"
                                                     Padding="5"
                                                     ToolTip.Tip="{DynamicResource Delete}"
-                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
-                                                    Command="{Binding DataContext.DeleteFile, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vw:DataPage}}}"
+                                                    IsVisible="{Binding !DataContext.IsView, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}"
+                                                    Command="{Binding DataContext.DeleteFile, RelativeSource={RelativeSource AncestorType={x:Type vw:DataPage}}}"
                                                     CommandParameter="{CompiledBinding}">
                                                 <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
                                             </Button>

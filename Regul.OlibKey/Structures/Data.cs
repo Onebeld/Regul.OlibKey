@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Onebeld.Extensions;
 using Regul.Base;
+using Regul.OlibKey.Enums;
 using Regul.OlibKey.General;
 
 namespace Regul.OlibKey.Structures
@@ -16,7 +17,7 @@ namespace Regul.OlibKey.Structures
     [DataContract]
     public class Data : ViewModelBase, ICloneable
     {
-        private string _typeId;
+        private DataType _typeId = DataType.Login;
         private string _name;
         private string _timeCreate;
         private string _timeChanged;
@@ -37,7 +38,7 @@ namespace Regul.OlibKey.Structures
 
         [XmlAttribute]
         [DataMember]
-        public string TypeId
+        public DataType TypeId
         {
             get => _typeId;
             set => RaiseAndSetIfChanged(ref _typeId, value);
@@ -154,7 +155,7 @@ namespace Regul.OlibKey.Structures
 
         private async Task<IImage> GetIcon()
         {
-            if (TypeId == "DT_Login")
+            if (TypeId == DataType.Login)
             {
                 if (string.IsNullOrEmpty(Login.WebSite))
                 {
@@ -182,11 +183,11 @@ namespace Regul.OlibKey.Structures
 
             switch (TypeId)
             {
-                case "DT_BankCard":
+                case DataType.BankCard:
                     return App.GetResource<DrawingImage>("CardIcon");
-                case "DT_PersonalData":
+                case DataType.PersonalData:
                     return App.GetResource<DrawingImage>("PersonalDataIcon");
-                case "DT_Notes":
+                case DataType.Notes:
                     return App.GetResource<DrawingImage>("NoteIcon");
                     
                 default:

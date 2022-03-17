@@ -14,9 +14,9 @@ namespace Regul.OlibKey.General
 
             string databaseXml = database.ToXml(true);
             string compressedXml = database.Settings.UseCompress ? Compressing.Compress(databaseXml) : databaseXml;
-            string encryptString = Encryptor.EncryptString(compressedXml, masterPassword, database.Settings.Iterations, database.Settings.NumberOfEncryptionProcedures);
+            string encryptXml = Encryptor.EncryptString(compressedXml, masterPassword, database.Settings.Iterations, database.Settings.NumberOfEncryptionProcedures);
 
-            file += encryptString + ":" + database.Settings.UseCompress + ":" + database.Settings.UseTrash;
+            file += encryptXml + ":" + database.Settings.UseCompress + ":" + database.Settings.UseTrash;
 
             File.WriteAllText(path, file);
         }

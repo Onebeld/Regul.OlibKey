@@ -3,8 +3,13 @@
        xmlns:v="using:System">
     <Style.Resources>
         <!-- English -->
+        
+        <v:String x:Key="Trash">Trash</v:String>
+        <v:String x:Key="LockStorage">Lock storage</v:String>
+        <v:String x:Key="ChangeMasterPassword">Change master password</v:String>
 
         <v:String x:Key="Add">Add</v:String>
+        <v:String x:Key="Empty">Empty</v:String>
         <v:String x:Key="Storage">Storage</v:String>
         <v:String x:Key="Folder">Folder</v:String>
         
@@ -27,6 +32,17 @@
         <v:String x:Key="MasterPasswordMessage">Enter the master password</v:String>
         
         <v:String x:Key="IncorrectMasterPasswordMessage">Incorrect master password!</v:String>
+        
+        <!--PasswordGenerator-->
+        <v:String x:Key="PasswordC">Password:</v:String>
+
+        <v:String x:Key="Lowercase">Lowercase (abc)</v:String>
+        <v:String x:Key="Uppercase">Uppercase (ABC)</v:String>
+        <v:String x:Key="Lenght">Lenght:</v:String>
+        <v:String x:Key="Numbers">Numbers (123)</v:String>
+        <v:String x:Key="Special">Special ($%#)</v:String>
+        <v:String x:Key="Underscore">Underscore (_)</v:String>
+        <!--PasswordGenerator-->
         
         <!--DataPage-->
         <v:String x:Key="AddElement">Add element</v:String>

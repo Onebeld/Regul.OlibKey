@@ -3,32 +3,61 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Regul.OlibKey.Views"
+             xmlns:b="using:Regul.OlibKey.Behaviors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
              x:Class="Regul.OlibKey.Views.PasswordManager.Content.CreateUnblockDatabaseContent"
              x:DataType="vm:PasswordManagerViewModel">
     <Design.DataContext>
         <vm:PasswordManagerViewModel />
     </Design.DataContext>
-    
-    <Panel>
-        <StackPanel Spacing="5"
+
+    <Grid RowDefinitions="Auto,Auto"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center">
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto, Auto"
+              Margin="0 0 0 5">
+            <Image Grid.Column="0"
+                   Source="{StaticResource OlibKeyLogo}"
+                   Height="120" />
+
+            <Path Grid.Column="1"
+                  VerticalAlignment="Center"
+                  Margin="5 0 0 0"
+                  Data="{StaticResource OlibKey}"
+                  Fill="{StaticResource ForegroundBrush}"
+                  Stretch="Uniform"
+                  Width="260" />
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Spacing="5"
                     Width="300"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
                     IsVisible="{CompiledBinding IsNotCreatedDatabase}">
             <TextBlock Text="{DynamicResource CreateStorageMessage}" TextAlignment="Center" />
-            <Button Classes="mbdefault" 
-                    Content="{DynamicResource CreateStorage}" 
+            <Button Classes="mbdefault"
+                    Content="{DynamicResource CreateStorage}"
                     HorizontalAlignment="Center"
                     Command="{Binding CreateDatabase}" />
         </StackPanel>
-        <StackPanel Spacing="5" IsVisible="{CompiledBinding !IsNotCreatedDatabase}">
+
+        <StackPanel Grid.Row="1"
+                    Spacing="5"
+                    Width="300"
+                    IsVisible="{CompiledBinding !IsNotCreatedDatabase}">
             <TextBlock Text="{DynamicResource MasterPasswordMessage}" TextAlignment="Center" />
-            <TextBox Text="{CompiledBinding MasterPassword}" />
-            <Button Classes="mbdefault" 
-                    Content="{DynamicResource Open}" 
+            <TextBox Classes="revealPasswordButton"
+                     Text="{CompiledBinding MasterPassword}"
+                     PasswordChar="•">
+                <i:Interaction.Behaviors>
+                    <b:CommandOnKeyPressedBehavior Key="Enter" Command="{Binding OpenDatabase}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <Button Classes="mbdefault"
+                    Content="{DynamicResource Open}"
                     HorizontalAlignment="Center"
                     Command="{Binding OpenDatabase}" />
         </StackPanel>
-    </Panel>
+    </Grid>
 </UserControl>

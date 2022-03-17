@@ -4,7 +4,12 @@
     <Style.Resources>
         <!-- Russian -->
 
+        <v:String x:Key="Trash">Корзина</v:String>
+        <v:String x:Key="LockStorage">Заблокировать хранилище</v:String>
+        <v:String x:Key="ChangeMasterPassword">Изменить мастер-пароль</v:String>
+        
         <v:String x:Key="Add">Добавить</v:String>
+        <v:String x:Key="Empty">Пусто</v:String>
         <v:String x:Key="Storage">Хранилище</v:String>
         <v:String x:Key="Folder">Папка</v:String>
         
@@ -25,6 +30,17 @@
         <v:String x:Key="MasterPasswordMessage">Введите мастер-пароль</v:String>
         
         <v:String x:Key="IncorrectMasterPasswordMessage">Неверный мастер-пароль!</v:String>
+        
+        <!--PasswordGenerator-->
+        <v:String x:Key="PasswordC">Пароль:</v:String>
+
+        <v:String x:Key="Lowercase">Строчные (abc)</v:String>
+        <v:String x:Key="Uppercase">Заглавные (ABC)</v:String>
+        <v:String x:Key="LenghtC">Длина:</v:String>
+        <v:String x:Key="Numbers">Цифры (123)</v:String>
+        <v:String x:Key="Special">Специальные ($%#)</v:String>
+        <v:String x:Key="Underscore">Нижняя черта (_)</v:String>
+        <!--PasswordGenerator-->
         
         <!--DataPage-->
         <v:String x:Key="AddElement">Добавить элемент</v:String>
