@@ -27,7 +27,9 @@ namespace Regul.OlibKey.Views
 			DataContext = _viewModel = viewModel;
 		}
 
-		public void Release() => _viewModel.Release();
+		public void Release()
+		{
+		}
 
 		public bool Save(string path) => _viewModel.Save(path);
 	}

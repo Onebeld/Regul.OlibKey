@@ -22,7 +22,6 @@ namespace Regul.OlibKey.Views
         private Control _content;
         private Data _selectedData;
 
-        private bool _isUnlocked;
         private bool _isNotCreatedDatabase;
         private string _masterPassword;
 
@@ -41,7 +40,7 @@ namespace Regul.OlibKey.Views
         public Database Database
         {
             get => _database;
-            set => RaiseAndSetIfChanged(ref _database, value);
+            private set => RaiseAndSetIfChanged(ref _database, value);
         }
 
         public Data SelectedData
@@ -58,12 +57,6 @@ namespace Regul.OlibKey.Views
                     Page = new DataPage(DataInformation.View, this);
                 }
             }
-        }
-
-        public bool IsUnlocked
-        {
-            get => _isUnlocked;
-            set => RaiseAndSetIfChanged(ref _isUnlocked, value);
         }
 
         public IPage Page
@@ -90,7 +83,7 @@ namespace Regul.OlibKey.Views
             set => RaiseAndSetIfChanged(ref _masterPassword, value);
         }
 
-        private string PathToFile;
+        private string _pathToFile;
 
         #endregion
 
@@ -99,7 +92,6 @@ namespace Regul.OlibKey.Views
 
         public PasswordManagerViewModel()
         {
-            Page = new StartPage();
         }
 
         public PasswordManagerViewModel(
@@ -112,7 +104,7 @@ namespace Regul.OlibKey.Views
             PasswordManagerView = passwordManagerView;
             PasswordManagerView.CurrentEditor = editor;
 
-            PathToFile = path;
+            _pathToFile = path;
 
             if (string.IsNullOrEmpty(path))
                 IsNotCreatedDatabase = true;
@@ -154,63 +146,53 @@ namespace Regul.OlibKey.Views
             IsNotCreatedDatabase = false;
             IsEdited = true;
             Content = new MainContent();
+            Page = new StartPage();
         }
 
         private void OpenDatabase()
         {
-            if (!File.Exists(PathToFile)) return;
+            if (!File.Exists(_pathToFile)) return;
 
             try
             {
-                Database = Database.Load(PathToFile, MasterPassword);
+                Database = Database.Load(_pathToFile, MasterPassword);
             }
             catch
             {
                 MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
+                
                 viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
                     App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error));
 
                 return;
             }
 
-            IsUnlocked = true;
-
             Content = new MainContent();
+            Page = new StartPage();
 
             IsEdited = false;
         }
 
         private void LockDatabase()
         {
-            Database.Save(PathToFile, MasterPassword);
+            Database.Save(_pathToFile, MasterPassword);
             Database = null;
             MasterPassword = string.Empty;
-            IsUnlocked = false;
 
             IsEdited = false;
 
             Content = new CreateUnblockDatabaseContent();
+            Page = null;
         }
 
         public bool Save(string path)
         {
-            try
-            {
-                PathToFile = path;
+            _pathToFile = path;
 
-                Database.Save(PathToFile, MasterPassword);
-                IsEdited = false;
+            Database.Save(_pathToFile, MasterPassword);
+            IsEdited = false;
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public void Release()
-        {
+            return true;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Regul.OlibKey.Converters
                     return !string.IsNullOrEmpty(values[2] as string) ? values[2] : App.GetResource<string>("NoData");
                 case DataType.PersonalData:
                     return !string.IsNullOrEmpty(values[3] as string) ? values[3] : App.GetResource<string>("NoData");
+                
                 default:
                     return string.Empty;
             }

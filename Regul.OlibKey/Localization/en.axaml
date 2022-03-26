@@ -34,11 +34,12 @@
         <v:String x:Key="IncorrectMasterPasswordMessage">Incorrect master password!</v:String>
         
         <!--PasswordGenerator-->
+        <v:String x:Key="PasswordGenerator">Password generator</v:String>
         <v:String x:Key="PasswordC">Password:</v:String>
 
         <v:String x:Key="Lowercase">Lowercase (abc)</v:String>
         <v:String x:Key="Uppercase">Uppercase (ABC)</v:String>
-        <v:String x:Key="Lenght">Lenght:</v:String>
+        <v:String x:Key="LengthC">Length:</v:String>
         <v:String x:Key="Numbers">Numbers (123)</v:String>
         <v:String x:Key="Special">Special ($%#)</v:String>
         <v:String x:Key="Underscore">Underscore (_)</v:String>

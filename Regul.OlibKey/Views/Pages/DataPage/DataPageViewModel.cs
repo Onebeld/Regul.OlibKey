@@ -17,11 +17,14 @@ namespace Regul.OlibKey.Views.Pages
 {
     public class DataPageViewModel : ViewModelBase
     {
+        private readonly PasswordManagerViewModel _viewModel;
+
         private DataInformation _dataInformation;
+        private readonly DataType[] _dataTypes = (DataType[])Enum.GetValues(typeof(DataType));
+        private readonly CustomFieldType[] _customFieldTypes = (CustomFieldType[])Enum.GetValues(typeof(CustomFieldType));
         
         private Database _database;
         private Data _data;
-        private readonly PasswordManagerViewModel _viewModel;
 
         private int _selectedCustomFieldTypeIndex = 0;
 
@@ -47,42 +50,8 @@ namespace Regul.OlibKey.Views.Pages
 
         public int SelectedTypeIndex
         {
-            get
-            {
-                switch (Data.TypeId)
-                {
-                    case DataType.BankCard:
-                        return 1;
-                    case DataType.PersonalData:
-                        return 2;
-                    case DataType.Notes:
-                        return 3;
-
-                    case DataType.Login:
-                    default:
-                        return 0;
-                }
-            }
-            set
-            {
-                switch (value)
-                {
-                    
-                    case 1:
-                        Data.TypeId = DataType.BankCard;
-                        break;
-                    case 2:
-                        Data.TypeId = DataType.PersonalData;
-                        break;
-                    case 3:
-                        Data.TypeId = DataType.Notes;
-                        break;
-
-                    default:
-                        Data.TypeId = DataType.Login;
-                        break;
-                }
-            }
+            get => Array.IndexOf(_dataTypes, Data.TypeId);
+            set => Data.TypeId = _dataTypes[value];
         }
 
         public int SelectedCustomFieldTypeIndex
@@ -112,13 +81,10 @@ namespace Regul.OlibKey.Views.Pages
                     break;
                 case DataInformation.View:
                     Data = (Data)_viewModel.SelectedData.Clone();
-
-                    if (Data.Login == null)
-                        Data.Login = new Login();
-                    if (Data.BankCard == null)
-                        Data.BankCard = new BankCard();
-                    if (Data.PersonalData == null)
-                        Data.PersonalData = new PersonalData();
+                    
+                    Data.Login = Data.Login ?? new Login();
+                    Data.BankCard = Data.BankCard ?? new BankCard();
+                    Data.PersonalData = Data.PersonalData ?? new PersonalData();
                     break;
                 
                 case DataInformation.Edit:
@@ -133,28 +99,30 @@ namespace Regul.OlibKey.Views.Pages
 
         private void SaveData()
         {
-            switch (SelectedTypeIndex)
+            switch (Data.TypeId)
             {
-                case 1:
+                case DataType.BankCard:
                     Data.Login = null;
                     Data.PersonalData = null;
                     break;
-                case 2:
+                
+                case DataType.PersonalData:
                     Data.BankCard = null;
-                    Data.Login = null;
-                    break;
-                case 3:
-                    Data.BankCard = null;
-                    Data.PersonalData = null;
                     Data.Login = null;
                     break;
                 
+                case DataType.Notes:
+                    Data.BankCard = null;
+                    Data.PersonalData = null;
+                    Data.Login = null;
+                    break;
+                    
                 default:
                     Data.BankCard = null;
                     Data.PersonalData = null;
                     break;
             }
-            
+
             switch (_dataInformation)
             {
                 case DataInformation.Create:
@@ -220,13 +188,12 @@ namespace Regul.OlibKey.Views.Pages
         {
             try
             {
-                Color color;
-                if (Data.Color == 0)
-                {
-                    color = await WindowColorPicker.SelectColor(WindowsManager.MainWindow, new Color(255, 255, 255, 255).ToString());
-                }
-                else color =
-                    await WindowColorPicker.SelectColor(WindowsManager.MainWindow, Color.FromUInt32(Data.Color).ToString());
+                Color dataColor;
+                dataColor = Data.Color == 0 
+                    ? new Color(255, 255, 255, 255) 
+                    : Color.FromUInt32(Data.Color);
+                
+                Color color = await WindowColorPicker.SelectColor(WindowsManager.MainWindow, dataColor.ToString());
 
                 Data.Color = color.ToUint32();
             }
@@ -237,8 +204,7 @@ namespace Regul.OlibKey.Views.Pages
 
         private async void ImportFile()
         {
-            if (Data.ImportedFiles == null)
-                Data.ImportedFiles = new AvaloniaList<ImportedFile>();
+            Data.ImportedFiles = Data.ImportedFiles ?? new AvaloniaList<ImportedFile>();
             
             OpenFileDialog dialog = new OpenFileDialog { AllowMultiple = true };
 
@@ -264,10 +230,9 @@ namespace Regul.OlibKey.Views.Pages
             };
             string path = await saveFileDialog.ShowAsync(WindowsManager.MainWindow);
 
-            if (path != null)
-            {
-                FileInteractions.ExportFile(importedFile.Data, path);
-            }
+            if (path == null) return;
+            
+            FileInteractions.ExportFile(importedFile.Data, path);
         }
 
         private void DeleteFile(ImportedFile importedFile) => Data.ImportedFiles.Remove(importedFile);
@@ -278,25 +243,10 @@ namespace Regul.OlibKey.Views.Pages
 
         private void AddCustomField()
         {
-            if (Data.CustomFields == null)
-                Data.CustomFields = new AvaloniaList<CustomField>();
+            Data.CustomFields = Data.CustomFields ?? new AvaloniaList<CustomField>();
             
-            CustomFieldType typeId;
+            CustomFieldType typeId = _customFieldTypes[SelectedCustomFieldTypeIndex];
 
-            switch (SelectedCustomFieldTypeIndex)
-            {
-                case 1:
-                    typeId = CustomFieldType.Password;
-                    break;
-                case 2:
-                    typeId = CustomFieldType.Check;
-                    break;
-                
-                default:
-                    typeId = CustomFieldType.Text;
-                    break;
-            }
-            
             Data.CustomFields.Add(new CustomField
             {
                 TypeId = typeId

@@ -32,11 +32,12 @@
         <v:String x:Key="IncorrectMasterPasswordMessage">Неверный мастер-пароль!</v:String>
         
         <!--PasswordGenerator-->
+        <v:String x:Key="PasswordGenerator">Генератор паролей</v:String>
         <v:String x:Key="PasswordC">Пароль:</v:String>
 
         <v:String x:Key="Lowercase">Строчные (abc)</v:String>
         <v:String x:Key="Uppercase">Заглавные (ABC)</v:String>
-        <v:String x:Key="LenghtC">Длина:</v:String>
+        <v:String x:Key="LengthC">Длина:</v:String>
         <v:String x:Key="Numbers">Цифры (123)</v:String>
         <v:String x:Key="Special">Специальные ($%#)</v:String>
         <v:String x:Key="Underscore">Нижняя черта (_)</v:String>

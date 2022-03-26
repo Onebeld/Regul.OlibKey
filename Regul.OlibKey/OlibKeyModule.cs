@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Styling;
+using Onebeld.Extensions;
+using PleasantUI.Controls.Custom;
 using Regul.Base;
+using Regul.Base.Generators;
 using Regul.ModuleSystem;
 using Regul.ModuleSystem.Models;
 using Regul.OlibKey.Views;
+using Regul.OlibKey.Views.Windows;
 
 namespace Regul.OlibKey
 {
@@ -38,6 +43,16 @@ namespace Regul.OlibKey
                     }
                 });
             
+            Base.Views.Windows.MainViewModel viewModel =
+                WindowsManager.MainWindow.GetDataContext<Base.Views.Windows.MainViewModel>();
+            
+            ((RegulMenuItem)viewModel.RegulMenuItems[1]).Items.Add(
+                new RegulMenuItem("PasswordGenerator", Command.Create(ShowPasswordGenerator))
+                {
+                    Bindings = { new Binding(MenuItem.HeaderProperty, new DynamicResourceExtension("PasswordGenerator")) },
+                    KeyIcon = "KeyIcon"
+                });
+            
             App.ActionsWhenCompleting.Add(Release);
         }
 
@@ -46,10 +61,30 @@ namespace Regul.OlibKey
             OlibKeySettings.Save();
         }
 
+        private void ShowPasswordGenerator()
+        {
+            PleasantWindow window = new PleasantWindow
+            {
+                Content = new PasswordGenerator(),
+                DataContext = new PasswordGeneratorViewModel(null, false),
+                Width = 300,
+                Height = 260,
+                MinWidth = 300,
+                MinHeight = 260,
+                ShowPinButton = true,
+                WindowButtons = WindowButtons.CloseAndCollapse,
+                Icon = new WindowIcon(AvaloniaLocator.Current.GetService<IAssetLoader>()
+                    ?.Open(new Uri("avares://Regul.Assets/icon.ico")))
+            };
+            window.Bind(Window.TitleProperty, new DynamicResourceExtension("PasswordGenerator"));
+            
+            window.Show();
+        }
+
         private const string OlibKeyId = "Onebeld_Editor_OlibKey_8F3a64jU57D";
 
         public IImage Icon { get; set; } = new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>()
-            .Open(new Uri("avares://Regul.OlibKey/icon.png")));
+            ?.Open(new Uri("avares://Regul.OlibKey/icon.png")));
         public string Name { get; } = "OlibKey";
         public string Creator { get; } = "Onebeld";
         public string Description { get; } = "Password manager";
