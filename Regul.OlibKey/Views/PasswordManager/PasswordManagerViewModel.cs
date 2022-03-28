@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Onebeld.Extensions;
@@ -13,186 +14,192 @@ using Regul.OlibKey.Views.Pages;
 using Regul.OlibKey.Views.PasswordManager.Content;
 using Regul.OlibKey.Views.Windows;
 
-namespace Regul.OlibKey.Views
+namespace Regul.OlibKey.Views;
+
+public class PasswordManagerViewModel : ViewModelBase
 {
-    public class PasswordManagerViewModel : ViewModelBase
+    private Database? _database;
+    private IPage? _page;
+    private Control _content;
+    private Data? _selectedData;
+
+    private bool _isNotCreatedDatabase;
+    private string _masterPassword;
+
+    #region Properties
+
+    public bool IsEdited
     {
-        private Database _database;
-        private IPage _page;
-        private Control _content;
-        private Data _selectedData;
-
-        private bool _isNotCreatedDatabase;
-        private string _masterPassword;
-
-        #region Properties
-
-        public bool IsEdited
+        get => PleasantTabItem.IsEditedIndicator;
+        set
         {
-            get => PleasantTabItem.IsEditedIndicator;
-            set
+            PleasantTabItem.IsEditedIndicator = value;
+            RaisePropertyChanged(nameof(IsEdited));
+        }
+    }
+
+    public Database? Database
+    {
+        get => _database;
+        private set => RaiseAndSetIfChanged(ref _database, value);
+    }
+
+    public Data? SelectedData
+    {
+        get => _selectedData;
+        set
+        {
+            RaiseAndSetIfChanged(ref _selectedData, value);
+
+            if (SelectedData == null)
+                Page = new StartPage();
+            else
             {
-                PleasantTabItem.IsEditedIndicator = value;
-                RaisePropertyChanged(nameof(IsEdited));
+                Page = new DataPage(DataInformation.View, this);
             }
         }
+    }
 
-        public Database Database
-        {
-            get => _database;
-            private set => RaiseAndSetIfChanged(ref _database, value);
-        }
+    public IPage? Page
+    {
+        get => _page;
+        set => RaiseAndSetIfChanged(ref _page, value);
+    }
 
-        public Data SelectedData
+    public Control Content
+    {
+        get => _content;
+        set => RaiseAndSetIfChanged(ref _content, value);
+    }
+
+    public bool IsNotCreatedDatabase
+    {
+        get => _isNotCreatedDatabase;
+        set => RaiseAndSetIfChanged(ref _isNotCreatedDatabase, value);
+    }
+
+    public string MasterPassword
+    {
+        get => _masterPassword;
+        set => RaiseAndSetIfChanged(ref _masterPassword, value);
+    }
+
+    private string? _filePath;
+
+    #endregion
+
+    private PleasantTabItem PleasantTabItem { get; }
+    private PasswordManagerView PasswordManagerView { get; }
+
+    public PasswordManagerViewModel()
+    {
+    }
+
+    public PasswordManagerViewModel(
+        PleasantTabItem pleasantTabItem,
+        Editor editor,
+        PasswordManagerView passwordManagerView,
+        string? filePath = null) : this()
+    {
+        PleasantTabItem = pleasantTabItem;
+        PasswordManagerView = passwordManagerView;
+        PasswordManagerView.Editor = editor;
+
+        _filePath = filePath;
+
+        if (string.IsNullOrEmpty(filePath))
+            IsNotCreatedDatabase = true;
+
+        Content = new CreateUnblockDatabaseContent();
+
+        IsEdited = false;
+    }
+
+    private void AddData()
+    {
+        SelectedData = null;
+
+        Page = new DataPage(DataInformation.Create, this);
+    }
+
+    private async void CreateDatabase()
+    {
+        CreateDatabase createDatabase = new();
+
+        if (!await createDatabase.Show<bool>(WindowsManager.MainWindow)) return;
+
+        CreateDatabaseViewModel viewModel =
+            createDatabase.GetDataContext<CreateDatabaseViewModel>();
+
+        MasterPassword = viewModel.MasterPassword;
+
+        Database = new Database
         {
-            get => _selectedData;
-            set
+            Settings = new DatabaseSettings
             {
-                RaiseAndSetIfChanged(ref _selectedData, value);
-
-                if (SelectedData == null)
-                    Page = new StartPage();
-                else
-                {
-                    Page = new DataPage(DataInformation.View, this);
-                }
+                Iterations = viewModel.Iteration,
+                NumberOfEncryptionProcedures = viewModel.NumberOfEncryptionProcedures,
+                UseCompress = viewModel.UseCompress,
+                UseTrash = viewModel.UseTrash
             }
-        }
+        };
 
-        public IPage Page
+        IsNotCreatedDatabase = false;
+        IsEdited = true;
+        Content = new MainContent();
+        Page = new StartPage();
+    }
+
+    private void OpenDatabase()
+    {
+        if (!File.Exists(_filePath)) return;
+
+        try
         {
-            get => _page;
-            set => RaiseAndSetIfChanged(ref _page, value);
+            Database = Database.Load(_filePath, MasterPassword);
         }
-
-        public Control Content
+        catch
         {
-            get => _content;
-            set => RaiseAndSetIfChanged(ref _content, value);
-        }
-
-        public bool IsNotCreatedDatabase
-        {
-            get => _isNotCreatedDatabase;
-            set => RaiseAndSetIfChanged(ref _isNotCreatedDatabase, value);
-        }
-
-        public string MasterPassword
-        {
-            get => _masterPassword;
-            set => RaiseAndSetIfChanged(ref _masterPassword, value);
-        }
-
-        private string _pathToFile;
-
-        #endregion
-
-        private PleasantTabItem PleasantTabItem { get; }
-        private PasswordManagerView PasswordManagerView { get; }
-
-        public PasswordManagerViewModel()
-        {
-        }
-
-        public PasswordManagerViewModel(
-            PleasantTabItem pleasantTabItem,
-            Editor editor,
-            PasswordManagerView passwordManagerView,
-            string path = null) : this()
-        {
-            PleasantTabItem = pleasantTabItem;
-            PasswordManagerView = passwordManagerView;
-            PasswordManagerView.CurrentEditor = editor;
-
-            _pathToFile = path;
-
-            if (string.IsNullOrEmpty(path))
-                IsNotCreatedDatabase = true;
-
-            Content = new CreateUnblockDatabaseContent();
-
-            IsEdited = false;
-        }
-
-        private void AddData()
-        {
-            SelectedData = null;
-
-            Page = new DataPage(DataInformation.Create, this);
-        }
-
-        private async void CreateDatabase()
-        {
-            CreateDatabase createDatabase = new CreateDatabase();
-
-            if (!await createDatabase.Show<bool>(WindowsManager.MainWindow)) return;
-
-            CreateDatabaseViewModel viewModel =
-                createDatabase.GetDataContext<CreateDatabaseViewModel>();
-
-            MasterPassword = viewModel.MasterPassword;
-
-            Database = new Database
-            {
-                Settings = new DatabaseSettings
-                {
-                    Iterations = viewModel.Iteration,
-                    NumberOfEncryptionProcedures = viewModel.NumberOfEncryptionProcedures,
-                    UseCompress = viewModel.UseCompress,
-                    UseTrash = viewModel.UseTrash
-                }
-            };
-
-            IsNotCreatedDatabase = false;
-            IsEdited = true;
-            Content = new MainContent();
-            Page = new StartPage();
-        }
-
-        private void OpenDatabase()
-        {
-            if (!File.Exists(_pathToFile)) return;
-
-            try
-            {
-                Database = Database.Load(_pathToFile, MasterPassword);
-            }
-            catch
-            {
-                MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
+            MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
                 
-                viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                    App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error));
+            viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
+                App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error));
 
-                return;
-            }
-
-            Content = new MainContent();
-            Page = new StartPage();
-
-            IsEdited = false;
+            return;
         }
 
-        private void LockDatabase()
-        {
-            Database.Save(_pathToFile, MasterPassword);
-            Database = null;
-            MasterPassword = string.Empty;
+        Content = new MainContent();
+        Page = new StartPage();
 
-            IsEdited = false;
+        IsEdited = false;
+    }
 
-            Content = new CreateUnblockDatabaseContent();
-            Page = null;
-        }
+    private void LockDatabase()
+    {
+        if (Database is null || _filePath is null)
+            throw new NullReferenceException();
+        
+        Database.Save(_filePath, MasterPassword);
+        Database = null;
+        MasterPassword = string.Empty;
 
-        public bool Save(string path)
-        {
-            _pathToFile = path;
+        IsEdited = false;
 
-            Database.Save(_pathToFile, MasterPassword);
-            IsEdited = false;
+        Content = new CreateUnblockDatabaseContent();
+        Page = null;
+    }
 
-            return true;
-        }
+    public bool Save(string? path)
+    {
+        _filePath = path;
+        PasswordManagerView.FilePath = path;
+        
+        if (Database is null || _filePath is null)
+            return false;
+
+        Database.Save(_filePath, MasterPassword);
+        IsEdited = false;
+
+        return true;
     }
 }

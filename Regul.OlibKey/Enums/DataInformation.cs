@@ -1,9 +1,8 @@
-﻿namespace Regul.OlibKey.Enums
+﻿namespace Regul.OlibKey.Enums;
+
+public enum DataInformation
 {
-    public enum DataInformation
-    {
-        Create,
-        View,
-        Edit
-    }
+    Create,
+    View,
+    Edit
 }

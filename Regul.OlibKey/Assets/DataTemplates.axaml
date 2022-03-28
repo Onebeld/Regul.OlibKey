@@ -1,12 +1,10 @@
 ﻿<Style xmlns="https://github.com/avaloniaui"
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
        xmlns:i="using:Avalonia.Xaml.Interactivity"
-       xmlns:iac="using:Regul.OlibKey.Behaviors"
+       xmlns:iac="using:Regul.Base.Behaviors"
        xmlns:data="using:Regul.OlibKey.Structures"
        xmlns:c="using:Regul.OlibKey.Converters">
     <Style.Resources>
-        <UIntToBrushConverter x:Key="UIntToBrushConverter" />
-        
         <DataTemplate x:Key="DataItemTemplate" DataType="{x:Type data:Data}">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <Border Grid.Column="0"
@@ -43,7 +41,7 @@
                     <Border CornerRadius="99" 
                             Width="10" 
                             Height="10"
-                            Background="{CompiledBinding Color, Converter={StaticResource UIntToBrushConverter}}">
+                            Background="{CompiledBinding Color, Converter={x:Static UIntToBrushConverter.Instance}}">
                         <Border.IsVisible>
                             <MultiBinding Converter="{x:Static BoolConverters.And}">
                                 <CompiledBinding Path="UseColor" />
@@ -95,7 +93,7 @@
                         CornerRadius="99"
                         Width="10" 
                         Height="10"
-                        Background="{CompiledBinding Color, Converter={StaticResource UIntToBrushConverter}}" />
+                        Background="{CompiledBinding Color, Converter={x:Static UIntToBrushConverter.Instance}}" />
             </Grid>
         </DataTemplate>
     </Style.Resources>

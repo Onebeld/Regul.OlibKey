@@ -4,11 +4,13 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <FileVersion>4.0.0.0</FileVersion>
+        <LangVersion>10.0</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12" />
+        <PackageReference Include="Avalonia" Version="0.10.13" />
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12.2" />
 
         <AvaloniaResource Include="icon.png" />
         <AvaloniaResource Include="Assets\**" />
@@ -17,32 +19,32 @@
 
     <ItemGroup>
         <Reference Include="Onebeld.Extensions">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\Onebeld.Extensions.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\Onebeld.Extensions.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>
         <Reference Include="Onebeld.Logging">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\Onebeld.Logging.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\Onebeld.Logging.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>
         <Reference Include="Onebeld.Plugins">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\Onebeld.Plugins.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\Onebeld.Plugins.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>
         <Reference Include="PleasantUI">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\PleasantUI.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\PleasantUI.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>
         <Reference Include="Regul.Base">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\Regul.Base.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\Regul.Base.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>
         <Reference Include="Regul.ModuleSystem">
-            <HintPath>..\..\..\Regul\src\Regul\bin\Release\net6.0\Regul.ModuleSystem.dll</HintPath>
+            <HintPath>..\..\..\Regul\src\Regul\bin\Debug\net6.0\Regul.ModuleSystem.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
         </Reference>

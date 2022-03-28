@@ -1,38 +1,55 @@
 ﻿using Avalonia;
+using Avalonia.Input;
 using Onebeld.Extensions;
 using PleasantUI.Controls.Custom;
+using Regul.OlibKey.General;
 
-namespace Regul.OlibKey.Views.Windows
+namespace Regul.OlibKey.Views.Windows;
+
+public class PasswordGeneratorViewModel : ViewModelBase
 {
-    public class PasswordGeneratorViewModel : ViewModelBase
+    private readonly PleasantDialogWindow? _modalWindow;
+
+    private string _password = string.Empty;
+    private bool _returnRequired;
+
+    #region Properties
+
+    public string Password
     {
-        private readonly PleasantDialogWindow _modalWindow;
+        get => _password;
+        set => RaiseAndSetIfChanged(ref _password, value);
+    }
 
-        private string _password;
-        private bool _returnRequired;
+    public bool ReturnRequired
+    {
+        get => _returnRequired;
+        set => RaiseAndSetIfChanged(ref _returnRequired, value);
+    }
 
-        public string Password
+    #endregion
+
+    public PasswordGeneratorViewModel(PleasantDialogWindow? modalWindow, bool returnRequired)
+    {
+        _modalWindow = modalWindow;
+        ReturnRequired = returnRequired;
+
+        _modalWindow?.KeyBindings.Add(new KeyBinding
         {
-            get => _password;
-            set => RaiseAndSetIfChanged(ref _password, value);
-        }
+            Command = Command.Create(SavePassword),
+            Gesture = KeyGesture.Parse("Enter")
+        });
+    }
 
-        private bool ReturnRequired
-        {
-            get => _returnRequired;
-            set => RaiseAndSetIfChanged(ref _returnRequired, value);
-        }
+    public void CopyPassword() => Application.Current?.Clipboard?.SetTextAsync(Password);
 
-        public PasswordGeneratorViewModel(PleasantDialogWindow modalWindow, bool returnRequired)
-        {
-            _modalWindow = modalWindow;
-            ReturnRequired = returnRequired;
-        }
+    public void GeneratePassword() => Password = PasswordGenerator.Generate();
 
-        public void CopyPassword() => Application.Current?.Clipboard?.SetTextAsync(Password);
-
-        public void GeneratePassword() => Password = General.PasswordGenerator.Generate();
-
-        public void SavePassword() => _modalWindow?.Close(Password);
+    public void SavePassword()
+    {
+        if (string.IsNullOrEmpty(Password))
+            Password = PasswordGenerator.Generate();
+        
+        _modalWindow?.Close(Password);
     }
 }

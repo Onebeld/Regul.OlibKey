@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Regul.OlibKey.Views"
-             xmlns:b="using:Regul.OlibKey.Behaviors"
+             xmlns:b="using:Regul.Base.Behaviors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              x:Class="Regul.OlibKey.Views.PasswordManager.Content.CreateUnblockDatabaseContent"

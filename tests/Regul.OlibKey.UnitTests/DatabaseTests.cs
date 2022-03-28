@@ -18,7 +18,7 @@ public class DatabaseTests
     [Fact]
     public void Database_Save_In_Xml()
     {
-        Database database = new Database();
+        Database database = new();
         database.DataList.Add(new Data
         {
             Name = "TestName",
@@ -56,7 +56,7 @@ public class DatabaseTests
         string xml =
             "<Database xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <DataList>\n    <Data Name=\"TestName\" Favorite=\"false\">\n      <UseColor>false</UseColor>\n      <Login>\n        <Username>TestUsername</Username>\n        <Password>TestPassword</Password>\n      </Login>\n    </Data>\n  </DataList>\n</Database>";
         
-        Database database = Database.FromXml(xml);
+        Database? database = Database.FromXml(xml);
         
         Assert.NotNull(database);
         _testOutputHelper.WriteLine(database.DataList[0].Name);
@@ -68,7 +68,7 @@ public class DatabaseTests
     [Fact]
     public void Database_Compress_And_Encrypt()
     {
-        Database database = new Database();
+        Database database = new();
         database.DataList.Add(new Data
         {
             Name = "TestName",
@@ -79,7 +79,7 @@ public class DatabaseTests
             }
         });
 
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new();
 
         stopwatch.Start();
         string databaseXml = database.ToXml(true);
@@ -105,7 +105,7 @@ public class DatabaseTests
         string encryptedXml =
             "U1yIcs5WH+Hr1oh16ZC9Yz6KUlrByotK8Lcs+oKgfKjWNv61CgTKNcgx7IU6zcpJhgInVlFaiD4TP2g2T8+DdFnnarTyBXwJlToe3zhTFPAotOjpor92COLAWnvAIqBrTBZY8osPuVkBAQ9yHKqZwaB9goG+DzyrERiFTTyJaRIIV+kpvAxTmCLnh/0DxUXE0kCeCD4AAJeiW3erHJ0iGdwunhp0YIoEL1JPBlw822kTUAOjAez9sli62PKyulbvtGvvRJ0YkNjbTCf5CryqZO6mESKOr9DM+oq2pFRjXoR1I7Nm1cI/qYhfg2auwNw+Cc7oKfZXomRK1aRCIGv7cKTdqjoB72qZJHpeQT+67594m6z+THMi5fAqbkQzJGeNKTdd2n58PbHtmBNbmk2q3A==";
 
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new();
         
         stopwatch.Start();
         string compressedXml = Encryptor.DecryptString(encryptedXml, "TestMasterPassword", 10000, 1);
@@ -118,7 +118,7 @@ public class DatabaseTests
         _testOutputHelper.WriteLine("Database Decompress: " + stopwatch.ElapsedMilliseconds + "ms");
         
         stopwatch.Restart();
-        Database database = Database.FromXml(databaseXml);
+        Database? database = Database.FromXml(databaseXml);
         stopwatch.Stop();
         _testOutputHelper.WriteLine("Database FromXml: " + stopwatch.ElapsedMilliseconds + "ms");
         

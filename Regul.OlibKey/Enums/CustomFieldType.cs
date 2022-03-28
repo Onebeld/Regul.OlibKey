@@ -1,9 +1,8 @@
-﻿namespace Regul.OlibKey.Enums
+﻿namespace Regul.OlibKey.Enums;
+
+public enum CustomFieldType
 {
-    public enum CustomFieldType
-    {
-        Text,
-        Password,
-        Check
-    }
+    Text,
+    Password,
+    Check
 }

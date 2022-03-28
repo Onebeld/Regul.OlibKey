@@ -12,9 +12,6 @@
     <Design.DataContext>
         <vw:DataPageViewModel />
     </Design.DataContext>
-    <UserControl.Resources>
-        <UIntToBrushConverter x:Key="UIntToBrushConverter" />
-    </UserControl.Resources>
 
     <Grid RowDefinitions="*,37">
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
@@ -130,7 +127,8 @@
                             <Button Content="{DynamicResource Generate}"
                                     Padding="5 2"
                                     HorizontalAlignment="Left"
-                                    IsVisible="{CompiledBinding !IsView}" />
+                                    IsVisible="{CompiledBinding !IsView}"
+                                    Command="{Binding GeneratePassword}"/>
                             <DockPanel>
                                 <TextBlock Text="{DynamicResource ComplexityC}"
                                            VerticalAlignment="Center"
@@ -379,12 +377,19 @@
 
                         <Separator />
 
-                        <TextBlock Classes="Title" Text="{DynamicResource Color}" />
+                        <TextBlock Classes="Title" Text="{DynamicResource Color}">
+                            <TextBlock.IsVisible>
+                                <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                                    <CompiledBinding Path="Data.Color" Converter="{x:Static c:NotEqualsConverter.Instance}" ConverterParameter="0" />
+                                    <CompiledBinding Path="!IsView" />
+                                </MultiBinding>
+                            </TextBlock.IsVisible>
+                        </TextBlock>
                         <StackPanel Spacing="5" Orientation="Horizontal">
                             <Border CornerRadius="5"
                                     Width="30"
                                     Height="20"
-                                    Background="{CompiledBinding Data.Color, Converter={StaticResource UIntToBrushConverter}}"
+                                    Background="{CompiledBinding Data.Color, Converter={x:Static UIntToBrushConverter.Instance}}"
                                     IsVisible="{CompiledBinding Data.Color, Converter={x:Static c:NotEqualsConverter.Instance}, ConverterParameter=0}" />
                             <Button Content="{DynamicResource ChooseColor}"
                                     Command="{Binding ChangeColor}"
@@ -395,7 +400,14 @@
                                       IsVisible="{CompiledBinding !IsView}" />
                         </StackPanel>
 
-                        <Separator />
+                        <Separator>
+                            <Separator.IsVisible>
+                                <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                                    <CompiledBinding Path="Data.Color" Converter="{x:Static c:NotEqualsConverter.Instance}" ConverterParameter="0" />
+                                    <CompiledBinding Path="!IsView" />
+                                </MultiBinding>
+                            </Separator.IsVisible>
+                        </Separator>
 
                         <TextBlock Classes="Title" Text="{DynamicResource Folder}" />
                         <ComboBox Items="{CompiledBinding Database.Folders}"

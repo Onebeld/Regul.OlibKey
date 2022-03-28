@@ -1,10 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Regul.OlibKey.Views.PasswordManager.Content
+namespace Regul.OlibKey.Views.PasswordManager.Content;
+
+public class CreateUnblockDatabaseContent : UserControl
 {
-	public class CreateUnblockDatabaseContent : UserControl
-	{
-		public CreateUnblockDatabaseContent() => AvaloniaXamlLoader.Load(this);
-	}
+	public CreateUnblockDatabaseContent() => AvaloniaXamlLoader.Load(this);
 }

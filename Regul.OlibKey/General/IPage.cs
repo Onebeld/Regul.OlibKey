@@ -1,4 +1,3 @@
-﻿namespace Regul.OlibKey.General
-{
-    public interface IPage { }
-}
+﻿namespace Regul.OlibKey.General;
+
+public interface IPage { }

@@ -1,10 +1,9 @@
-﻿namespace Regul.OlibKey.Enums
+﻿namespace Regul.OlibKey.Enums;
+
+public enum DataType
 {
-    public enum DataType
-    {
-        Login,
-        BankCard,
-        PersonalData,
-        Notes
-    }
+    Login,
+    BankCard,
+    PersonalData,
+    Notes
 }

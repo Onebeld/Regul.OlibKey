@@ -1,13 +1,12 @@
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls.Custom;
 
-namespace Regul.OlibKey.Views.Windows
+namespace Regul.OlibKey.Views.Windows;
+
+public class CreateDatabase : PleasantDialogWindow
 {
-	public class CreateDatabase : PleasantDialogWindow
+	public CreateDatabase()
 	{
-		public CreateDatabase()
-		{
-			AvaloniaXamlLoader.Load(this);
-		}
+		AvaloniaXamlLoader.Load(this);
 	}
 }
