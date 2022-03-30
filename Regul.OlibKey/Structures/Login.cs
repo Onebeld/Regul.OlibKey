@@ -8,11 +8,11 @@ namespace Regul.OlibKey.Structures;
 public class Login : ViewModelBase, ICloneable
 {
     private string? _image;
-    private string _username;
-    private string _email;
-    private string _password;
-    private string _webSite;
-    private string _secretKey;
+    private string _username = null!;
+    private string _email = null!;
+    private string _password = null!;
+    private string _webSite = null!;
+    private string _secretKey = null!;
 
     [DataMember]
     public string? Image

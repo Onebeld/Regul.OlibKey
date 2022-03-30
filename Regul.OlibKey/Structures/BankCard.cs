@@ -7,10 +7,10 @@ namespace Regul.OlibKey.Structures;
 [DataContract]
 public class BankCard : ViewModelBase, ICloneable
 {
-    private string _typeBankCard;
-    private string _cardNumber;
-    private string _dateCard;
-    private string _securityCode;
+    private string _typeBankCard = null!;
+    private string _cardNumber = null!;
+    private string _dateCard = null!;
+    private string _securityCode = null!;
 
     [DataMember]
     public string TypeBankCard

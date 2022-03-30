@@ -51,6 +51,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Windows\DatabaseSettings" />
+      <Compile Update="Views\Windows\DatabaseSettings\DatabaseSettings.axaml.cs">
+        <DependentUpon>CreateDatabase.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Windows\ChangingMasterPassword\ChangingMasterPassword.axaml.cs">
+        <DependentUpon>CreateDatabase.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

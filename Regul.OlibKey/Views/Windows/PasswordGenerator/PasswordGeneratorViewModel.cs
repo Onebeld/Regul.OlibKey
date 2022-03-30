@@ -9,7 +9,6 @@ namespace Regul.OlibKey.Views.Windows;
 public class PasswordGeneratorViewModel : ViewModelBase
 {
     private readonly PleasantDialogWindow? _modalWindow;
-
     private string _password = string.Empty;
     private bool _returnRequired;
 

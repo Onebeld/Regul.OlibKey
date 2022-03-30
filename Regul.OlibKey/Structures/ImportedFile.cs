@@ -8,8 +8,8 @@ namespace Regul.OlibKey.Structures;
 [DataContract]
 public class ImportedFile : ViewModelBase, ICloneable
 {
-    private string _name;
-    private string _data;
+    private string _name = null!;
+    private string _data = null!;
 
     [XmlAttribute]
     [DataMember]

@@ -30,11 +30,11 @@
                 <Menu VerticalAlignment="Center" Margin="5 0 0 0">
                     <MenuItem Header="{DynamicResource Storage}">
                         <MenuItem Header="{DynamicResource LockStorage}" Command="{Binding LockDatabase}" />
-                        <MenuItem Header="{DynamicResource ChangeMasterPassword}" />
+                        <MenuItem Header="{DynamicResource ChangeMasterPassword}" Command="{Binding ChangeMasterPassword}" />
                         
                         <Separator/>
                         
-                        <MenuItem Header="{DynamicResource Settings}">
+                        <MenuItem Header="{DynamicResource Settings}" Command="{Binding OpenDatabaseSettings}">
                             <MenuItem.Icon>
                                 <Path Data="{StaticResource SettingsIcon}"
                                       Fill="{StaticResource ForegroundBrush}"

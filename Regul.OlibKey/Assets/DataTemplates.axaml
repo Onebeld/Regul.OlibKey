@@ -37,7 +37,12 @@
                                IsVisible="{CompiledBinding DeleteDate, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10 0 10 0" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="5">
+                <StackPanel Grid.Column="2" 
+                            Orientation="Horizontal" 
+                            Margin="10 0 10 0" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" 
+                            Spacing="5">
                     <Border CornerRadius="99" 
                             Width="10" 
                             Height="10"
@@ -50,7 +55,20 @@
                         </Border.IsVisible>
                     </Border>
                     
-                    <ToggleButton BorderThickness="0" IsChecked="{CompiledBinding Favorite}">
+                    <ToggleButton BorderThickness="0" 
+                                  IsChecked="{CompiledBinding Favorite}"
+                                  ToolTip.Tip="{DynamicResource Favorite}">
+                        <ToggleButton.Styles>
+                            <Style Selector="ToggleButton:pointerover">
+                                <Setter Property="Background" Value="{StaticResource SelectionBrush}" />
+                            </Style>
+                            <Style Selector="ToggleButton:pressed">
+                                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                            </Style>
+                            <Style Selector="ToggleButton[IsChecked=True]:pointerover">
+                                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                            </Style>
+                        </ToggleButton.Styles>
                         <Path Data="{StaticResource FavoriteIcon}" Stretch="Uniform" />
                     </ToggleButton>
                 </StackPanel>

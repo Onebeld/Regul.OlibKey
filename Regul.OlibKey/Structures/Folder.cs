@@ -7,9 +7,9 @@ namespace Regul.OlibKey.Structures;
 [DataContract]
 public class Folder : ViewModelBase
 {
-    private string _name;
-    private string _id;
-    private string _deleteDate;
+    private string _name = null!;
+    private string _id = null!;
+    private string? _deleteDate;
     private uint _color = 0;
     private bool _useColor;
 
@@ -30,7 +30,7 @@ public class Folder : ViewModelBase
     }
 
     [DataMember]
-    public string DeleteDate
+    public string? DeleteDate
     {
         get => _deleteDate;
         set => RaiseAndSetIfChanged(ref _deleteDate, value);

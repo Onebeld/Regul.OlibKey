@@ -7,19 +7,19 @@ namespace Regul.OlibKey.Structures;
 [DataContract]
 public class PersonalData : ViewModelBase, ICloneable
 {
-    private string _fullname;
-    private string _number;
-    private string _placeOfIssue;
-    private string _socialSecurityNumber;
-    private string _tin;
-    private string _email;
-    private string _telephone;
-    private string _company;
-    private string _postcode;
-    private string _country;
-    private string _region;
-    private string _city;
-    private string _address;
+    private string _fullname = null!;
+    private string _number = null!;
+    private string _placeOfIssue = null!;
+    private string _socialSecurityNumber = null!;
+    private string _tin = null!;
+    private string _email = null!;
+    private string _telephone = null!;
+    private string _company = null!;
+    private string _postcode = null!;
+    private string _country = null!;
+    private string _region = null!;
+    private string _city = null!;
+    private string _address = null!;
 
     [DataMember]
     public string Fullname

@@ -13,7 +13,7 @@ public class Database : ViewModelBase
     private AvaloniaList<Data> _dataList = new();
     private AvaloniaList<Folder> _folders = new();
     private Trash _trash;
-    private DatabaseSettings _settings;
+    private DatabaseSettings _settings = null!;
 
     [DataMember]
     public AvaloniaList<Data> DataList
@@ -44,7 +44,7 @@ public class Database : ViewModelBase
         set => RaiseAndSetIfChanged(ref _settings, value);
     }
         
-    public static Database Load(string? path, string masterPassword)
+    public static Database Load(string path, string masterPassword)
     {
         string file = File.ReadAllText(path);
 

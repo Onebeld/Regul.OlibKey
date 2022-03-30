@@ -1,0 +1,41 @@
+<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      xmlns:vw="using:Regul.OlibKey.Structures"
+                      x:Class="Regul.OlibKey.Views.Windows.DatabaseSettingsView"
+                      Title="{DynamicResource DatabaseSettings}"
+                      x:DataType="vw:DatabaseSettings"
+                      Icon="avares://Regul.Assets/icon.ico">
+    <Design.DataContext>
+        <vw:DatabaseSettings />
+    </Design.DataContext>
+    
+    <PleasantDialogWindow.Styles>
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Margin" Value="0 50" />
+        </Style>
+    </PleasantDialogWindow.Styles>
+
+    <PleasantBorder Background="{StaticResource BackgroundBrush}" Margin="5">
+        <StackPanel Spacing="5" Margin="5">
+            <DockPanel>
+                <TextBlock Text="{DynamicResource NumberOfEncryptionProceduresC}" />
+                <NumericUpDown Value="{CompiledBinding NumberOfEncryptionProcedures}"
+                               Margin="5 0 0 0" />
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="{DynamicResource IterationsC}" />
+                <NumericUpDown Value="{CompiledBinding Iterations}"
+                               Margin="5 0 0 0" />
+            </DockPanel>
+
+            <CheckBox IsChecked="{CompiledBinding UseCompress}"
+                      Content="{DynamicResource UseCompress}" />
+            <CheckBox IsChecked="{CompiledBinding UseTrash}"
+                      Content="{DynamicResource UseTrash}" />
+        </StackPanel>
+    </PleasantBorder>
+</PleasantDialogWindow>

@@ -20,11 +20,11 @@ public class PasswordManagerViewModel : ViewModelBase
 {
     private Database? _database;
     private IPage? _page;
-    private Control _content;
+    private Control _content = null!;
     private Data? _selectedData;
-
     private bool _isNotCreatedDatabase;
-    private string _masterPassword;
+    private string _masterPassword = string.Empty;
+    private string? _filePath;
 
     #region Properties
 
@@ -47,17 +47,7 @@ public class PasswordManagerViewModel : ViewModelBase
     public Data? SelectedData
     {
         get => _selectedData;
-        set
-        {
-            RaiseAndSetIfChanged(ref _selectedData, value);
-
-            if (SelectedData == null)
-                Page = new StartPage();
-            else
-            {
-                Page = new DataPage(DataInformation.View, this);
-            }
-        }
+        set => RaiseAndSetIfChanged(ref _selectedData, value);
     }
 
     public IPage? Page
@@ -83,16 +73,16 @@ public class PasswordManagerViewModel : ViewModelBase
         get => _masterPassword;
         set => RaiseAndSetIfChanged(ref _masterPassword, value);
     }
-
-    private string? _filePath;
-
+    
     #endregion
 
-    private PleasantTabItem PleasantTabItem { get; }
-    private PasswordManagerView PasswordManagerView { get; }
+    private PleasantTabItem PleasantTabItem { get; } = null!;
+    private PasswordManagerView PasswordManagerView { get; } = null!;
 
     public PasswordManagerViewModel()
     {
+        this.WhenAnyValue(x => x.SelectedData)
+            .Subscribe(DoSelectData);
     }
 
     public PasswordManagerViewModel(
@@ -113,6 +103,13 @@ public class PasswordManagerViewModel : ViewModelBase
         Content = new CreateUnblockDatabaseContent();
 
         IsEdited = false;
+    }
+
+    private void DoSelectData(Data? data)
+    {
+        if (data is null) 
+            Page = new StartPage();
+        else Page = new DataPage(DataInformation.View, this);
     }
 
     private void AddData()
@@ -152,7 +149,7 @@ public class PasswordManagerViewModel : ViewModelBase
 
     private void OpenDatabase()
     {
-        if (!File.Exists(_filePath)) return;
+        if (_filePath is null || !File.Exists(_filePath)) return;
 
         try
         {
@@ -160,10 +157,7 @@ public class PasswordManagerViewModel : ViewModelBase
         }
         catch
         {
-            MainViewModel viewModel = WindowsManager.MainWindow.GetDataContext<MainViewModel>();
-                
-            viewModel.NotificationManager.Show(new Notification(App.GetResource<string>("Error"),
-                App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error));
+            WindowsManager.ShowNotification(App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error);
 
             return;
         }
@@ -187,6 +181,34 @@ public class PasswordManagerViewModel : ViewModelBase
 
         Content = new CreateUnblockDatabaseContent();
         Page = null;
+    }
+
+    private void OpenDatabaseSettings()
+    {
+        if (Database is null) return;
+
+        DatabaseSettingsView view = new()
+        {
+            DataContext = Database.Settings
+        };
+
+        view.Show(WindowsManager.MainWindow);
+    }
+
+    private async void ChangeMasterPassword()
+    {
+        ChangingMasterPasswordViewModel viewModel = new(MasterPassword);
+        ChangingMasterPassword window = new()
+        {
+            DataContext = viewModel
+        };
+
+        if (await window.Show<bool>(WindowsManager.MainWindow))
+        {
+            MasterPassword = viewModel.NewMasterPassword;
+
+            WindowsManager.ShowNotification(App.GetResource<string>("SuccessChangedMasterPasswordMessage"));
+        }
     }
 
     public bool Save(string? path)

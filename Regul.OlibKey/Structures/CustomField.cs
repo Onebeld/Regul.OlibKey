@@ -9,9 +9,9 @@ namespace Regul.OlibKey.Structures;
 [DataContract]
 public class CustomField : ViewModelBase, ICloneable
 {
-    private string _name;
+    private string _name = null!;
     private CustomFieldType _typeId;
-    private string _textElement;
+    private string _textElement = null!;
     private bool _checkedElement;
 
     [XmlAttribute]

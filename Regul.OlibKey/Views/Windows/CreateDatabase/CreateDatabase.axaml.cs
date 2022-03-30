@@ -5,8 +5,5 @@ namespace Regul.OlibKey.Views.Windows;
 
 public class CreateDatabase : PleasantDialogWindow
 {
-	public CreateDatabase()
-	{
-		AvaloniaXamlLoader.Load(this);
-	}
+	public CreateDatabase() => AvaloniaXamlLoader.Load(this);
 }

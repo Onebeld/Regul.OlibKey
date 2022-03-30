@@ -18,16 +18,16 @@ namespace Regul.OlibKey.Structures;
 public class Data : ViewModelBase, ICloneable
 {
     private DataType _typeId = DataType.Login;
-    private string _name;
-    private string _timeCreate;
-    private string _timeChanged;
-    private string _deleteDate;
+    private string _name = null!;
+    private string _timeCreate = null!;
+    private string _timeChanged = null!;
+    private string _deleteDate = null!;
     private uint _color;
     private bool _useColor;
-    private string _note;
+    private string _note = null!;
 
     private bool _favorite;
-    private string _folderId;
+    private string _folderId = null!;
 
     private Login? _login = new();
     private BankCard? _bankCard = new();

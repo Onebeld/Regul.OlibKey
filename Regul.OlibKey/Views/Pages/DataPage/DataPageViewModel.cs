@@ -21,39 +21,36 @@ namespace Regul.OlibKey.Views.Pages;
 
 public class DataPageViewModel : ViewModelBase
 {
-    private readonly PasswordManagerViewModel _viewModel;
-
+    private readonly PasswordManagerViewModel _targetViewModel;
     private DataInformation _dataInformation;
     private readonly DataType[] _dataTypes = (DataType[])Enum.GetValues(typeof(DataType));
     private readonly CustomFieldType[] _customFieldTypes = (CustomFieldType[])Enum.GetValues(typeof(CustomFieldType));
-        
-    private Database _database;
-    private Data _data;
-
-    private int _selectedCustomFieldTypeIndex = 0;
+    private Database _database = null!;
+    private Data _data = null!;
+    private int _selectedCustomFieldTypeIndex;
 
     #region Properties
 
     public Database Database
     {
         get => _database;
-        set => RaiseAndSetIfChanged(ref _database, value);
+        private set => RaiseAndSetIfChanged(ref _database, value);
     }
 
     public Data Data
     {
         get => _data;
-        set => RaiseAndSetIfChanged(ref _data, value);
+        private set => RaiseAndSetIfChanged(ref _data, value);
     }
 
     private int DataIndex
     {
         get
         {
-            if (_viewModel.Database is null || _viewModel.SelectedData is null)
+            if (_targetViewModel.Database is null || _targetViewModel.SelectedData is null)
                 throw new NullReferenceException();
             
-            return _viewModel.Database.DataList.IndexOf(_viewModel.SelectedData);
+            return _targetViewModel.Database.DataList.IndexOf(_targetViewModel.SelectedData);
         }
     }
 
@@ -81,10 +78,10 @@ public class DataPageViewModel : ViewModelBase
 
     #endregion
 
-    public DataPageViewModel(DataInformation dataInformation, PasswordManagerViewModel viewModel)
+    public DataPageViewModel(DataInformation dataInformation, PasswordManagerViewModel targetViewModel)
     {
-        _viewModel = viewModel;
-        Database = _viewModel.Database ?? throw new NullReferenceException();
+        _targetViewModel = targetViewModel;
+        Database = _targetViewModel.Database ?? throw new NullReferenceException();
         _dataInformation = dataInformation;
             
         switch (dataInformation)
@@ -93,7 +90,7 @@ public class DataPageViewModel : ViewModelBase
                 Data = new Data();
                 break;
             case DataInformation.View:
-                Data = (Data)_viewModel.SelectedData!.Clone();
+                Data = (Data)_targetViewModel.SelectedData!.Clone();
                     
                 Data.Login ??= new Login();
                 Data.BankCard ??= new BankCard();
@@ -142,7 +139,7 @@ public class DataPageViewModel : ViewModelBase
                 Data.TimeCreate = DateTime.Now.ToString(CultureInfo.CurrentCulture);
                 Database.DataList.Add(Data);
 
-                _viewModel.Page = new StartPage();
+                _targetViewModel.Page = new StartPage();
                 break;
             case DataInformation.Edit:
                 int index = DataIndex;
@@ -160,7 +157,7 @@ public class DataPageViewModel : ViewModelBase
 
                 Database.DataList[index] = Data;
 
-                _viewModel.SelectedData = _viewModel.Database?.DataList[index];
+                _targetViewModel.SelectedData = _targetViewModel.Database?.DataList[index];
                 break;
                 
             case DataInformation.View:
@@ -168,7 +165,7 @@ public class DataPageViewModel : ViewModelBase
                 throw new ArgumentOutOfRangeException();
         }
 
-        _viewModel.IsEdited = true;
+        _targetViewModel.IsEdited = true;
     }
 
     private void ChangeData()
@@ -186,14 +183,14 @@ public class DataPageViewModel : ViewModelBase
     {
         _dataInformation = DataInformation.View;
 
-        Data = (Data)_viewModel.Database?.DataList[DataIndex].Clone()! ?? throw new NullReferenceException();
+        Data = (Data)_targetViewModel.Database?.DataList[DataIndex].Clone()! ?? throw new NullReferenceException();
             
         RaisePropertyChanged(nameof(IsView));
         RaisePropertyChanged(nameof(IsEdit));
         RaisePropertyChanged(nameof(IsCreate));
     }
 
-    private void Back() => _viewModel.SelectedData = null;
+    private void Back() => _targetViewModel.SelectedData = null;
 
     private void CopyString(string s) => Application.Current?.Clipboard?.SetTextAsync(s);
 

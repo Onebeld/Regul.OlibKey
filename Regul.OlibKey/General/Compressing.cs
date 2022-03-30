@@ -18,7 +18,7 @@ public static class Compressing
         memoryStream.Position = 0;
 
         byte[] compressedData = new byte[memoryStream.Length];
-        memoryStream.Read(compressedData, 0, compressedData.Length);
+        _ = memoryStream.Read(compressedData, 0, compressedData.Length);
 
         byte[] gZipBuffer = new byte[compressedData.Length + 4];
         Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
@@ -39,7 +39,7 @@ public static class Compressing
 
         memoryStream.Position = 0;
         using (GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress))
-            gZipStream.Read(buffer, 0, buffer.Length);
+            _ = gZipStream.Read(buffer, 0, buffer.Length);
 
         return Encoding.UTF8.GetString(buffer);
     }

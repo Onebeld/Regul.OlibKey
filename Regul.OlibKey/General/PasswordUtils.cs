@@ -38,12 +38,10 @@ public static class PasswordUtils
         
 	public static double GetPasswordComplexity(string? password)
 	{
-		if (string.IsNullOrEmpty(password)) return 0;
+		if (string.IsNullOrEmpty(password) || password is null) return 0;
 
 		double multi0 = 1.0;
-		double multi1 = 1.0;
 		double multi2 = 1.0;
-		double multi3 = 0;
 
 		int score = 0;
 
@@ -59,7 +57,7 @@ public static class PasswordUtils
 		foreach (char chr in password.Where(c => !usedChars.Contains(c))) 
 			usedChars.Add(chr);
 
-		multi1 = FrequencyFactor(password.ToLower());
+		double multi1 = FrequencyFactor(password.ToLower());
 		score += password.Length * 15;
 
 		Dictionary<string, double> patterns = new()
@@ -78,12 +76,7 @@ public static class PasswordUtils
 				multi2 += pattern.Value;
 		}
 
-		if (password.Length > 2) multi3 += 0;
-		if (password.Length > 4) multi3 += 0.25;
-		if (password.Length > 6) multi3 += 0.75;
-		if (password.Length > 8) multi3 += 1.0;
-
-		return (score * multi0 * multi1 * multi2);
+		return score * multi0 * multi1 * multi2;
 	}
         
 	private static double FrequencyFactor(string password) => 
@@ -94,6 +87,5 @@ public static class PasswordUtils
 		double fromLower, 
 		double fromUpper, 
 		double toLower, 
-		double toUpper) => 
-		toLower + ((value - fromLower) / (fromUpper - fromLower) * (toUpper - toLower));
+		double toUpper) => toLower + (value - fromLower) / (fromUpper - fromLower) * (toUpper - toLower);
 }

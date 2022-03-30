@@ -7,12 +7,12 @@ namespace Regul.OlibKey.Views;
 
 public class PasswordManagerView : UserControl, IEditor
 {
-	private PasswordManagerViewModel _viewModel;
+	private PasswordManagerViewModel _viewModel = null!;
 	
-	public string Id { get; set; }
+	public string Id { get; set; } = null!;
 	public Project? Project { get; set; }
 	public string? FilePath { get; set; }
-	public Editor Editor { get; set; }
+	public Editor Editor { get; set; } = null!;
 
 	public PasswordManagerView()
 	{

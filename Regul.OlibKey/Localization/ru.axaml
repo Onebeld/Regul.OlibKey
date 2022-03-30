@@ -7,7 +7,8 @@
         <v:String x:Key="Trash">Корзина</v:String>
         <v:String x:Key="LockStorage">Заблокировать хранилище</v:String>
         <v:String x:Key="ChangeMasterPassword">Изменить мастер-пароль</v:String>
-        
+        <v:String x:Key="DatabaseSettings">Настройки хранилища</v:String>
+
         <v:String x:Key="Add">Добавить</v:String>
         <v:String x:Key="Empty">Пусто</v:String>
         <v:String x:Key="Storage">Хранилище</v:String>
@@ -26,11 +27,15 @@
         <v:String x:Key="UseCompress">Использовать сжатие</v:String>
         <v:String x:Key="UseTrash">Использовать корзину</v:String>
         
+        <v:String x:Key="OldMasterPassword">Старый мастер-пароль</v:String>
+        <v:String x:Key="NewMasterPassword">Новый мастер-пароль</v:String>
+        
         <v:String x:Key="CreateStorageMessage">Создайте новое хранилище!</v:String>
         <v:String x:Key="MasterPasswordMessage">Введите мастер-пароль</v:String>
         
         <v:String x:Key="IncorrectMasterPasswordMessage">Неверный мастер-пароль!</v:String>
-        
+        <v:String x:Key="SuccessChangedMasterPasswordMessage">Мастер-пароль успешно изменен!</v:String>
+
         <!--PasswordGenerator-->
         <v:String x:Key="PasswordGenerator">Генератор паролей</v:String>
         <v:String x:Key="PasswordC">Пароль:</v:String>
@@ -53,6 +58,7 @@
         <v:String x:Key="BankCard">Банковская карта</v:String>
         <v:String x:Key="PersonalData">Личные данные</v:String>
         <v:String x:Key="Notes">Заметки</v:String>
+        <v:String x:Key="Favorite">Избранное</v:String>
         
         <v:String x:Key="Color">Цвет</v:String>
         <v:String x:Key="UseColor">Использовать цвет</v:String>

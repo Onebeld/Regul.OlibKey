@@ -38,7 +38,7 @@ public static class DatabaseExtensions
                     continue;
                 }
 
-                if (element.Value == "0" || element.Value == "false")
+                if (element.Value is "0" or "false")
                 {
                     element.Remove();
                     continue;
