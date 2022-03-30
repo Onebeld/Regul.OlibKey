@@ -1,3 +1,8 @@
+![](https://img.shields.io/github/license/Onebeld/Regul.OlibKey?style=flat-square)
+![](https://img.shields.io/github/v/release/Onebeld/Regul.OlibKey?include_prereleases&style=flat-square)
+![](https://img.shields.io/github/downloads/Onebeld/Regul.OlibKey/total?style=flat-square)
+[![CodeFactor](https://www.codefactor.io/repository/github/onebeld/regul.olibkey/badge?style=flat-square)](https://www.codefactor.io/repository/github/onebeld/regul.olibkey)
+
 <h1 align="center">
     <img src="https://user-images.githubusercontent.com/44552715/160755342-955a5376-2270-46f6-9579-e38c34ae0682.png">
     
