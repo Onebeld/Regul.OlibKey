@@ -1,0 +1,122 @@
+<PleasantDialogWindow xmlns="https://github.com/avaloniaui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                      xmlns:vw="using:Regul.OlibKey.Views.Windows"
+                      xmlns:i="using:Avalonia.Xaml.Interactivity"
+                      xmlns:pb="using:PleasantUI.Behaviors"
+                      x:Class="Regul.OlibKey.Views.Windows.SearchView"
+                      Title="{DynamicResource Search}"
+                      x:DataType="vw:SearchViewModel"
+                      Icon="avares://Regul.Assets/icon.ico">
+    <Design.DataContext>
+        <vw:SearchViewModel />
+    </Design.DataContext>
+    
+    <PleasantDialogWindow.Styles>
+        <Style Selector="PleasantDialogWindow /template/ PleasantBorder#PART_ModalWindow">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="50" />
+        </Style>
+    </PleasantDialogWindow.Styles>
+
+    <Grid Margin="5" ColumnDefinitions="*,5,1.5*">
+        <Grid Grid.Column="0" RowDefinitions="Auto,5,*">
+            <PleasantBorder Grid.Row="0">
+                
+            </PleasantBorder>
+            
+            <Grid Row="2" RowDefinitions="*,37">
+                <ListBox Grid.Row="0"
+                         Items="{CompiledBinding Database.Folders}"
+                         SelectedItem="{CompiledBinding SelectedFolder}"
+                         BorderThickness="1 1 1 0"
+                         CornerRadius="5 5 0 0"
+                         DataTemplates="{StaticResource FolderTemplate}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="(i:Interaction.Behaviors)">
+                                <pb:SharedContentTemplate>
+                                    <pb:SharedContent>
+                                        <i:BehaviorCollection>
+                                            <pb:ItemDragBehavior Orientation="Vertical" />
+                                        </i:BehaviorCollection>
+                                    </pb:SharedContent>
+                                </pb:SharedContentTemplate>
+                            </Setter>
+                        </Style>
+                    </ListBox.Styles>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="2" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <TextBlock Grid.Row="0" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Text="{DynamicResource Empty}" 
+                           Foreground="{StaticResource ForegroundOpacityBrush}" 
+                           IsVisible="{CompiledBinding !Database.Folders.Count}" />
+                
+                <Border Grid.Row="1"
+                        Background="{StaticResource BackgroundLevel1Brush}"
+                        BorderThickness="1 0 1 1" 
+                        CornerRadius="0 0 5 5"
+                        BorderBrush="{StaticResource BorderBrush}">
+                    <Panel Margin="5">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Spacing="5">
+                            <Button Padding="10 0"
+                                    Content="{DynamicResource Add}"
+                                    Command="{Binding AddFolder}"/>
+                            <Button Padding="10 0"
+                                    Content="{DynamicResource ChooseColor}"
+                                    Command="{Binding ChangeColorForFolder}"
+                                    IsEnabled="{CompiledBinding SelectedFolder, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                        </StackPanel>
+                    
+                        <Button Classes="CloseButton" 
+                                HorizontalAlignment="Right"
+                                Padding="6 5"
+                                ToolTip.Tip="{DynamicResource Delete}"
+                                Command="{Binding DeleteFolder}"
+                                IsEnabled="{CompiledBinding SelectedFolder, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <Path Data="{StaticResource TrashIcon}" Stretch="Uniform" />
+                        </Button>
+                    </Panel>
+                </Border>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Column="2" RowDefinitions="Auto,5,*">
+            <PleasantBorder Grid.Row="0">
+                <StackPanel Margin="5" Spacing="5">
+                    <DockPanel>
+                        <TextBox Text="{CompiledBinding SearchText}" />
+                    </DockPanel>
+                </StackPanel>
+            </PleasantBorder>
+            
+            <ListBox Grid.Row="2"
+                     Items="{CompiledBinding FoundedDataList}"
+                     SelectedItem="{CompiledBinding SelectedData}"
+                     ItemTemplate="{StaticResource DataItemTemplate}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="2" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <TextBlock Grid.Row="2" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Text="{DynamicResource Empty}" 
+                       Foreground="{StaticResource ForegroundOpacityBrush}" 
+                       IsVisible="{CompiledBinding !FoundedDataList.Count}" />
+        </Grid>
+    </Grid>
+</PleasantDialogWindow>

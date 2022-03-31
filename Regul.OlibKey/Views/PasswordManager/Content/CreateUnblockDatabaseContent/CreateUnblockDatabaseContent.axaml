@@ -37,6 +37,7 @@
                     IsVisible="{CompiledBinding IsNotCreatedDatabase}">
             <TextBlock Text="{DynamicResource CreateStorageMessage}" TextAlignment="Center" />
             <Button Classes="mbdefault"
+                    Padding="20 3"
                     Content="{DynamicResource CreateStorage}"
                     HorizontalAlignment="Center"
                     Command="{Binding CreateDatabase}" />
@@ -55,6 +56,7 @@
                 </i:Interaction.Behaviors>
             </TextBox>
             <Button Classes="mbdefault"
+                    Padding="20 3"
                     Content="{DynamicResource Open}"
                     HorizontalAlignment="Center"
                     Command="{Binding OpenDatabase}" />

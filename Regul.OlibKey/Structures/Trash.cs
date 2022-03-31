@@ -5,7 +5,7 @@ using Onebeld.Extensions;
 namespace Regul.OlibKey.Structures;
 
 [DataContract]
-public class Trash : ViewModelBase
+public class Trashcan : ViewModelBase
 {
     private AvaloniaList<Data> _dataList = new();
     private AvaloniaList<Folder> _folders = new();

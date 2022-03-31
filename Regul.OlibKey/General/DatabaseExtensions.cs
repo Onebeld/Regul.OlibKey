@@ -16,7 +16,7 @@ public static class DatabaseExtensions
         string compressedXml = database.Settings.UseCompress ? Compressing.Compress(databaseXml) : databaseXml;
         string encryptXml = Encryptor.EncryptString(compressedXml, masterPassword, database.Settings.Iterations, database.Settings.NumberOfEncryptionProcedures);
 
-        file += encryptXml + ":" + database.Settings.UseCompress + ":" + database.Settings.UseTrash;
+        file += encryptXml + ":" + database.Settings.UseCompress + ":" + database.Settings.UseTrashcan;
 
         File.WriteAllText(path, file);
     }

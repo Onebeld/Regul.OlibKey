@@ -34,8 +34,8 @@
 
             <CheckBox IsChecked="{CompiledBinding UseCompress}"
                       Content="{DynamicResource UseCompress}" />
-            <CheckBox IsChecked="{CompiledBinding UseTrash}"
-                      Content="{DynamicResource UseTrash}" />
+            <CheckBox IsChecked="{CompiledBinding UseTrashcan}"
+                      Content="{DynamicResource UseTrashcan}" />
         </StackPanel>
     </PleasantBorder>
 </PleasantDialogWindow>

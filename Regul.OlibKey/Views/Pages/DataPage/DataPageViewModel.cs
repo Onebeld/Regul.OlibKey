@@ -8,7 +8,9 @@ using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Threading;
 using Onebeld.Extensions;
+using OtpNet;
 using PleasantUI.Controls.Custom;
 using PleasantUI.Windows;
 using Regul.Base;
@@ -28,6 +30,9 @@ public class DataPageViewModel : ViewModelBase
     private Database _database = null!;
     private Data _data = null!;
     private int _selectedCustomFieldTypeIndex;
+
+    private Totp? _totp;
+    private DispatcherTimer? _totpTimer;
 
     #region Properties
 
@@ -70,11 +75,19 @@ public class DataPageViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _selectedCustomFieldTypeIndex, value);
     }
 
-    public Folder SelectedFolder
+    public Folder? SelectedFolder
     {
-        get => Database.Folders.FirstOrDefault(folder => folder.Id == Data.FolderId) ?? throw new NullReferenceException();
-        set => Data.FolderId = value.Id;
+        get => Database.Folders.FirstOrDefault(folder => folder.Id == Data.FolderId);
+        set
+        {
+            Data.FolderId = value?.Id;
+            RaisePropertyChanged(nameof(SelectedFolder));
+        }
     }
+
+    public string GeneratedCode { get; set; } = string.Empty;
+    public int TimeLeft { get; set; }
+    public bool IsActivatedTotp { get; set; }
 
     #endregion
 
@@ -95,6 +108,8 @@ public class DataPageViewModel : ViewModelBase
                 Data.Login ??= new Login();
                 Data.BankCard ??= new BankCard();
                 Data.PersonalData ??= new PersonalData();
+                
+                if (Data.Login.IsActivatedTotp) ActivateTotp();
                 break;
                 
             case DataInformation.Edit:
@@ -156,15 +171,14 @@ public class DataPageViewModel : ViewModelBase
                 Data.TimeChanged = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
                 Database.DataList[index] = Data;
-
-                _targetViewModel.SelectedData = _targetViewModel.Database?.DataList[index];
+                _targetViewModel.SelectedData = Database.DataList[index];
                 break;
                 
             case DataInformation.View:
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(_dataInformation), _dataInformation, null);
         }
-
+        
         _targetViewModel.IsEdited = true;
     }
 
@@ -177,20 +191,41 @@ public class DataPageViewModel : ViewModelBase
         RaisePropertyChanged(nameof(IsCreate));
     }
 
-    private void DeleteData() => Database.DataList.RemoveAt(DataIndex);
+    private void DeleteData()
+    {
+        int index = DataIndex;
+        
+        if (Database.Settings.UseTrashcan)
+        {
+            Data data = Database.DataList[index];
+            data.DeleteDate = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+            Database.Trashcan.DataList.Add(data);
+        }
+
+        Database.DataList.RemoveAt(index);
+
+        _targetViewModel.IsEdited = true;
+    }
 
     private void Cancel()
     {
         _dataInformation = DataInformation.View;
 
-        Data = (Data)_targetViewModel.Database?.DataList[DataIndex].Clone()! ?? throw new NullReferenceException();
+        Data = (Data)Database.DataList[DataIndex].Clone();
             
         RaisePropertyChanged(nameof(IsView));
         RaisePropertyChanged(nameof(IsEdit));
         RaisePropertyChanged(nameof(IsCreate));
+        RaisePropertyChanged(nameof(SelectedFolder));
     }
 
-    private void Back() => _targetViewModel.SelectedData = null;
+    private void Back()
+    {
+        if (_targetViewModel.SelectedData is null) 
+            _targetViewModel.Page = new StartPage();
+        
+        _targetViewModel.SelectedData = null;
+    }
 
     private void CopyString(string s) => Application.Current?.Clipboard?.SetTextAsync(s);
 
@@ -230,6 +265,8 @@ public class DataPageViewModel : ViewModelBase
         if (Data.Login is not null && !string.IsNullOrEmpty(password))
             Data.Login.Password = password;
     }
+
+    private void SelectNullFolder() => SelectedFolder = null;
 
     #region ImportFile
 
@@ -281,6 +318,69 @@ public class DataPageViewModel : ViewModelBase
     }
 
     private void DeleteCustomField(CustomField customField) => Data.CustomFields.Remove(customField);
+
+    #endregion
+
+    #region TOTP
+
+    private void ActivateTotp()
+    {
+        if (Data.Login is null || string.IsNullOrWhiteSpace(Data.Login.SecretKey)) 
+            return;
+        
+        if (_totpTimer is not null && _totpTimer.IsEnabled)
+            _totpTimer.Stop();
+
+        _totp = new Totp(Base32Encoding.ToBytes(Data.Login.SecretKey!.Replace(" ", "")), 
+            step: 30,
+            timeCorrection: new TimeCorrection(DateTime.UtcNow));
+
+        GeneratedCode = _totp.ComputeTotp();
+        TimeLeft = _totp.RemainingSeconds();
+        IsActivatedTotp = true;
+        Data.Login.IsActivatedTotp = true;
+        
+        RaisePropertyChanged(nameof(GeneratedCode));
+        RaisePropertyChanged(nameof(TimeLeft));
+        RaisePropertyChanged(nameof(IsActivatedTotp));
+
+        _totpTimer = new DispatcherTimer
+        {
+            Interval = new TimeSpan(0, 0, 0, 0, 50)
+        };
+        _totpTimer.Tick += OnTickTotpTimer;
+        _totpTimer.Start();
+    }
+
+    public void DeactivateTotp()
+    {
+        if (_totpTimer is null || _totp is null || Data.Login is null)
+            return;
+        
+        _totpTimer.Stop();
+        _totp = null;
+        
+        GeneratedCode = string.Empty;
+        TimeLeft = 0;
+        IsActivatedTotp = false;
+        Data.Login.IsActivatedTotp = true;
+
+        RaisePropertyChanged(nameof(GeneratedCode));
+        RaisePropertyChanged(nameof(TimeLeft));
+        RaisePropertyChanged(nameof(IsActivatedTotp));
+    }
+
+    private void OnTickTotpTimer(object sender, EventArgs e)
+    {
+        if (_totp is null)
+            return;
+        
+        GeneratedCode = _totp.ComputeTotp();
+        TimeLeft = _totp.RemainingSeconds();
+        
+        RaisePropertyChanged(nameof(GeneratedCode));
+        RaisePropertyChanged(nameof(TimeLeft));
+    }
 
     #endregion
 }

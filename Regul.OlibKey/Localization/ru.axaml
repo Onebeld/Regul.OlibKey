@@ -4,9 +4,10 @@
     <Style.Resources>
         <!-- Russian -->
 
-        <v:String x:Key="Trash">Корзина</v:String>
+        <v:String x:Key="Trashcan">Корзина</v:String>
         <v:String x:Key="LockStorage">Заблокировать хранилище</v:String>
         <v:String x:Key="ChangeMasterPassword">Изменить мастер-пароль</v:String>
+        <v:String x:Key="PasswordChecker">Проверка паролей</v:String>
         <v:String x:Key="DatabaseSettings">Настройки хранилища</v:String>
 
         <v:String x:Key="Add">Добавить</v:String>
@@ -14,6 +15,11 @@
         <v:String x:Key="Storage">Хранилище</v:String>
         <v:String x:Key="Folder">Папка</v:String>
         
+        <v:String x:Key="DataList">Список данных</v:String>
+        <v:String x:Key="Folders">Папки</v:String>
+        <v:String x:Key="Restore">Восстановить</v:String>
+        <v:String x:Key="DeletedC">Удален:</v:String>
+
         <v:String x:Key="NoData">Нет данных</v:String>
         
         <v:String x:Key="ElementsC">Элементов:</v:String>
@@ -25,7 +31,7 @@
         <v:String x:Key="CreateStorage">Создать хранилище</v:String>
         
         <v:String x:Key="UseCompress">Использовать сжатие</v:String>
-        <v:String x:Key="UseTrash">Использовать корзину</v:String>
+        <v:String x:Key="UseTrashcan">Использовать корзину</v:String>
         
         <v:String x:Key="OldMasterPassword">Старый мастер-пароль</v:String>
         <v:String x:Key="NewMasterPassword">Новый мастер-пароль</v:String>
@@ -47,6 +53,14 @@
         <v:String x:Key="Special">Специальные ($%#)</v:String>
         <v:String x:Key="Underscore">Нижняя черта (_)</v:String>
         <!--PasswordGenerator-->
+        
+        <!--PasswordChecker-->
+        <v:String x:Key="GeneralComplexityC">Общая сложность:</v:String>
+        <v:String x:Key="SelectAll">Выбрать все</v:String>
+        <v:String x:Key="Fix">Исправить</v:String>
+        <v:String x:Key="PasswordCheckerDescription">Здесь перечислены слабые пароли, которые можно изменить. Выберите те, которые вы хотите изменить, и нажмите кнопку Исправить. Изменение будет произведено в соответствии с настройками генератора паролей.</v:String>
+        <v:String x:Key="PasswordCheckerSuccessChangedMessage">В выбранных элементах успешно изменен пароль!</v:String>
+        <!--PasswordChecker-->
         
         <!--DataPage-->
         <v:String x:Key="AddElement">Добавить элемент</v:String>
@@ -77,7 +91,9 @@
         <v:String x:Key="SecurityCodeCard">Код безопасности</v:String>
         <v:String x:Key="VerificationCode">Код верификации (TOTP)</v:String>
         <v:String x:Key="Activate">Активировать</v:String>
+        <v:String x:Key="Deactivate">Деактивировать</v:String>
         <v:String x:Key="SecretKey">Секретный ключ</v:String>
+        <v:String x:Key="OneTimePasswordC">Одноразовый пароль:</v:String>
         
         <v:String x:Key="FullName">ФИО</v:String>
         <v:String x:Key="SeriesAndNumber">Серия и номер</v:String>
@@ -105,6 +121,7 @@
         <v:String x:Key="Export">Экспортировать</v:String>
         <v:String x:Key="CreatedC">Создан:</v:String>
         <v:String x:Key="UpdatedC">Обновлен:</v:String>
+        <v:String x:Key="NotToChoose">Не выбирать</v:String>
         
         <v:String x:Key="Change">Изменить</v:String>
         <v:String x:Key="Back">Назад</v:String>

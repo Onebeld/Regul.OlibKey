@@ -18,7 +18,7 @@ public class OlibKeySettings : ViewModelBase
     private bool _generatorAllowUppercase = true;
     private string _generatorTextOther = string.Empty;
         
-    public static OlibKeySettings Instance;
+    public static OlibKeySettings Instance = null!;
 
     public static void Load()
     {
@@ -27,8 +27,8 @@ public class OlibKeySettings : ViewModelBase
             
         try
         {
-            using (FileStream fileStream = File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "olibKey.xml"))
-                Instance = (OlibKeySettings)new XmlSerializer(typeof(OlibKeySettings)).Deserialize(fileStream);
+            using FileStream fileStream = File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "olibKey.xml");
+            Instance = (OlibKeySettings)new XmlSerializer(typeof(OlibKeySettings)).Deserialize(fileStream);
         }
         catch
         {
@@ -38,8 +38,8 @@ public class OlibKeySettings : ViewModelBase
         
     public static void Save()
     {
-        using (FileStream fileStream = File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "olibKey.xml"))
-            new XmlSerializer(typeof(OlibKeySettings)).Serialize(fileStream, Instance);
+        using FileStream fileStream = File.Create(AppDomain.CurrentDomain.BaseDirectory + "Settings/" + "olibKey.xml");
+        new XmlSerializer(typeof(OlibKeySettings)).Serialize(fileStream, Instance);
     }
 
     [DataMember]

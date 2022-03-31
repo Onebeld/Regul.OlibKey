@@ -4,9 +4,10 @@
     <Style.Resources>
         <!-- English -->
         
-        <v:String x:Key="Trash">Trash</v:String>
+        <v:String x:Key="Trashcan">Trashcan</v:String>
         <v:String x:Key="LockStorage">Lock storage</v:String>
         <v:String x:Key="ChangeMasterPassword">Change master password</v:String>
+        <v:String x:Key="PasswordChecker">Password checker</v:String>
         <v:String x:Key="DatabaseSettings">Database settings</v:String>
 
         <v:String x:Key="Add">Add</v:String>
@@ -14,9 +15,12 @@
         <v:String x:Key="Storage">Storage</v:String>
         <v:String x:Key="Folder">Folder</v:String>
         
-        <v:String x:Key="NoData">No data</v:String>
+        <v:String x:Key="DataList">Data list</v:String>
+        <v:String x:Key="Folders">Folders</v:String>
+        <v:String x:Key="Restore">Restore</v:String>
+        <v:String x:Key="DeletedC">Deleted:</v:String>
         
-        <v:String x:Key="Block">Block</v:String>
+        <v:String x:Key="NoData">No data</v:String>
         
         <v:String x:Key="ElementsC">Elements:</v:String>
         <v:String x:Key="ComplexityC">Complexity:</v:String>
@@ -27,7 +31,7 @@
         <v:String x:Key="CreateStorage">Create storage</v:String>
         
         <v:String x:Key="UseCompress">Use compress</v:String>
-        <v:String x:Key="UseTrash">Use trash</v:String>
+        <v:String x:Key="UseTrashcan">Use trashcan</v:String>
         
         <v:String x:Key="OldMasterPassword">Old master password</v:String>
         <v:String x:Key="NewMasterPassword">New master password</v:String>
@@ -49,6 +53,14 @@
         <v:String x:Key="Special">Special ($%#)</v:String>
         <v:String x:Key="Underscore">Underscore (_)</v:String>
         <!--PasswordGenerator-->
+        
+        <!--PasswordChecker-->
+        <v:String x:Key="GeneralComplexityC">General complexity:</v:String>
+        <v:String x:Key="SelectAll">Select all</v:String>
+        <v:String x:Key="Fix">Fix</v:String>
+        <v:String x:Key="PasswordCheckerDescription">This lists weak passwords that you can change. Select the ones you want to change and click the Fix button. The change will be made according to the password generator settings.</v:String>
+        <v:String x:Key="PasswordCheckerSuccessChangedMessage">The password has been successfully changed in the selected items!</v:String>
+        <!--PasswordChecker-->
         
         <!--DataPage-->
         <v:String x:Key="AddElement">Add element</v:String>
@@ -79,8 +91,10 @@
         <v:String x:Key="SecurityCodeCard">Security code</v:String>
         <v:String x:Key="VerificationCode">Verification code (TOTP)</v:String>
         <v:String x:Key="Activate">Activate</v:String>
+        <v:String x:Key="Deactivate">Deactivate</v:String>
         <v:String x:Key="SecretKey">Secret key</v:String>
-        
+        <v:String x:Key="OneTimePasswordC">One-time password:</v:String>
+
         <v:String x:Key="FullName">Full name</v:String>
         <v:String x:Key="SeriesAndNumber">Series and Number</v:String>
         <v:String x:Key="PlaceOfIssue">Place of issue</v:String>
@@ -107,7 +121,8 @@
         <v:String x:Key="Export">Export</v:String>
         <v:String x:Key="CreatedC">Created:</v:String>
         <v:String x:Key="UpdatedC">Updated:</v:String>
-        
+        <v:String x:Key="NotToChoose">Not to choose</v:String>
+
         <v:String x:Key="Change">Change</v:String>
         <v:String x:Key="Back">Back</v:String>
         <!--DataPage-->

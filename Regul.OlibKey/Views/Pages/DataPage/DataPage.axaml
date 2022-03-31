@@ -149,6 +149,40 @@
 
                                 <TextBox Text="{CompiledBinding Data.Login.WebSite}" />
                             </DockPanel>
+                            
+                            <Separator />
+                            
+                            <TextBlock Classes="Title" Text="{DynamicResource VerificationCode}" />
+                            <TextBox Text="{CompiledBinding Data.Login.SecretKey}" 
+                                     Watermark="{DynamicResource SecretKey}" />
+                            <StackPanel Orientation="Horizontal" 
+                                        Spacing="5"
+                                        IsVisible="{CompiledBinding !IsView}">
+                                <Button Content="{DynamicResource Activate}" 
+                                        Command="{Binding ActivateTotp}" 
+                                        Padding="5 2" />
+                                <Button Content="{DynamicResource Deactivate}" 
+                                        Command="{Binding DeactivateTotp}" 
+                                        IsEnabled="{CompiledBinding IsActivatedTotp}"
+                                        Padding="5 2" />
+                            </StackPanel>
+                            <StackPanel IsVisible="{CompiledBinding IsActivatedTotp}" Spacing="5">
+                                <DockPanel>
+                                    <TextBlock Text="{DynamicResource OneTimePasswordC}"
+                                               Margin="0 0 5 0"
+                                               DockPanel.Dock="Left"
+                                               VerticalAlignment="Center" />
+                                    <Button Classes="Copy"
+                                            DockPanel.Dock="Right"
+                                            CommandParameter="{CompiledBinding GeneratedCode}">
+                                        <Path />
+                                    </Button>
+                                    
+                                    <TextBox Text="{CompiledBinding GeneratedCode}" 
+                                             IsReadOnly="True" />
+                                </DockPanel>
+                                <ProgressBar Maximum="30" Value="{CompiledBinding TimeLeft}" />
+                            </StackPanel>
                         </StackPanel>
 
                         <!--Bank Card Section-->
@@ -424,6 +458,12 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                        <Button Content="{DynamicResource NotToChoose}"
+                                HorizontalAlignment="Left"
+                                Padding="5 2"
+                                IsVisible="{CompiledBinding !IsView}"
+                                IsEnabled="{CompiledBinding SelectedFolder, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Command="{Binding SelectNullFolder}" />
                     </StackPanel>
                 </Border>
 

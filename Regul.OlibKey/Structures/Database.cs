@@ -12,7 +12,7 @@ public class Database : ViewModelBase
 {
     private AvaloniaList<Data> _dataList = new();
     private AvaloniaList<Folder> _folders = new();
-    private Trash _trash;
+    private Trashcan _trashcan = new ();
     private DatabaseSettings _settings = null!;
 
     [DataMember]
@@ -31,10 +31,10 @@ public class Database : ViewModelBase
 
     [XmlElement(IsNullable = false)]
     [DataMember]
-    public Trash Trash
+    public Trashcan Trashcan
     {
-        get => _trash;
-        set => RaiseAndSetIfChanged(ref _trash, value);
+        get => _trashcan;
+        set => RaiseAndSetIfChanged(ref _trashcan, value);
     }
 
     [XmlIgnore]
@@ -55,7 +55,7 @@ public class Database : ViewModelBase
         string encryptString = split[2];
 
         bool useCompress = false;
-        bool useTrash = false;
+        bool UseTrashcan = false;
 
         if (split.Length > 3)
         {
@@ -71,7 +71,7 @@ public class Database : ViewModelBase
         }
 
         if (split.Length > 4)
-            useTrash = bool.Parse(split[4]);
+            UseTrashcan = bool.Parse(split[4]);
 
         Database database = FromXml(file);
         DatabaseSettings settings = new()
@@ -79,7 +79,7 @@ public class Database : ViewModelBase
             Iterations = iterations,
             NumberOfEncryptionProcedures = numberOfEncryptionProcedures,
             UseCompress = useCompress,
-            UseTrash = useTrash
+            UseTrashcan = UseTrashcan
         };
         database.Settings = settings;
 

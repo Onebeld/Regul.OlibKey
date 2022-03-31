@@ -18,6 +18,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="2*" MinWidth="250" />
         </Grid.ColumnDefinitions>
+        
         <Border Grid.Row="0" 
                 Grid.Column="0" 
                 Grid.ColumnSpan="3"
@@ -28,24 +29,39 @@
                 CornerRadius="5">
             <Grid Margin="5 0">
                 <Menu VerticalAlignment="Center" Margin="5 0 0 0">
+                    <Menu.Styles>
+                        <Style Selector="Path">
+                            <Setter Property="Fill" Value="{StaticResource ForegroundBrush}" />
+                            <Setter Property="Stretch" Value="Uniform" />
+                            <Setter Property="Margin" Value="1" />
+                        </Style>
+                    </Menu.Styles>
+                
                     <MenuItem Header="{DynamicResource Storage}">
                         <MenuItem Header="{DynamicResource LockStorage}" Command="{Binding LockDatabase}" />
-                        <MenuItem Header="{DynamicResource ChangeMasterPassword}" Command="{Binding ChangeMasterPassword}" />
+                        <MenuItem Header="{DynamicResource ChangeMasterPassword}" Command="{Binding ChangeMasterPassword}">
+                            <MenuItem.Icon>
+                                <Path Data="{StaticResource KeyIcon}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{DynamicResource PasswordChecker}" Command="{Binding OpenPasswordChecker}">
+                            <MenuItem.Icon>
+                                <Path Data="{StaticResource ShieldIcon}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         
                         <Separator/>
                         
                         <MenuItem Header="{DynamicResource Settings}" Command="{Binding OpenDatabaseSettings}">
                             <MenuItem.Icon>
-                                <Path Data="{StaticResource SettingsIcon}"
-                                      Fill="{StaticResource ForegroundBrush}"
-                                      Stretch="Uniform" />
+                                <Path Data="{StaticResource SettingsIcon}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{DynamicResource Trash}">
+                        <MenuItem Header="{DynamicResource Trashcan}" 
+                                  Command="{Binding OpenTrashcan}"
+                                  IsEnabled="{Binding Database.Settings.UseTrashcan}">
                             <MenuItem.Icon>
-                                <Path Data="{StaticResource TrashIcon}"
-                                      Fill="{StaticResource ForegroundBrush}"
-                                      Stretch="Uniform" />
+                                <Path Data="{StaticResource TrashIcon}" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
@@ -64,7 +80,9 @@
                      SelectedItem="{CompiledBinding SelectedData}"
                      BorderThickness="1 1 1 0"
                      CornerRadius="5 5 0 0"
-                     DataTemplates="{StaticResource DataItemTemplate}">
+                     ItemTemplate="{StaticResource DataItemTemplate}"
+                     SelectionMode="Toggle"
+                     AutoScrollToSelectedItem="True">
                 <ListBox.Styles>
                     <Style Selector="ListBoxItem">
                         <Setter Property="(i:Interaction.Behaviors)">
@@ -87,7 +105,7 @@
             <TextBlock Grid.Row="0" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
-                       Text="Empty" 
+                       Text="{DynamicResource Empty}" 
                        Foreground="{StaticResource ForegroundOpacityBrush}" 
                        IsVisible="{CompiledBinding !Database.DataList.Count}" />
             <Border Grid.Row="1"
@@ -96,7 +114,10 @@
                     CornerRadius="0 0 5 5"
                     BorderBrush="{StaticResource BorderBrush}">
                 <DockPanel Margin="5">
-                    <Button DockPanel.Dock="Right" Padding="5" ToolTip.Tip="{DynamicResource Search}">
+                    <Button DockPanel.Dock="Right" 
+                            Padding="5" 
+                            ToolTip.Tip="{DynamicResource Search}"
+                            Command="{Binding OpenSearch}">
                         <Path Data="{StaticResource SearchIcon}" Stretch="Uniform" />
                     </Button>
                     

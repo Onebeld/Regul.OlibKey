@@ -37,7 +37,7 @@ public class CreateDatabaseViewModel : ViewModelBase
         set => RaiseAndSetIfChanged(ref _useCompress, value);
     }
 
-    public bool UseTrash
+    public bool UseTrashcan
     {
         get => _useTrash;
         set => RaiseAndSetIfChanged(ref _useTrash, value);

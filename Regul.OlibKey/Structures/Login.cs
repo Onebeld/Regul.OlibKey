@@ -8,11 +8,12 @@ namespace Regul.OlibKey.Structures;
 public class Login : ViewModelBase, ICloneable
 {
     private string? _image;
-    private string _username = null!;
-    private string _email = null!;
-    private string _password = null!;
-    private string _webSite = null!;
-    private string _secretKey = null!;
+    private string? _username;
+    private string? _email;
+    private string? _password;
+    private string? _webSite;
+    private string? _secretKey;
+    private bool _isActivatedTotp;
 
     [DataMember]
     public string? Image
@@ -22,38 +23,45 @@ public class Login : ViewModelBase, ICloneable
     }
         
     [DataMember]
-    public string Username
+    public string? Username
     {
         get => _username;
         set => RaiseAndSetIfChanged(ref _username, value);
     }
 
     [DataMember]
-    public string Email
+    public string? Email
     {
         get => _email;
         set => RaiseAndSetIfChanged(ref _email, value);
     }
 
     [DataMember]
-    public string Password
+    public string? Password
     {
         get => _password;
         set => RaiseAndSetIfChanged(ref _password, value);
     }
 
     [DataMember]
-    public string WebSite
+    public string? WebSite
     {
         get => _webSite;
         set => RaiseAndSetIfChanged(ref _webSite, value);
     }
 
     [DataMember]
-    public string SecretKey
+    public string? SecretKey
     {
         get => _secretKey;
         set => RaiseAndSetIfChanged(ref _secretKey, value);
+    }
+
+    [DataMember]
+    public bool IsActivatedTotp
+    {
+        get => _isActivatedTotp;
+        set => RaiseAndSetIfChanged(ref _isActivatedTotp, value);
     }
 
     public object Clone()

@@ -5,7 +5,6 @@ using Avalonia.Controls.Notifications;
 using Onebeld.Extensions;
 using PleasantUI.Controls.Custom;
 using Regul.Base;
-using Regul.Base.Views.Windows;
 using Regul.ModuleSystem;
 using Regul.OlibKey.Enums;
 using Regul.OlibKey.General;
@@ -107,6 +106,13 @@ public class PasswordManagerViewModel : ViewModelBase
 
     private void DoSelectData(Data? data)
     {
+        if (Page is DataPage dataPage)
+        {
+            DataPageViewModel viewModel = dataPage.GetDataContext<DataPageViewModel>();
+            if (viewModel.IsActivatedTotp)
+                viewModel.DeactivateTotp();
+        }
+        
         if (data is null) 
             Page = new StartPage();
         else Page = new DataPage(DataInformation.View, this);
@@ -137,7 +143,7 @@ public class PasswordManagerViewModel : ViewModelBase
                 Iterations = viewModel.Iteration,
                 NumberOfEncryptionProcedures = viewModel.NumberOfEncryptionProcedures,
                 UseCompress = viewModel.UseCompress,
-                UseTrash = viewModel.UseTrash
+                UseTrashcan = viewModel.UseTrashcan
             }
         };
 
@@ -160,6 +166,19 @@ public class PasswordManagerViewModel : ViewModelBase
             WindowsManager.ShowNotification(App.GetResource<string>("IncorrectMasterPasswordMessage"), NotificationType.Error);
 
             return;
+        }
+
+        if (Database.Settings.UseTrashcan)
+        {
+            foreach (Data data in Database.Trashcan.DataList)
+            {
+                data.IsDeleted = true;
+            }
+
+            foreach (Folder folder in Database.Trashcan.Folders)
+            {
+                folder.IsDeleted = true;
+            }
         }
 
         Content = new MainContent();
@@ -195,6 +214,41 @@ public class PasswordManagerViewModel : ViewModelBase
         view.Show(WindowsManager.MainWindow);
     }
 
+    private void OpenTrashcan()
+    {
+        if (Database is null) return;
+        
+        TrashcanView window = new()
+        {
+            DataContext = new TrashcanViewModel(this, Database)
+        };
+
+        window.Show(WindowsManager.MainWindow);
+    }
+
+    private void OpenSearch()
+    {
+        if (Database is null) return;
+        
+        SearchView window = new();
+        SearchViewModel viewModel = new(window, this, Database);
+        window.DataContext = viewModel;
+
+        window.Show(WindowsManager.MainWindow);
+    }
+
+    private void OpenPasswordChecker()
+    {
+        if (Database is null) return;
+
+        PasswordCheckerView window = new()
+        {
+            DataContext = new PasswordCheckerViewModel(this, Database)
+        };
+
+        window.Show(WindowsManager.MainWindow);
+    }
+
     private async void ChangeMasterPassword()
     {
         ChangingMasterPasswordViewModel viewModel = new(MasterPassword);
@@ -203,12 +257,11 @@ public class PasswordManagerViewModel : ViewModelBase
             DataContext = viewModel
         };
 
-        if (await window.Show<bool>(WindowsManager.MainWindow))
-        {
-            MasterPassword = viewModel.NewMasterPassword;
+        if (!await window.Show<bool>(WindowsManager.MainWindow)) return;
+        
+        MasterPassword = viewModel.NewMasterPassword;
 
-            WindowsManager.ShowNotification(App.GetResource<string>("SuccessChangedMasterPasswordMessage"));
-        }
+        WindowsManager.ShowNotification(App.GetResource<string>("SuccessChangedMasterPasswordMessage"));
     }
 
     public bool Save(string? path)
@@ -218,6 +271,12 @@ public class PasswordManagerViewModel : ViewModelBase
         
         if (Database is null || _filePath is null)
             return false;
+
+        if (!Database.Settings.UseTrashcan)
+        {
+            Database.Trashcan.DataList.Clear();
+            Database.Trashcan.Folders.Clear();
+        }
 
         Database.Save(_filePath, MasterPassword);
         IsEdited = false;

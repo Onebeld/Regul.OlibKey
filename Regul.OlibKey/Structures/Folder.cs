@@ -8,10 +8,18 @@ namespace Regul.OlibKey.Structures;
 public class Folder : ViewModelBase
 {
     private string _name = null!;
-    private string _id = null!;
+    private string? _id;
     private string? _deleteDate;
     private uint _color = 0;
     private bool _useColor;
+    private bool _isDeleted;
+
+    [XmlIgnore]
+    public bool IsDeleted
+    {
+        get => _isDeleted;
+        set => RaiseAndSetIfChanged(ref _isDeleted, value);
+    }
 
     [XmlAttribute]
     [DataMember]
@@ -23,7 +31,7 @@ public class Folder : ViewModelBase
 
     [XmlAttribute]
     [DataMember]
-    public string Id
+    public string? Id
     {
         get => _id;
         set => RaiseAndSetIfChanged(ref _id, value);

@@ -33,8 +33,15 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <TextBlock Text="{CompiledBinding DeleteDate}"
-                               IsVisible="{CompiledBinding DeleteDate, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
+                    
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="5"
+                                IsVisible="{CompiledBinding DeleteDate, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                        <TextBlock Text="{DynamicResource DeletedC}"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}" />
+                        <TextBlock Text="{CompiledBinding DeleteDate}"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}" />
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" 
@@ -86,22 +93,34 @@
                     <Path Data="{StaticResource FolderIcon}" Stretch="Uniform" Fill="#FF000000" Margin="5" />
                 </Border>
                 
-                <TextBlock Grid.Column="1" 
-                           Text="{CompiledBinding Name}" 
-                           VerticalAlignment="Center" 
-                           Margin="0 0 20 0" />
-                <TextBox x:Name="TextBoxEdit" 
-                         Grid.Column="1" 
-                         Text="{CompiledBinding Name}" 
-                         VerticalAlignment="Center" 
-                         Margin="0 0 20 0">
-                    <i:Interaction.Behaviors>
-                        <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Escape" />
-                        <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Enter" />
-                        <iac:HideOnLostFocusBehavior TargetControl="{Binding #TextBoxEdit}" />
-                        <iac:SelectAllOnGotFocusBehavior />
-                    </i:Interaction.Behaviors>
-                </TextBox>
+                <StackPanel Grid.Column="1" 
+                            VerticalAlignment="Center" 
+                            Margin="0 0 20 0">
+                    <TextBlock Text="{CompiledBinding Name}" />
+                    <StackPanel Orientation="Horizontal" 
+                                Spacing="5"
+                                IsVisible="{CompiledBinding DeleteDate, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                        <TextBlock Text="{DynamicResource DeletedC}" 
+                                   Foreground="{StaticResource ForegroundOpacityBrush}" />
+                        <TextBlock Text="{CompiledBinding DeleteDate}"
+                                   Foreground="{StaticResource ForegroundOpacityBrush}" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <Panel Grid.Column="1" 
+                       VerticalAlignment="Center"
+                       Margin="0 0 20 0"
+                       IsVisible="{CompiledBinding !IsDeleted}">
+                    <TextBox x:Name="TextBoxEdit" IsVisible="False" Text="{CompiledBinding Name}">
+                        <i:Interaction.Behaviors>
+                            <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Escape" />
+                            <iac:HideOnKeyPressedBehavior TargetControl="{Binding #TextBoxEdit}" Key="Enter" />
+                            <iac:HideOnLostFocusBehavior TargetControl="{Binding #TextBoxEdit}" />
+                            <iac:SelectAllOnGotFocusBehavior />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </Panel>
+                
                 
                 <Border Grid.Column="1"
                         Padding="5"

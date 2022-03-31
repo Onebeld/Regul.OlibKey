@@ -18,16 +18,16 @@ namespace Regul.OlibKey.Structures;
 public class Data : ViewModelBase, ICloneable
 {
     private DataType _typeId = DataType.Login;
-    private string _name = null!;
-    private string _timeCreate = null!;
-    private string _timeChanged = null!;
-    private string _deleteDate = null!;
+    private string? _name;
+    private string? _timeCreate;
+    private string? _timeChanged;
+    private string? _deleteDate;
     private uint _color;
     private bool _useColor;
-    private string _note = null!;
+    private string? _note;
 
     private bool _favorite;
-    private string _folderId = null!;
+    private string? _folderId;
 
     private Login? _login = new();
     private BankCard? _bankCard = new();
@@ -46,28 +46,28 @@ public class Data : ViewModelBase, ICloneable
 
     [XmlAttribute]
     [DataMember]
-    public string Name
+    public string? Name
     {
         get => _name;
         set => RaiseAndSetIfChanged(ref _name, value);
     }
 
     [DataMember]
-    public string TimeCreate
+    public string? TimeCreate
     {
         get => _timeCreate;
         set => RaiseAndSetIfChanged(ref _timeCreate, value);
     }
 
     [DataMember]
-    public string TimeChanged
+    public string? TimeChanged
     {
         get => _timeChanged;
         set => RaiseAndSetIfChanged(ref _timeChanged, value);
     }
 
     [DataMember]
-    public string DeleteDate
+    public string? DeleteDate
     {
         get => _deleteDate;
         set => RaiseAndSetIfChanged(ref _deleteDate, value);
@@ -88,7 +88,7 @@ public class Data : ViewModelBase, ICloneable
     }
 
     [DataMember]
-    public string Note
+    public string? Note
     {
         get => _note;
         set => RaiseAndSetIfChanged(ref _note, value);
@@ -103,7 +103,7 @@ public class Data : ViewModelBase, ICloneable
     }
 
     [DataMember]
-    public string FolderId
+    public string? FolderId
     {
         get => _folderId;
         set => RaiseAndSetIfChanged(ref _folderId, value);
@@ -147,8 +147,11 @@ public class Data : ViewModelBase, ICloneable
         set => RaiseAndSetIfChanged(ref _importedFiles, value);
     }
 
+    [XmlIgnore] 
+    public bool IsDeleted;
+
     [XmlIgnore]
-    public bool IsIconChange = false;
+    public bool IsIconChange;
 
     [XmlIgnore]
     public Task<IImage> Icon => GetIcon();

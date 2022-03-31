@@ -11,6 +11,7 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.13" />
         <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.12.2" />
+        <PackageReference Include="Otp.NET" Version="1.2.2" />
 
         <AvaloniaResource Include="icon.png" />
         <AvaloniaResource Include="Assets\**" />
@@ -51,13 +52,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\Windows\DatabaseSettings\DatabaseSettings.axaml.cs">
-        <DependentUpon>CreateDatabase.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\Windows\ChangingMasterPassword\ChangingMasterPassword.axaml.cs">
-        <DependentUpon>CreateDatabase.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="**\*.xaml.cs">
+            <DependentUpon>%(Filename)</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <AvaloniaResource Include="**\*.xaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
+        <Compile Update="Views\Windows\PasswordChecker\PasswordCheckerView.axaml.cs">
+          <DependentUpon>DatabaseSettings.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>
