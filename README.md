@@ -30,6 +30,7 @@
 ## Used libraries
 * [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
 * [AvaloniaBehaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) - a little better experience in creating a program
+* [Otp.NET](https://github.com/kspearrin/Otp.NET)
 
 ## Tools used
 * [JetBrains Rider](https://www.jetbrains.com/rider/) - for me, it's the best tool I've ever used
