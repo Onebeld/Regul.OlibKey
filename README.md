@@ -1,4 +1,5 @@
 ![](https://img.shields.io/github/license/Onebeld/Regul.OlibKey?style=flat-square)
+![](https://img.shields.io/github/repo-size/Onebeld/Regul.OlibKey?style=flat-square)
 ![](https://img.shields.io/github/v/release/Onebeld/Regul.OlibKey?include_prereleases&style=flat-square)
 ![](https://img.shields.io/github/downloads/Onebeld/Regul.OlibKey/total?style=flat-square)
 [![CodeFactor](https://www.codefactor.io/repository/github/onebeld/regul.olibkey/badge?style=flat-square)](https://www.codefactor.io/repository/github/onebeld/regul.olibkey)
@@ -9,7 +10,8 @@
     OlibKey
 </h1>
 
-![OlibKey](https://user-images.githubusercontent.com/44552715/160755432-585f0dfe-6aee-4d6e-b3dc-d151684e44c9.png)
+![OlibKey](https://user-images.githubusercontent.com/44552715/161417287-8523e83a-454a-477e-a194-df247dea7a7e.png)
+
 
 
 **OlibKey** - [Regul](https://github.com/Onebeld/Regul) module to create a password storage (password manager for Regul). The [old project](https://github.com/Onebeld/OlibKey) has been revived and rewritten to make the code much better.
@@ -25,7 +27,10 @@
 * When you specify a website, the module will automatically load the site icon (you will see a different icon when it loads)
 
 ## Screenshots
-![Regul_TLVQD67a3c](https://user-images.githubusercontent.com/44552715/160757129-143e7646-d46c-43b8-bef2-d9650af1e24c.png)
+![Regul_vKJfTn7NGp](https://user-images.githubusercontent.com/44552715/161417311-a63415a0-4593-4fe6-a063-b9f734d661e8.png)
+![Regul_pEA8B63DEp](https://user-images.githubusercontent.com/44552715/161417316-99d7bdbf-aae1-4788-80de-6c4afa3a7140.png)
+![Regul_ItQK8ifEG4](https://user-images.githubusercontent.com/44552715/161417319-a3264425-987f-4e3c-bf82-72e3e99957c1.png)
+
 
 ## Used libraries
 * [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
