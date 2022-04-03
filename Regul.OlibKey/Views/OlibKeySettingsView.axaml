@@ -1,0 +1,46 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="using:Regul.OlibKey"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Regul.OlibKey.Views.OlibKeySettingsView"
+             x:DataType="s:OlibKeySettings">
+    <StackPanel Spacing="5">
+        <CheckBox IsChecked="{CompiledBinding LockStorage, Source={x:Static s:OlibKeySettings.Instance}}">
+            <CheckBox.Content>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{DynamicResource LockStorageThroughC}" />
+                    <NumericUpDown Minimum="5" 
+                                   Width="120"
+                                   Value="{CompiledBinding LockoutTime, Source={x:Static s:OlibKeySettings.Instance}}" />
+                    <TextBlock Text="{DynamicResource MinutesS}" />
+                </StackPanel>
+            </CheckBox.Content>
+        </CheckBox>
+        
+        <CheckBox IsChecked="{CompiledBinding ClearClipboard, Source={x:Static s:OlibKeySettings.Instance}}">
+            <CheckBox.Content>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{DynamicResource ClearClipboardThroughC}" />
+                    <NumericUpDown Minimum="5" 
+                                   Width="120"
+                                   Value="{CompiledBinding ClearingTime, Source={x:Static s:OlibKeySettings.Instance}}" />
+                    <TextBlock Text="{DynamicResource SecondsS}" />
+                </StackPanel>
+            </CheckBox.Content>
+        </CheckBox>
+        
+        <CheckBox IsChecked="{CompiledBinding CleanTrashcan, Source={x:Static s:OlibKeySettings.Instance}}">
+            <CheckBox.Content>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{DynamicResource ClearTrashcanThroughC}" />
+                    <NumericUpDown Minimum="1"
+                                   Width="120"
+                                   Value="{CompiledBinding ClearingTrashcanTime, Source={x:Static s:OlibKeySettings.Instance}}" />
+                    <TextBlock Text="{DynamicResource DaysS}" />
+                </StackPanel>
+            </CheckBox.Content>
+        </CheckBox>
+    </StackPanel>
+</UserControl>

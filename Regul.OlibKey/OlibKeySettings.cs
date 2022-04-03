@@ -17,6 +17,13 @@ public class OlibKeySettings : ViewModelBase
     private bool _generatorAllowUnderscore;
     private bool _generatorAllowUppercase = true;
     private string _generatorTextOther = string.Empty;
+
+    private bool _lockStorage = true;
+    private int _lockoutTime = 30;
+    private bool _clearClipboard;
+    private int _clearingClipboardTime = 10;
+    private bool _cleanTrashcan = true;
+    private int _clearingTrashcanTime = 30;
         
     public static OlibKeySettings Instance = null!;
 
@@ -96,5 +103,47 @@ public class OlibKeySettings : ViewModelBase
     {
         get => _generatorTextOther;
         set => RaiseAndSetIfChanged(ref _generatorTextOther, value);
+    }
+
+    [DataMember]
+    public bool LockStorage
+    {
+        get => _lockStorage;
+        set => RaiseAndSetIfChanged(ref _lockStorage, value);
+    }
+
+    [DataMember]
+    public int LockoutTime
+    {
+        get => _lockoutTime;
+        set => RaiseAndSetIfChanged(ref _lockoutTime, value);
+    }
+
+    [DataMember]
+    public bool ClearClipboard
+    {
+        get => _clearClipboard;
+        set => RaiseAndSetIfChanged(ref _clearClipboard, value);
+    }
+
+    [DataMember]
+    public int ClearingTime
+    {
+        get => _clearingClipboardTime;
+        set => RaiseAndSetIfChanged(ref _clearingClipboardTime, value);
+    }
+
+    [DataMember]
+    public bool CleanTrashcan
+    {
+        get => _cleanTrashcan;
+        set => RaiseAndSetIfChanged(ref _cleanTrashcan, value);
+    }
+
+    [DataMember]
+    public int ClearingTrashcanTime
+    {
+        get => _clearingTrashcanTime;
+        set => RaiseAndSetIfChanged(ref _clearingTrashcanTime, value);
     }
 }

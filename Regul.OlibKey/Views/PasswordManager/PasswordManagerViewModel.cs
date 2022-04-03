@@ -2,6 +2,7 @@
 using System.IO;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Threading;
 using Onebeld.Extensions;
 using PleasantUI.Controls.Custom;
 using Regul.Base;
@@ -24,6 +25,8 @@ public class PasswordManagerViewModel : ViewModelBase
     private bool _isNotCreatedDatabase;
     private string _masterPassword = string.Empty;
     private string? _filePath;
+
+    public DispatcherTimer? LockerTimer;
 
     #region Properties
 
@@ -151,6 +154,9 @@ public class PasswordManagerViewModel : ViewModelBase
         IsEdited = true;
         Content = new MainContent();
         Page = new StartPage();
+
+        if (OlibKeySettings.Instance.LockStorage) 
+            ActivateLockerTimer();
     }
 
     private void OpenDatabase()
@@ -170,13 +176,41 @@ public class PasswordManagerViewModel : ViewModelBase
 
         if (Database.Settings.UseTrashcan)
         {
-            foreach (Data data in Database.Trashcan.DataList)
+            for (int index = Database.Trashcan.DataList.Count - 1; index >= 0; index--)
             {
+                Data data = Database.Trashcan.DataList[index];
+                
+                if (OlibKeySettings.Instance.CleanTrashcan)
+                {
+                    DateTime cleaningTime = DateTime.Parse(data.DeleteDate)
+                        .AddDays(OlibKeySettings.Instance.ClearingTrashcanTime);
+                
+                    if (DateTime.Now > cleaningTime)
+                    {
+                        Database.Trashcan.DataList.RemoveAt(index);
+                        continue;
+                    }
+                }
+
                 data.IsDeleted = true;
             }
-
-            foreach (Folder folder in Database.Trashcan.Folders)
+            
+            for (int index = Database.Trashcan.Folders.Count - 1; index >= 0; index--)
             {
+                Folder folder = Database.Trashcan.Folders[index];
+
+                if (OlibKeySettings.Instance.CleanTrashcan)
+                {
+                    DateTime cleaningTime = DateTime.Parse(folder.DeleteDate)
+                        .AddDays(OlibKeySettings.Instance.ClearingTrashcanTime);
+                
+                    if (DateTime.Now > cleaningTime)
+                    {
+                        Database.Trashcan.Folders.RemoveAt(index);
+                        continue;
+                    }
+                }
+
                 folder.IsDeleted = true;
             }
         }
@@ -185,6 +219,9 @@ public class PasswordManagerViewModel : ViewModelBase
         Page = new StartPage();
 
         IsEdited = false;
+        
+        if (OlibKeySettings.Instance.LockStorage)
+            ActivateLockerTimer();
     }
 
     private void LockDatabase()
@@ -200,68 +237,118 @@ public class PasswordManagerViewModel : ViewModelBase
 
         Content = new CreateUnblockDatabaseContent();
         Page = null;
+        
+        if (OlibKeySettings.Instance.LockStorage) 
+            LockerTimer?.Stop();
     }
 
     private void OpenDatabaseSettings()
     {
+        RestartLockerTimer();
+        
         if (Database is null) return;
+        
+        DatabaseSettingsView? window = WindowsManager.CreateModalWindow<DatabaseSettingsView>();
+        
+        if (window is null) return;
 
-        DatabaseSettingsView view = new()
-        {
-            DataContext = Database.Settings
-        };
-
-        view.Show(WindowsManager.MainWindow);
+        window.DataContext = Database.Settings;
+        window.Show(WindowsManager.MainWindow);
     }
 
     private void OpenTrashcan()
     {
+        RestartLockerTimer();
+        
         if (Database is null) return;
         
-        TrashcanView window = new()
-        {
-            DataContext = new TrashcanViewModel(this, Database)
-        };
+        TrashcanView? window = WindowsManager.CreateModalWindow<TrashcanView>();
 
+        if (window is null) return;
+
+        window.DataContext = new TrashcanViewModel(this, Database);
         window.Show(WindowsManager.MainWindow);
     }
 
     private void OpenSearch()
     {
-        if (Database is null) return;
+        RestartLockerTimer();
         
-        SearchView window = new();
+        if (Database is null) return;
+
+        SearchView? window = WindowsManager.CreateModalWindow<SearchView>();
+        
+        if (window is null) return;
+        
         SearchViewModel viewModel = new(window, this, Database);
         window.DataContext = viewModel;
-
         window.Show(WindowsManager.MainWindow);
     }
 
     private void OpenPasswordChecker()
     {
+        RestartLockerTimer();
+        
         if (Database is null) return;
 
-        PasswordCheckerView window = new()
-        {
-            DataContext = new PasswordCheckerViewModel(this, Database)
-        };
-
+        PasswordCheckerView? window = WindowsManager.CreateModalWindow<PasswordCheckerView>();
+        
+        if (window is null) return;
+        
+        window.DataContext = new PasswordCheckerViewModel(this, Database);
         window.Show(WindowsManager.MainWindow);
     }
 
     private async void ChangeMasterPassword()
     {
+        RestartLockerTimer();
+        
+        ChangingMasterPassword? window = WindowsManager.CreateModalWindow<ChangingMasterPassword>();
+        
+        if (window is null) return;
+        
         ChangingMasterPasswordViewModel viewModel = new(MasterPassword);
-        ChangingMasterPassword window = new()
-        {
-            DataContext = viewModel
-        };
+        window.DataContext = viewModel;
 
         if (!await window.Show<bool>(WindowsManager.MainWindow)) return;
         
         MasterPassword = viewModel.NewMasterPassword;
 
         WindowsManager.ShowNotification(App.GetResource<string>("SuccessChangedMasterPasswordMessage"));
+    }
+
+    public void ActivateLockerTimer()
+    {
+        LockerTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMinutes(OlibKeySettings.Instance.LockoutTime)
+        };
+        LockerTimer.Tick += (_, _) =>
+        {
+            for (int index = WindowsManager.OtherModalWindows.Count - 1; index >= 0; index--)
+            {
+                PleasantModalWindow? pleasantModalWindow = WindowsManager.OtherModalWindows[index];
+                
+                if (pleasantModalWindow is IMustCloseWhenLocked)
+                    pleasantModalWindow.Close();
+            }
+
+            LockDatabase();
+                
+            WindowsManager.ShowNotification(
+                App.GetResource<string>("StorageLocked") + " " + Path.GetFileName(((PasswordManagerView)PleasantTabItem.Content).Project.Path),
+                NotificationType.Information);
+        };
+            
+        LockerTimer.Start();
+    }
+
+    public void RestartLockerTimer()
+    {
+        if (LockerTimer is null || !LockerTimer.IsEnabled) return;
+        
+        LockerTimer.Stop();
+        LockerTimer.Start();
     }
 
     public bool Save(string? path)

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Onebeld.Extensions;
 using Regul.OlibKey.Structures;
 
@@ -15,7 +14,7 @@ public class TrashcanViewModel : ViewModelBase
     public Database Database
     {
         get => _database;
-        set => RaiseAndSetIfChanged(ref _database, value);
+        private set => RaiseAndSetIfChanged(ref _database, value);
     }
 
     public AvaloniaList<Folder> SelectedFolder { get; } = new();
@@ -31,43 +30,48 @@ public class TrashcanViewModel : ViewModelBase
 
     private void DeleteFolder()
     {
-        Database.Trashcan.Folders.RemoveAll(new List<Folder>(SelectedFolder));
+        for (int index = SelectedFolder.Count - 1; index >= 0; index--)
+            Database.Trashcan.Folders.Remove(SelectedFolder[index]);
 
         _targetViewModel.IsEdited = true;
     }
 
     private void DeleteData()
     {
-        Database.Trashcan.DataList.RemoveAll(new List<Data>(SelectedData));
+        for (int index = SelectedData.Count - 1; index >= 0; index--)
+            Database.Trashcan.DataList.Remove(SelectedData[index]);
         
         _targetViewModel.IsEdited = true;
     }
 
     private void RestoreData()
     {
-        foreach (Data data in SelectedData)
+        for (int index = SelectedData.Count - 1; index >= 0; index--)
         {
+            Data data = SelectedData[index];
+
             data.DeleteDate = null;
             data.IsDeleted = false;
+            
+            Database.DataList.Add(data);
+            Database.Trashcan.DataList.Remove(data);
         }
-
-        Database.DataList.AddRange(SelectedData);
-        Database.Trashcan.DataList.RemoveAll(new List<Data>(SelectedData));
         
         _targetViewModel.IsEdited = true;
     }
 
     private void RestoreFolder()
     {
-        foreach (Folder folder in SelectedFolder)
+        for (int index = SelectedFolder.Count - 1; index >= 0; index--)
         {
+            Folder folder = SelectedFolder[index];
+
             folder.DeleteDate = null;
             folder.IsDeleted = false;
+            
+            Database.Folders.Add(folder);
+            Database.Trashcan.Folders.Remove(folder);
         }
-
-        Database.Folders.AddRange(SelectedFolder);
-        Database.Trashcan.Folders.RemoveAll(new List<Folder>(SelectedFolder));
-        
         _targetViewModel.IsEdited = true;
     }
 }

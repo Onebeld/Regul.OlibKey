@@ -19,7 +19,7 @@ public class PasswordManagerView : UserControl, IEditor
 		AvaloniaXamlLoader.Load(this);
 	}
 
-	public void Load(string? path, Project? project, PleasantTabItem pleasantTabItem, Editor editor)
+	public void Load(string? path, PleasantTabItem pleasantTabItem, Editor editor)
 	{
 		PasswordManagerViewModel viewModel = new(pleasantTabItem, editor, this, path);
 		Id = editor.Id;

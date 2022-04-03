@@ -11,7 +11,6 @@
         <v:String x:Key="DatabaseSettings">Настройки хранилища</v:String>
 
         <v:String x:Key="Add">Добавить</v:String>
-        <v:String x:Key="Empty">Пусто</v:String>
         <v:String x:Key="Storage">Хранилище</v:String>
         <v:String x:Key="Folder">Папка</v:String>
         
@@ -30,6 +29,8 @@
         <v:String x:Key="MasterPassword">Мастер-пароль</v:String>
         <v:String x:Key="CreateStorage">Создать хранилище</v:String>
         
+        <v:String x:Key="StorageLocked">Было заблокировано хранилище:</v:String>
+
         <v:String x:Key="UseCompress">Использовать сжатие</v:String>
         <v:String x:Key="UseTrashcan">Использовать корзину</v:String>
         
@@ -62,10 +63,18 @@
         <v:String x:Key="PasswordCheckerSuccessChangedMessage">В выбранных элементах успешно изменен пароль!</v:String>
         <!--PasswordChecker-->
         
+        <!--Search-->
+        <v:String x:Key="SortAlphabetically">Сортировать по алфавиту</v:String>
+        <v:String x:Key="AllElements">Все элементы</v:String>
+        <v:String x:Key="FoundC">Найдено:</v:String>
+        <!--Search-->
+        
         <!--DataPage-->
         <v:String x:Key="AddElement">Добавить элемент</v:String>
         <v:String x:Key="ItemInformation">Информация об элементе</v:String>
         <v:String x:Key="ChangeElement">Изменить элемент</v:String>
+        
+        <v:String x:Key="ClipboardCleared">Буфер обмена был очищен</v:String>
         
         <v:String x:Key="Type">Тип</v:String>
         <v:String x:Key="Login">Логин</v:String>
@@ -126,5 +135,14 @@
         <v:String x:Key="Change">Изменить</v:String>
         <v:String x:Key="Back">Назад</v:String>
         <!--DataPage-->
+        
+        <!--Settings-->
+        <v:String x:Key="LockStorageThroughC">(Только новые) Заблокировать хранилище через:</v:String>
+        <v:String x:Key="ClearClipboardThroughC">Очищать буфер обмена через:</v:String>
+        <v:String x:Key="ClearTrashcanThroughC">Очищать элементы из корзины через:</v:String>
+        <v:String x:Key="MinutesS">минут</v:String>
+        <v:String x:Key="SecondsS">секунд</v:String>
+        <v:String x:Key="DaysS">дней</v:String>
+        <!--Settings-->
     </Style.Resources>
 </Style>

@@ -46,10 +46,12 @@ public class OlibKeyModule : IModule
             {
                 new() { Name = $"Olib-{App.GetResource<string>("Files")}", Extensions = { "olib" } }
             }, () => new PasswordManagerView()));
+        
+        ModuleManager.ModulesSettings.Add(new ModuleSettingsView("OlibKey", Icon, () => new OlibKeySettingsView()));
             
         Base.Views.Windows.MainViewModel viewModel =
             WindowsManager.MainWindow.GetDataContext<Base.Views.Windows.MainViewModel>();
-            
+        
         ((RegulMenuItem)viewModel.RegulMenuItems[1])?.Items.Add(
             new RegulMenuItem("PasswordGenerator", Command.Create(ShowPasswordGenerator))
             {
@@ -60,10 +62,7 @@ public class OlibKeyModule : IModule
         App.ActionsWhenCompleting.Add(Release);
     }
 
-    private static void Release()
-    {
-        OlibKeySettings.Save();
-    }
+    private static void Release() => OlibKeySettings.Save();
 
     private void ShowPasswordGenerator()
     {
@@ -71,10 +70,10 @@ public class OlibKeyModule : IModule
         {
             Content = new PasswordGeneratorView(),
             DataContext = new PasswordGeneratorViewModel(null, false),
-            Width = 300,
-            Height = 260,
-            MinWidth = 300,
-            MinHeight = 260,
+            Width = 350,
+            Height = 300,
+            MinWidth = 350,
+            MinHeight = 300,
             ShowPinButton = true,
             WindowButtons = WindowButtons.CloseAndCollapse,
             Icon = new WindowIcon(AvaloniaLocator.Current.GetService<IAssetLoader>()
@@ -84,8 +83,6 @@ public class OlibKeyModule : IModule
             
         window.Show();
     }
-
-    
 
     public Language[] Languages { get; } =
     {

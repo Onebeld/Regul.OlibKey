@@ -11,7 +11,6 @@
         <v:String x:Key="DatabaseSettings">Database settings</v:String>
 
         <v:String x:Key="Add">Add</v:String>
-        <v:String x:Key="Empty">Empty</v:String>
         <v:String x:Key="Storage">Storage</v:String>
         <v:String x:Key="Folder">Folder</v:String>
         
@@ -29,6 +28,8 @@
         <v:String x:Key="Generate">Generate</v:String>
         <v:String x:Key="MasterPassword">Master password</v:String>
         <v:String x:Key="CreateStorage">Create storage</v:String>
+        
+        <v:String x:Key="StorageLocked">The storage was blocked:</v:String>
         
         <v:String x:Key="UseCompress">Use compress</v:String>
         <v:String x:Key="UseTrashcan">Use trashcan</v:String>
@@ -62,10 +63,18 @@
         <v:String x:Key="PasswordCheckerSuccessChangedMessage">The password has been successfully changed in the selected items!</v:String>
         <!--PasswordChecker-->
         
+        <!--Search-->
+        <v:String x:Key="SortAlphabetically">Sort alphabetically</v:String>
+        <v:String x:Key="AllElements">All elements</v:String>
+        <v:String x:Key="FoundC">Found:</v:String>
+        <!--Search-->
+        
         <!--DataPage-->
         <v:String x:Key="AddElement">Add element</v:String>
         <v:String x:Key="ItemInformation">Item Information</v:String>
         <v:String x:Key="ChangeElement">Change element</v:String>
+        
+        <v:String x:Key="ClipboardCleared">The clipboard has been cleared</v:String>
         
         <v:String x:Key="Type">Type</v:String>
         <v:String x:Key="Login">Login</v:String>
@@ -126,5 +135,14 @@
         <v:String x:Key="Change">Change</v:String>
         <v:String x:Key="Back">Back</v:String>
         <!--DataPage-->
+        
+        <!--Settings-->
+        <v:String x:Key="LockStorageThroughC">(New only) Lock the storage through:</v:String>
+        <v:String x:Key="ClearClipboardThroughC">Clear the clipboard via:</v:String>
+        <v:String x:Key="ClearTrashcanThroughC">Clear items from the trashcan through:</v:String>
+        <v:String x:Key="MinutesS">minutes</v:String>
+        <v:String x:Key="SecondsS">seconds</v:String>
+        <v:String x:Key="DaysS">days</v:String>
+        <!--Settings-->
     </Style.Resources>
 </Style>

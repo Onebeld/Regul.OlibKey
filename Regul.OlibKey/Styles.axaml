@@ -3,4 +3,5 @@
     <StyleInclude Source="avares://Regul.OlibKey/Assets/Icons.axaml" />
     <StyleInclude Source="avares://Regul.OlibKey/Assets/DataTemplates.axaml" />
     <StyleInclude Source="avares://Regul.OlibKey/Assets/PasswordTextBox.axaml" />
+    <StyleInclude Source="avares://Regul.OlibKey/Assets/OlibKeyRadioButton.axaml" />
 </Styles>

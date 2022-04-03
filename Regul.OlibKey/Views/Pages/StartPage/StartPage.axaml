@@ -60,7 +60,7 @@
 
     </UserControl.Styles>
 
-    <Grid>
+    <Grid Name="GridBackground">
         <Path Data="{StaticResource OlibKeyBone}"
               Fill="#FFFFFFFF"
               VerticalAlignment="Center"

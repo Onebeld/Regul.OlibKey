@@ -64,16 +64,24 @@
                        IsVisible="{CompiledBinding !Database.Trashcan.DataList.Count}" />
             
             <Border Grid.Row="2"
-                    Background="{StaticResource BackgroundLevel1Brush}"
+                    Background="{StaticResource BackgroundBrush}"
                     BorderThickness="1 0 1 1" 
                     CornerRadius="0 0 5 5"
                     BorderBrush="{StaticResource BorderBrush}">
                 <Panel Margin="5">
-                    <Button HorizontalAlignment="Left"
-                            Padding="10 0"
-                            Content="{DynamicResource Restore}"
-                            Command="{Binding RestoreData}"
-                            IsEnabled="{CompiledBinding SelectedData.Count}"/>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5">
+                        <Button Padding="10 0"
+                                Content="{DynamicResource Restore}"
+                                Command="{Binding RestoreData}"
+                                IsEnabled="{CompiledBinding SelectedData.Count}"/>
+                        <StackPanel VerticalAlignment="Center" 
+                                    Orientation="Horizontal" 
+                                    Spacing="4">
+                            <TextBlock Text="{DynamicResource ElementsC}" />
+                            <TextBlock Text="{CompiledBinding Database.Trashcan.DataList.Count}" />
+                        </StackPanel>
+                    </StackPanel>
+                    
                     
                     <Button Classes="CloseButton" 
                             HorizontalAlignment="Right" 
@@ -120,24 +128,31 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
+            
             <TextBlock Grid.Row="1" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
                        Text="{DynamicResource Empty}" 
                        Foreground="{StaticResource ForegroundOpacityBrush}" 
                        IsVisible="{CompiledBinding !Database.Trashcan.Folders.Count}" />
-            
             <Border Grid.Row="2"
-                    Background="{StaticResource BackgroundLevel1Brush}"
+                    Background="{StaticResource BackgroundBrush}"
                     BorderThickness="1 0 1 1" 
                     CornerRadius="0 0 5 5"
                     BorderBrush="{StaticResource BorderBrush}">
                 <Panel Margin="5">
-                    <Button HorizontalAlignment="Left"
-                            Padding="10 0"
-                            Content="{DynamicResource Restore}"
-                            Command="{Binding RestoreFolder}"
-                            IsEnabled="{CompiledBinding SelectedFolder.Count}"/>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5">
+                        <Button Padding="10 0"
+                                Content="{DynamicResource Restore}"
+                                Command="{Binding RestoreFolder}"
+                                IsEnabled="{CompiledBinding SelectedFolder.Count}"/>
+                        <StackPanel VerticalAlignment="Center" 
+                                    Orientation="Horizontal" 
+                                    Spacing="4">
+                            <TextBlock Text="{DynamicResource ElementsC}" />
+                            <TextBlock Text="{CompiledBinding Database.Trashcan.Folders.Count}" />
+                        </StackPanel>
+                    </StackPanel>
                     
                     <Button Classes="CloseButton"
                             HorizontalAlignment="Right"

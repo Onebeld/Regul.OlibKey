@@ -2,8 +2,10 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -116,6 +118,8 @@ public class DataPageViewModel : ViewModelBase
             default:
                 throw new ArgumentOutOfRangeException(nameof(dataInformation), dataInformation, null);
         }
+        
+        _targetViewModel.RestartLockerTimer();
             
         RaisePropertyChanged(nameof(IsView));
         RaisePropertyChanged(nameof(IsEdit));
@@ -124,6 +128,8 @@ public class DataPageViewModel : ViewModelBase
 
     private void SaveData()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         switch (Data.TypeId)
         {
             case DataType.BankCard:
@@ -184,6 +190,8 @@ public class DataPageViewModel : ViewModelBase
 
     private void ChangeData()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         _dataInformation = DataInformation.Edit;
             
         RaisePropertyChanged(nameof(IsView));
@@ -193,6 +201,8 @@ public class DataPageViewModel : ViewModelBase
 
     private void DeleteData()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         int index = DataIndex;
         
         if (Database.Settings.UseTrashcan)
@@ -209,6 +219,8 @@ public class DataPageViewModel : ViewModelBase
 
     private void Cancel()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         _dataInformation = DataInformation.View;
 
         Data = (Data)Database.DataList[DataIndex].Clone();
@@ -221,35 +233,54 @@ public class DataPageViewModel : ViewModelBase
 
     private void Back()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         if (_targetViewModel.SelectedData is null) 
             _targetViewModel.Page = new StartPage();
         
         _targetViewModel.SelectedData = null;
     }
 
-    private void CopyString(string s) => Application.Current?.Clipboard?.SetTextAsync(s);
+    private async void CopyString(string s)
+    {
+        _targetViewModel.RestartLockerTimer();
+        
+        Application.Current?.Clipboard?.SetTextAsync(s);
+
+        if (OlibKeySettings.Instance.ClearClipboard)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(OlibKeySettings.Instance.ClearingTime));
+            Application.Current?.Clipboard?.ClearAsync();
+            
+            WindowsManager.ShowNotification(App.GetResource<string>("ClipboardCleared"), NotificationType.Information);
+        }
+    }
 
     private async void ChangeColor()
     {
+        _targetViewModel.LockerTimer?.Stop();
+
         try
         {
             Color dataColor;
-            dataColor = Data.Color == 0 
-                ? new Color(255, 255, 255, 255) 
+            dataColor = Data.Color == 0
+                ? new Color(255, 255, 255, 255)
                 : Color.FromUInt32(Data.Color);
-                
+
             Color color = await WindowColorPicker.SelectColor(WindowsManager.MainWindow, dataColor.ToString());
 
             Data.Color = color.ToUint32();
         }
-        catch
+        finally
         {
-            // ignored
+            _targetViewModel.LockerTimer?.Start();
         }
     }
 
     public async void GeneratePassword()
     {
+        _targetViewModel.LockerTimer?.Stop();
+        
         PleasantDialogWindow window = new()
         {
             Content = new PasswordGeneratorView(),
@@ -264,14 +295,22 @@ public class DataPageViewModel : ViewModelBase
 
         if (Data.Login is not null && !string.IsNullOrEmpty(password))
             Data.Login.Password = password;
+        
+        _targetViewModel.LockerTimer?.Start();
     }
 
-    private void SelectNullFolder() => SelectedFolder = null;
+    private void SelectNullFolder()
+    {
+        _targetViewModel.RestartLockerTimer();
+        SelectedFolder = null;
+    }
 
     #region ImportFile
 
     private async void ImportFile()
     {
+        _targetViewModel.LockerTimer?.Stop();
+        
         OpenFileDialog dialog = new() { AllowMultiple = true };
 
         string[]? files = await dialog.ShowAsync(WindowsManager.MainWindow);
@@ -286,10 +325,14 @@ public class DataPageViewModel : ViewModelBase
                 Data = FileInteractions.ImportFile(file)
             });
         }
+        
+        _targetViewModel.LockerTimer?.Start();
     }
 
     private async void ExportFile(ImportedFile importedFile)
     {
+        _targetViewModel.LockerTimer?.Stop();
+        
         SaveFileDialog saveFileDialog = new()
         {
             InitialFileName = importedFile.Name
@@ -299,9 +342,15 @@ public class DataPageViewModel : ViewModelBase
         if (path is null) return;
             
         FileInteractions.ExportFile(importedFile.Data, path);
+        
+        _targetViewModel.LockerTimer?.Start();
     }
 
-    private void DeleteFile(ImportedFile importedFile) => Data.ImportedFiles.Remove(importedFile);
+    private void DeleteFile(ImportedFile importedFile)
+    {
+        _targetViewModel.RestartLockerTimer();
+        Data.ImportedFiles.Remove(importedFile);
+    }
 
     #endregion
 
@@ -309,6 +358,8 @@ public class DataPageViewModel : ViewModelBase
 
     private void AddCustomField()
     {
+        _targetViewModel.RestartLockerTimer();
+        
         CustomFieldType typeId = _customFieldTypes[SelectedCustomFieldTypeIndex];
 
         Data.CustomFields.Add(new CustomField
@@ -317,7 +368,11 @@ public class DataPageViewModel : ViewModelBase
         });
     }
 
-    private void DeleteCustomField(CustomField customField) => Data.CustomFields.Remove(customField);
+    private void DeleteCustomField(CustomField customField)
+    {
+        _targetViewModel.RestartLockerTimer();
+        Data.CustomFields.Remove(customField);
+    }
 
     #endregion
 
@@ -346,7 +401,7 @@ public class DataPageViewModel : ViewModelBase
 
         _totpTimer = new DispatcherTimer
         {
-            Interval = new TimeSpan(0, 0, 0, 0, 50)
+            Interval = new TimeSpan(0, 0, 0, 0, 200)
         };
         _totpTimer.Tick += OnTickTotpTimer;
         _totpTimer.Start();
